@@ -3,14 +3,12 @@
 #include <fstream>
 
 #ifdef __APPLE__
-#  include <GL/glew.h>
 #  include <GLUT/glut.h>
 #  include <OpenGL/glext.h>
 #else
 #  include <GL/glew.h>
-#  include <GL/glut.h>
+#  include <GL/freeglut.h>
 #  include <GL/glext.h>
-#pragma comment(lib, "glew32.lib") // Compiler directive to include the GLEW library.
 #endif
 
 using namespace std;
@@ -75,12 +73,6 @@ void drawScene(void)
    glFlush();
 }
 
-// Initialization routine.
-void setup(void) 
-{
-   glClearColor(1.0, 1.0, 1.0, 0.0); 
-}
-
 // OpenGL window reshape routine.
 void resize(int w, int h)
 {
@@ -95,8 +87,7 @@ void resize(int w, int h)
 // Keyboard input processing routine.
 void keyInput(unsigned char key, int x, int y)
 {
-   switch(key) 
-   {    
+   switch(key)  {    
       case 27:
          exit(0);
          break;
@@ -113,12 +104,13 @@ int main(int argc, char **argv)
    glutInitWindowSize(500, 500); 
    glutInitWindowPosition(100, 100);
    glutCreateWindow("redSquare.cpp");
-   setup();
+
+   glClearColor(1.0, 1.0, 1.0, 0.0); 
+
    glutDisplayFunc(drawScene); 
    glutReshapeFunc(resize);  
    glutKeyboardFunc(keyInput);
 
-   glewInit();
    setShaders("../shaders/passThrough.vs", "../shaders/red.fs");
 
    glutMainLoop();
