@@ -49,16 +49,14 @@ void display() {
 
 void initProgram() {
 	program = glCreateProgram();
-	readAndCompileShader(program, "diffuse.vert", "diffuse.frag");
+	readAndCompileShader(program, "discard.vert", "discard.frag");
 	glUseProgram(program);
 
 	glClearColor(0.0,0.0,0.0,1.0);
     glEnable(GL_DEPTH_TEST);
 
-    //torus = new VBOTorus(0.7f, 0.3f, 50, 50);
 	mat4 transform = translate(mat4(1.0f), vec3(0.0f,0.0f,0.0f));
 	teapot = new VBOTeapot(15, transform);
-	//teapot2 = new VBOTeapot(15, transform);
 
     model = mat4(1.0f);
     //model *= rotate(-25.0f, vec3(1.0f,0.0f,0.0f));
