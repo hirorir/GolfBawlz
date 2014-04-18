@@ -1,11 +1,11 @@
-#include <glew.h>
-#include <freeglut.h>
+#include <GL\glew.h>
+#include <GL\freeglut.h>
 #include <gl\gl.h>
 #include <gl\GLU.h>
 
-#include <glm.hpp>
-#include <gtx\transform.hpp>
-#include <gtc\matrix_transform.hpp>
+#include <glm\glm.hpp>
+#include <glm\gtx\transform.hpp>
+#include <glm\gtc\matrix_transform.hpp>
 
 #include <fstream>
 #include <vector>

@@ -34,22 +34,22 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\engine\GameManager.h">
+    <ClInclude Include="headers\Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\engine\FileIO.h">
+    <ClInclude Include="headers\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\engine\Level.h">
+    <ClInclude Include="headers\Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\engine\Tile.h">
+    <ClInclude Include="headers\GameManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\engine\Light.h">
+    <ClInclude Include="headers\FileIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\engine\Camera.h">
+    <ClInclude Include="headers\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

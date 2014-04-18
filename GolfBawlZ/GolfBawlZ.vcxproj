@@ -20,12 +20,12 @@
     <ClCompile Include="src\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\engine\Camera.h" />
-    <ClInclude Include="headers\engine\FileIO.h" />
-    <ClInclude Include="headers\engine\GameManager.h" />
-    <ClInclude Include="headers\engine\Level.h" />
-    <ClInclude Include="headers\engine\Light.h" />
-    <ClInclude Include="headers\engine\Tile.h" />
+    <ClInclude Include="headers\Camera.h" />
+    <ClInclude Include="headers\FileIO.h" />
+    <ClInclude Include="headers\GameManager.h" />
+    <ClInclude Include="headers\Level.h" />
+    <ClInclude Include="headers\Light.h" />
+    <ClInclude Include="headers\Tile.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D4F1FF9A-2AD3-45F1-BFB5-C1B5F5AAE79F}</ProjectGuid>
@@ -58,8 +58,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(MSBuildProjectDirectory)\headers\freeglut;$(MSBuildProjectDirectory)\headers\glew;$(IncludePath)</IncludePath>
-    <LibraryPath>$(MSBuildProjectDirectory)\lib\freeglut;$(MSBuildProjectDirectory)\lib\glew;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -72,7 +72,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\headers\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
