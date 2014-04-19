@@ -3,15 +3,12 @@
 
 class Camera
 {
-	public:
-		// Constructor.
-		explicit Camera();
+public:
+	// Constructor.
+	explicit Camera();
 
-		// Destructor.
-		~Camera();
-
-	private:
-
+	// Destructor.
+	~Camera();
 };
 
 #endif

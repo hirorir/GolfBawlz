@@ -4,5 +4,6 @@
     <LocalDebuggerEnvironment>
     </LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>data/hole.00</LocalDebuggerCommandArguments>
   </PropertyGroup>
 </Project>

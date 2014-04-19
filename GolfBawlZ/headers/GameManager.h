@@ -1,6 +1,7 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
+#include <iostream>
 #include <vector>
 
 #include "Camera.h"
@@ -10,20 +11,20 @@ using namespace std;
 
 class GameManager 
 {
-	public:
-		// Constructor.
-		explicit GameManager(int argc, char **argv);
+public:
+	// Constructor.
+	explicit GameManager(int argc, char **argv);
 		
-		// Destructor.
-		~GameManager();
+	// Destructor.
+	~GameManager();
 
-		void run();
-		void tick();
+	void run();
+	void tick();
 
-	private:
-		vector<Level> levels;
-		Level current_level;
-		Camera camera;
+private:
+	//vector<Level> levels;
+	//Level current_level;
+	//Camera camera;
 };
 
 #endif

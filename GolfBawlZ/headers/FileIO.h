@@ -16,7 +16,7 @@ public:
 
 	// Destructor.
 	~FileIO();
-	
+
 	static Level load_level(string fname);
 };
 
