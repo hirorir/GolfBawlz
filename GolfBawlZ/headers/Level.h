@@ -1,21 +1,14 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
-#include <vector>
-#include <glm\glm.hpp>
-
-using namespace glm;
-
 class Level
 {
-	public:
-		// Constructor.
-		explicit Level();
+public:
+	// Constructor.
+	explicit Level();
 
-		// Destructor.
-		~Level();
-
-	private:
+	// Destructor.
+	~Level();
 };
 
 #endif
