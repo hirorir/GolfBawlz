@@ -1,40 +1,5 @@
-﻿Build started 4/22/2014 6:31:34 PM.
-     1>Project "C:\Users\Chris\Documents\GitHub\GolfBawlz\MiniGolf\MiniGolf.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Cup.cpp FileIO.cpp GameManager.cpp Level.cpp MiniGolf.cpp Object3D.cpp Shader.cpp Tee.cpp Tile.cpp
-         Tile.cpp
-         Tee.cpp
-         Shader.cpp
-     1>c:\users\chris\documents\github\golfbawlz\minigolf\shader.cpp(79): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(304) : see declaration of 'sscanf'
-     1>c:\users\chris\documents\github\golfbawlz\minigolf\shader.cpp(81): warning C4244: 'initializing' : conversion from 'float' to 'GLuint', possible loss of data
-     1>c:\users\chris\documents\github\golfbawlz\minigolf\shader.cpp(89): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
-     1>c:\users\chris\documents\github\golfbawlz\minigolf\shader.cpp(90): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
-     1>c:\users\chris\documents\github\golfbawlz\minigolf\shader.cpp(140): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(211) : see declaration of 'fopen'
-         Object3D.cpp
-         MiniGolf.cpp
-         Level.cpp
-         GameManager.cpp
-         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-         FileIO.cpp
-         Cup.cpp
-         Generating Code...
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Chris\Documents\GitHub\GolfBawlz\Debug\MiniGolf.exe" /INCREMENTAL /NOLOGO freeglut.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Chris\Documents\GitHub\GolfBawlz\Debug\MiniGolf.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Chris\Documents\GitHub\GolfBawlz\Debug\MiniGolf.lib" /MACHINE:X86 Debug\Cup.obj
-         Debug\FileIO.obj
-         Debug\GameManager.obj
-         Debug\Level.obj
-         Debug\MiniGolf.obj
-         Debug\Object3D.obj
-         Debug\Shader.obj
-         Debug\Tee.obj
-         Debug\Tile.obj
-         MiniGolf.vcxproj -> C:\Users\Chris\Documents\GitHub\GolfBawlz\Debug\MiniGolf.exe
-     1>Done Building Project "C:\Users\Chris\Documents\GitHub\GolfBawlz\MiniGolf\MiniGolf.vcxproj" (Build target(s)).
+﻿Build started 4/23/2014 3:34:55 PM.
 
 Build succeeded.
 
-Time Elapsed 00:00:06.72
+Time Elapsed 00:00:00.02

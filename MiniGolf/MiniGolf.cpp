@@ -16,9 +16,27 @@ void reshape(int w, int h)
 	manager->resize(w, h);
 }
 
-void keyboard(unsigned char key, int x, int y) 
+void keyboard(unsigned char key, int x, int y)
 {
 	switch (key) {
+	case 'w':
+		cout << "w pressed!" << endl;
+		break;
+	case 's':
+		cout << "s pressed!" << endl;
+		break;
+	case 'a':
+		cout << "a pressed!" << endl;
+		break;
+	case 'd':
+		cout << "d pressed!" << endl;
+		break;
+	case ' ':
+		cout << "space pressed!" << endl;
+		break;
+	case 'z':
+		cout << "z pressed!" << endl;
+		break;
 	case 27:
 		exit(0);
 		break;
