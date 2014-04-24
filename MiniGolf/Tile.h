@@ -36,6 +36,8 @@ public:
 
 	Material get_material();
 
+	void set_material(Material mat);
+
 private:
 	GLuint vao_handle;
 	int tile_id;

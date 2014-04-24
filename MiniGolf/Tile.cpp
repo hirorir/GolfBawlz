@@ -8,7 +8,7 @@ Tile::Tile(int id, int vcount, int ecount, vector<float> verts, vector<int> nbor
 	vertices = verts;
 	neighbors = nbors;
 	normal = calculate_normal();
-	material = Material(vec3(0.1f, 0.9f, 0.1f), vec3(0.1f, 0.9f, 0.1f), vec3(0.0f), 1.0f);
+	material = Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.5f, 0.9f, 0.3f), vec3(0.8f), 100.0f);
 
 	init_gl();
 }
@@ -121,4 +121,9 @@ vec3 Tile::get_normal()
 Material Tile::get_material()
 {
 	return material;
+}
+
+void Tile::set_material(Material mat)
+{
+	material = mat;
 }

@@ -29,20 +29,13 @@ public:
 
 	void draw();
 
-	void set_matricies();
-
 	void resize(int w, int h);
 
-	Camera *cam;
+	Level get_current_level();
 
 private:
-	Shader *shader;
 	vector<Level> levels;
 	int current_level;
-
-	mat4 model;
-	mat4 view;
-	mat4 projection;
 };
 
 #endif

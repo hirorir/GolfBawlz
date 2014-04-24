@@ -8,14 +8,15 @@ float speed = 0.1f;
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	manager->update();
 	manager->draw();
+
 	glutSwapBuffers();
 }
 
 void reshape(int w, int h) 
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	manager->resize(w, h);
 }
 
@@ -23,22 +24,22 @@ void keyboard(unsigned char key, int x, int y)
 {
 	switch (key) {
 	case 'w':
-		manager->cam->translate(vec3(0, 0, -speed));
+		manager->get_current_level().get_camera()->translate(vec3(0, 0, -speed));
 		break;
 	case 's':
-		manager->cam->translate(vec3(0, 0, speed));
+		manager->get_current_level().get_camera()->translate(vec3(0, 0, speed));
 		break;
 	case 'a':
-		manager->cam->translate(vec3(-speed, 0, 0));
+		manager->get_current_level().get_camera()->translate(vec3(-speed, 0, 0));
 		break;
 	case 'd':
-		manager->cam->translate(vec3(speed, 0, 0));
+		manager->get_current_level().get_camera()->translate(vec3(speed, 0, 0));
 		break;
 	case ' ':
-		manager->cam->translate(vec3(0, speed, 0));
+		manager->get_current_level().get_camera()->translate(vec3(0, speed, 0));
 		break;
 	case 'z':
-		manager->cam->translate(vec3(0, -speed, 0));
+		manager->get_current_level().get_camera()->translate(vec3(0, -speed, 0));
 		break;
 	case 27:
 		exit(0);
@@ -52,6 +53,16 @@ void print_opengl_info()
 {
 	cout << "OpenGL Version: " << glGetString(GL_VERSION) << endl;
 	cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
+}
+
+void init_gl()
+{
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	glEnable(GL_DEPTH_TEST);
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 
 void idle(){
@@ -73,6 +84,7 @@ int main(int argc, char **argv) {
 	glutIdleFunc(idle);
 
 	print_opengl_info();
+	init_gl();
 
 	manager = new GameManager(argc, argv);
 

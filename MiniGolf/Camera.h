@@ -36,6 +36,7 @@ public:
 	~Camera();										//default destructor
 
 	friend class GameManager;
+	friend class Level;
 	friend class Shader;
 };
 
