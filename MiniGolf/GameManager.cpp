@@ -9,13 +9,13 @@ GameManager::GameManager(int argc, char **argv)
 	shader->readAndCompileShader();
 	shader->use();
 
-	model = mat4(1.0f);
-	view = lookAt(vec3(0.0f, 0.5f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+	cam = new Camera();
 }
 
 void GameManager::update()
 {
 	// TO DO: Translate and rotate level.
+	cam->update();
 }
 
 void GameManager::draw()
@@ -27,12 +27,13 @@ void GameManager::draw()
 
 void GameManager::set_matricies()
 {
-	mat4 mv = view * model;
-	shader->setUniform("MVP", projection * mv);
+	shader->setUniform("MVP", cam[0].projection * (cam[0].view * cam[0].model));
 }
 
-void GameManager::resize(int w, int h)
-{
-	glViewport(0, 0, w, h);
-	projection = perspective(70.0f, (float)w / h, 0.3f, 100.0f);
+void GameManager::resize(int w, int h){
+	cam->resize(w, h);
+}
+
+GameManager::~GameManager(){
+	delete cam;
 }

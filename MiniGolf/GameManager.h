@@ -6,19 +6,24 @@
 #include <string>
 #include <cstdlib>
 
+#include <glm\glm.hpp>
 #include <glm\gtx\transform.hpp>
 
 #include "Shader.h"
 #include "Level.h"
 #include "Tile.h"
 #include "FileIO.h"
+#include "Camera.h"
 
 using namespace std;
+using namespace glm;
 
 class GameManager
 {
 public:
 	GameManager(int argc, char **argv);
+
+	~GameManager();
 
 	void update();
 
@@ -27,6 +32,8 @@ public:
 	void set_matricies();
 
 	void resize(int w, int h);
+
+	Camera *cam;
 
 private:
 	Shader *shader;

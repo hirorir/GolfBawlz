@@ -6,6 +6,7 @@ GameManager *manager;
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	manager->update();
 	manager->draw();
 	glutSwapBuffers();
 }
