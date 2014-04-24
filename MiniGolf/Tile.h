@@ -7,6 +7,9 @@
 #include <gl\freeglut.h>
 #include <glm\glm.hpp>
 
+#include "Material.h"
+#include "Shader.h"
+
 using namespace std;
 using namespace glm;
 
@@ -31,6 +34,8 @@ public:
 
 	vec3 get_normal();
 
+	Material get_material();
+
 private:
 	GLuint vao_handle;
 	int tile_id;
@@ -39,6 +44,7 @@ private:
 	vector<float> vertices;
 	vector<int> neighbors;
 	vec3 normal;
+	Material material;
 
 	vec3 calculate_normal();
 	void init_gl();

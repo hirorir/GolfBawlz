@@ -1,4 +1,4 @@
-#include "GameManager.h"
+ #include "GameManager.h"
 
 GameManager::GameManager(int argc, char **argv)
 {
@@ -11,6 +11,8 @@ GameManager::GameManager(int argc, char **argv)
 
 	model = mat4(1.0f);
 	view = lookAt(vec3(0.0f, 0.5f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+
+	shader->setUniform("Material.Kd", vec3(1.0, 1.0, 0.0));
 }
 
 void GameManager::update()

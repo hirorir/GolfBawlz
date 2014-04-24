@@ -8,6 +8,7 @@ Tile::Tile(int id, int vcount, int ecount, vector<float> verts, vector<int> nbor
 	vertices = verts;
 	neighbors = nbors;
 	normal = calculate_normal();
+	material = Material(vec3(0.1f, 0.9f, 0.1f), vec3(0.1f, 0.9f, 0.1f), vec3(0.0f), 1.0f);
 
 	init_gl();
 }
@@ -20,7 +21,23 @@ void Tile::draw()
 
 vec3 Tile::calculate_normal()
 {
-	return vec3(0.0, 0.0, 0.0); // TO DO: Calculate tile normal, will be used for lighting.
+	vec3 a, b;
+
+	if (vertex_count >= 9) {
+		vec3 v1(vertices[0], vertices[1], vertices[2]);
+
+		vec3 v2(vertices[3], vertices[4], vertices[5]);
+
+		vec3 v3(vertices[6], vertices[7], vertices[8]);
+
+		a = v1 - v2;
+		b = v1 - v3;
+	}
+	else {
+		cout << "error - not enough vertices in this Tile to calculate the normals." << endl;
+	}
+
+	return cross(a, b);
 }
 
 void Tile::init_gl()
@@ -93,4 +110,9 @@ vector<int> Tile::get_neighbors()
 vec3 Tile::get_normal()
 {
 	return normal;
+}
+
+Material Tile::get_material()
+{
+	return material;
 }

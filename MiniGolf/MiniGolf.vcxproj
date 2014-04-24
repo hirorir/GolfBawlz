@@ -82,6 +82,8 @@
     <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="MiniGolf.cpp" />
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -94,6 +96,8 @@
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Tee.h" />

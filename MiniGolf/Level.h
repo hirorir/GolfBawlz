@@ -8,6 +8,7 @@
 #include "Cup.h"
 #include "Tee.h"
 #include "Tile.h"
+#include "Light.h"
 
 using namespace std;
 
@@ -26,11 +27,18 @@ public:
 
 	Cup get_cup();
 
+	Light get_light();
+
+	void set_light(Light l);
+
+	Tile get_tile_at(int i);
+
 private:
 	GLuint vao_handle;
 	vector<Tile> tiles;
 	Tee tee;
 	Cup cup;
+	Light light;
 };
 
 #endif
