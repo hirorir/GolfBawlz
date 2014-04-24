@@ -41,7 +41,7 @@ Camera& Camera::operator[](int index){		//can't make operator functions static..
 }
 
 Camera::Camera(){
-	eye = vec3(0, 0.5, 5);
+	eye = vec3(0, 2, 2);
 	center = vec3(0, 0, 0);
 	up = vec3(0, 1, 0);
 	model = mat4(1.0f);

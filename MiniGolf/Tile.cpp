@@ -45,13 +45,19 @@ void Tile::init_gl()
 	glGenVertexArrays(1, &vao_handle);
 	glBindVertexArray(vao_handle);
 
-	unsigned int handle[1];
-	glGenBuffers(1, handle);
+	unsigned int handle[2];
+	glGenBuffers(2, handle);
 
 	glBindBuffer(GL_ARRAY_BUFFER, handle[0]);
 	glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 	glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
 	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, handle[1]);
+	float n[3] = { normal.x, normal.y, normal.z };
+	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float), n, GL_STATIC_DRAW);
+	glVertexAttribPointer((GLuint)1, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
+	glEnableVertexAttribArray(1);
 }
 
 void Tile::print()
