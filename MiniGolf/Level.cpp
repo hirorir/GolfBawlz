@@ -5,10 +5,11 @@ Level::Level(vector<Tile> tiles, Tee tee, Cup cup)
 	this->tiles = tiles;
 	this->tee = tee;
 	this->cup = cup;
+	this->light = Light(vec4(0.0, 10.0, 0.0, 1.0), vec3(0.4f), vec3(1.0f), vec3(1.0f));
 
 	print();
-	tee.print();
-	cup.print();
+	cout << "TEE: "; tee.print();
+	cout << "CUP: "; cup.print();
 }
 
 void Level::draw()
@@ -17,7 +18,8 @@ void Level::draw()
 		tiles[i].draw();
 	}
 
-	// TO DO: Draw cup, tee, and border.
+	tee.draw();
+	cup.draw();
 }
 
 void Level::print()
@@ -40,4 +42,19 @@ Tee Level::get_tee()
 Cup Level::get_cup()
 {
 	return cup;
+}
+
+Light Level::get_light()
+{
+	return light;
+}
+
+void Level::set_light(Light l)
+{
+	light = l;
+}
+
+Tile Level::get_tile_at(int i) 
+{
+	return tiles[i];
 }

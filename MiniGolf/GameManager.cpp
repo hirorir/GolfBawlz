@@ -1,4 +1,4 @@
-#include "GameManager.h"
+ #include "GameManager.h"
 
 GameManager::GameManager(int argc, char **argv)
 {
@@ -10,6 +10,8 @@ GameManager::GameManager(int argc, char **argv)
 	shader->use();
 
 	cam = new Camera();
+
+	shader->setUniform("Material.Kd", vec3(1.0, 1.0, 0.0));
 }
 
 void GameManager::update()
