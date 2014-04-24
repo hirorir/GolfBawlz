@@ -17,6 +17,10 @@ void Camera::translate(float x, float y, float z){
 	eye += vec3(x, y, z);
 }	//translate the camera in world units
 
+void Camera::translate(vec3 v){
+	eye += v;
+}
+
 void Camera::rotate(float x, float y, float z){
 
 }	//rotate the camera in degrees around the x, y, or z axis

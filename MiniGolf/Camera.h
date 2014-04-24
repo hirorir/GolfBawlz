@@ -21,11 +21,12 @@ private:
 	vec3 eye, center, up;
 	static vector<Camera*> activeCameras;			//singleton handler of the cameras that are active
 	void resize(int w, int h);
+	void update();									//update the frame using this camera
 public:
 	Camera& operator[](int index);					//retrieve camera at index from activeCameras
 	static void addCamera(Camera& cam);				//adds the camera to the list of "active" cameras
-	void update();									//update the frame using this camera
 	void translate(float x, float y, float z);		//translate the camera in world units
+	void translate(vec3 v);
 	void rotate(float x, float y, float z);			//rotate the camera in degrees around the x, y, or z axis
 	void removeCamera(Camera& cam);					//removes the camera to the list of "active" cameras
 
