@@ -1,11 +1,13 @@
 #include "Shader.h"
 
-Shader::Shader(const char *v, const char *f) : programHandle(0) {
+Shader::Shader(const char *v, const char *f) : programHandle(0)
+{
 	vertexShaderPath = v;
 	fragmentShaderPath = f;
 }
 
-void Shader::getGLError() {
+void Shader::getGLError()
+{
 	GLenum err = glGetError();
 	while (err != GL_NO_ERROR) {
 		printf("GLError %s set in File:%s Line:%d\n",
@@ -16,7 +18,8 @@ void Shader::getGLError() {
 	}
 }
 
-GLint Shader::checkCompileError(GLuint shader) {
+GLint Shader::checkCompileError(GLuint shader)
+{
 	GLint logLength, status;
 
 	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
@@ -34,7 +37,50 @@ GLint Shader::checkCompileError(GLuint shader) {
 	return status;
 }
 
-void Shader::linkProgram() {
+const char* Shader::getGLErrorString(GLenum error)
+{
+	const char *str;
+	switch (error) {
+	case GL_NO_ERROR:
+		str = "GL_NO_ERROR";
+		break;
+	case GL_INVALID_ENUM:
+		str = "GL_INVALID_ENUM";
+		break;
+	case GL_INVALID_VALUE:
+		str = "GL_INVALID_VALUE";
+		break;
+	case GL_INVALID_OPERATION:
+		str = "GL_INVALID_OPERATION";
+		break;
+#if defined __gl_h_ || defined __gl3_h_
+	case GL_OUT_OF_MEMORY:
+		str = "GL_OUT_OF_MEMORY";
+		break;
+	case GL_INVALID_FRAMEBUFFER_OPERATION:
+		str = "GL_INVALID_FRAMEBUFFER_OPERATION";
+		break;
+#endif
+#if defined __gl_h_
+	case GL_STACK_OVERFLOW:
+		str = "GL_STACK_OVERFLOW";
+		break;
+	case GL_STACK_UNDERFLOW:
+		str = "GL_STACK_UNDERFLOW";
+		break;
+	case GL_TABLE_TOO_LARGE:
+		str = "GL_TABLE_TOO_LARGE";
+		break;
+#endif
+	default:
+		str = "(ERROR: Unknown Error Enum)";
+		break;
+	}
+	return str;
+}
+
+void Shader::linkProgram()
+{
 	GLint logLength, status;
 
 	glLinkProgram(programHandle);
@@ -71,14 +117,15 @@ void Shader::linkProgram() {
 	getGLError();
 }
 
-void Shader::buildProgram(sh *vtx, sh *frg) {
+void Shader::buildProgram(sh *vtx, sh *frg)
+{
 	GLint status;
 	GLchar *vtxSourceString = NULL, *frgSourceString = NULL;
 	float  glLanguageVersion;
 
-	sscanf((char *)glGetString(GL_SHADING_LANGUAGE_VERSION), "%f", &glLanguageVersion);
+	sscanf_s((char *)glGetString(GL_SHADING_LANGUAGE_VERSION), "%f", &glLanguageVersion);
 
-	GLuint version = 100 * glLanguageVersion;
+	GLuint version = static_cast<GLuint>(100 * glLanguageVersion);
 	const GLsizei versionStringSize = sizeof("#version 123\n");
 
 	programHandle = glCreateProgram();
@@ -124,7 +171,8 @@ void Shader::buildProgram(sh *vtx, sh *frg) {
 	linkProgram();
 }
 
-void Shader::buildShaderInfo(sh *source, const char *filepathname) {
+void Shader::buildShaderInfo(sh *source, const char *filepathname)
+{
 	const char* suffixBegin = filepathname + strlen(filepathname) - 4;
 
 	if (strncmp(suffixBegin, ".fsh", 4) == 0) {
@@ -159,7 +207,8 @@ void Shader::buildShaderInfo(sh *source, const char *filepathname) {
 	source->string[fileSize] = 0;
 }
 
-void Shader::readAndCompileShader() {
+void Shader::readAndCompileShader()
+{
 	sh *vtxSource = (sh*)calloc(sizeof(sh), 1);
 	sh *frgSource = (sh*)calloc(sizeof(sh), 1);
 
@@ -175,7 +224,8 @@ void Shader::readAndCompileShader() {
 	frgSource = NULL;
 }
 
-void Shader::use() {
+void Shader::use()
+{
 	if (programHandle <= 0) {
 		printf("[ERROR] Program Handle: %d", programHandle);
 		return;
@@ -184,79 +234,92 @@ void Shader::use() {
 	glBindVertexArray(0);
 }
 
-GLuint Shader::getProgramHandle() {
+GLuint Shader::getProgramHandle()
+{
 	return programHandle;
 }
 
-void Shader::bindAttribLocation(GLuint location, const char *name) {
+void Shader::bindAttribLocation(GLuint location, const char *name)
+{
 	glBindAttribLocation(programHandle, location, name);
 }
 
-void Shader::bindFragDataLocation(GLuint location, const char *name) {
+void Shader::bindFragDataLocation(GLuint location, const char *name)
+{
 	glBindFragDataLocation(programHandle, location, name);
 }
 
-void Shader::setUniform(const char *name, float x, float y) {
+void Shader::setUniform(const char *name, float x, float y)
+{
 	int loc = getUniformLocation(name);
 	if (loc >= 0) {
 		glUniform2f(loc, x, y);
 	}
 }
 
-void Shader::setUniform(const char *name, float x, float y, float z) {
+void Shader::setUniform(const char *name, float x, float y, float z)
+{
 	int loc = getUniformLocation(name);
 	if (loc >= 0) {
 		glUniform3f(loc, x, y, z);
 	}
 }
 
-void Shader::setUniform(const char *name, const vec3 &v) {
+void Shader::setUniform(const char *name, const vec3 &v)
+{
 	this->setUniform(name, v.x, v.y, v.z);
 }
 
-void Shader::setUniform(const char *name, const vec4 &v) {
+void Shader::setUniform(const char *name, const vec4 &v)
+{
 	int loc = getUniformLocation(name);
 	if (loc >= 0) {
 		glUniform4f(loc, v.x, v.y, v.z, v.w);
 	}
 }
 
-void Shader::setUniform(const char *name, const mat4 &m) {
+void Shader::setUniform(const char *name, const mat4 &m)
+{
 	int loc = getUniformLocation(name);
 	if (loc >= 0) {
 		glUniformMatrix4fv(loc, 1, GL_FALSE, &m[0][0]);
 	}
 }
 
-void Shader::setUniform(const char *name, const mat3 &m) {
+void Shader::setUniform(const char *name, const mat3 &m)
+{
 	int loc = getUniformLocation(name);
 	if (loc >= 0) {
 		glUniformMatrix3fv(loc, 1, GL_FALSE, &m[0][0]);
 	}
 }
 
-void Shader::setUniform(const char *name, float val) {
+void Shader::setUniform(const char *name, float val)
+{
 	int loc = getUniformLocation(name);
 	if (loc >= 0) {
 		glUniform1f(loc, val);
 	}
 }
 
-void Shader::setUniform(const char *name, int val) {
+void Shader::setUniform(const char *name, int val)
+{
 	int loc = getUniformLocation(name);
 	if (loc >= 0) {
 		glUniform1i(loc, val);
 	}
 }
 
-void Shader::setUniform(const char *name, bool val) {
+void Shader::setUniform(const char *name, bool val)
+{
 	int loc = getUniformLocation(name);
 	if (loc >= 0) {
 		glUniform1i(loc, val);
 	}
 }
 
-void Shader::printActiveUniforms() {
+void Shader::printActiveUniforms()
+{
 	GLint nUniforms, size, location, maxLen;
 	GLchar * name;
 	GLsizei written;
@@ -278,7 +341,8 @@ void Shader::printActiveUniforms() {
 	free(name);
 }
 
-void Shader::printActiveAttribs() {
+void Shader::printActiveAttribs()
+{
 
 	GLint written, size, location, maxLength, nAttribs;
 	GLenum type;
@@ -300,6 +364,7 @@ void Shader::printActiveAttribs() {
 	free(name);
 }
 
-int Shader::getUniformLocation(const char *name) {
+int Shader::getUniformLocation(const char *name)
+{
 	return glGetUniformLocation(programHandle, name);
 }
