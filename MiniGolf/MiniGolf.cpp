@@ -3,6 +3,8 @@
 
 GameManager *manager;
 
+float speed = 0.1f;
+
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -21,22 +23,22 @@ void keyboard(unsigned char key, int x, int y)
 {
 	switch (key) {
 	case 'w':
-		cout << "w pressed!" << endl;
+		manager->cam->translate(vec3(0, 0, -speed));
 		break;
 	case 's':
-		cout << "s pressed!" << endl;
+		manager->cam->translate(vec3(0, 0, speed));
 		break;
 	case 'a':
-		cout << "a pressed!" << endl;
+		manager->cam->translate(vec3(-speed, 0, 0));
 		break;
 	case 'd':
-		cout << "d pressed!" << endl;
+		manager->cam->translate(vec3(speed, 0, 0));
 		break;
 	case ' ':
-		cout << "space pressed!" << endl;
+		manager->cam->translate(vec3(0, speed, 0));
 		break;
 	case 'z':
-		cout << "z pressed!" << endl;
+		manager->cam->translate(vec3(0, -speed, 0));
 		break;
 	case 27:
 		exit(0);
@@ -52,6 +54,10 @@ void print_opengl_info()
 	cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
 }
 
+void idle(){
+	display();
+}
+
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 
@@ -64,6 +70,7 @@ int main(int argc, char **argv) {
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
+	glutIdleFunc(idle);
 
 	print_opengl_info();
 
