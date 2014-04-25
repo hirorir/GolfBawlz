@@ -10,6 +10,7 @@
 #include <glm\gtx\transform.hpp>
 #include <gl/freeglut.h>
 #include <gl/GLU.h>
+#include <math.h>
 
 using namespace std;
 using namespace glm;
@@ -21,7 +22,7 @@ public:
 
 	Camera(float eyeX, float eyeY, float eyeZ, float centerX, float centerY, float centerZ, float upX, float upY, float upZ);
 
-	Camera(vec3 eye, vec3 center, vec3 up);
+	Camera(vec3 eye, vec3 center, vec3 up);	
 
 	~Camera();										//default destructor
 
@@ -33,7 +34,7 @@ public:
 
 	void translate(vec3 v);
 
-	void rotate(float x, float y, float z);			//rotate the camera in degrees around the x, y, or z axis
+	void rotate(float h, float v);					//rotate the camera in degrees around horizontal or vertical
 
 	void removeCamera(Camera& cam);					//removes the camera to the list of "active" cameras
 
@@ -43,11 +44,16 @@ public:
 
 	friend class Shader;
 
+	static float dx;
+
+	static float dy;
+
 private:
 	mat4 model;
 	mat4 view;
 	mat4 projection;
 	vec3 eye, center, up;
+	float hRadians, vRadians;
 	static vector<Camera*> activeCameras;			//singleton handler of the cameras that are active
 
 	void resize(int w, int h);
