@@ -8,7 +8,7 @@ Tile::Tile(int id, int vcount, int ecount, vector<float> verts, vector<int> nbor
 	vertices = verts;
 	neighbors = nbors;
 	normal = calculate_normal();
-	material = Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.5f, 0.9f, 0.3f), vec3(0.8f), 100.0f);
+	material = Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.4f, 0.8f, 0.2f), vec3(0.8f), 100.0f);
 	edges = calculate_edges();
 
 	init_gl_tile();
