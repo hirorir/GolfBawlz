@@ -112,6 +112,8 @@ void init_gl()
 	glEnable(GL_LINE_SMOOTH);
 	glEnable(GL_MULTISAMPLE);
 
+	glFrontFace(GL_CCW);
+
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 }

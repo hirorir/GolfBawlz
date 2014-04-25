@@ -55,39 +55,9 @@ void Camera::addCamera(Camera& cam)
 void Camera::update()
 {
 	reset_model();
-	//rotate(dx, dy);
-	//dx = dy = 0;
-	//view = lookAt(eye, center + eye, up);
 }	//update the frame using this camera
 
-void Camera::translate(float x, float y, float z)
-{
-	//eye += vec3(x, y, z);
-}	//translate the camera in world units
 
-void Camera::translate(vec3 v)
-{
-	//eye += v;
-}
-
-void Camera::rotate(float h, float v)	//h and v is the amount that a mouse translates along the x and y plane on the screen
-{
-	//vRadians += v / 900 * pi;
-	//hRadians += h / 900 * pi;		//left and right arrow don't rotate properly
-
-	//cout << vRadians << " " << hRadians << endl;
-
-	/*(model *= glm::rotate(vRadians, vec3(1, 0, 0));
-	model *= glm::rotate(hRadians, vec3(0, 1, 0));
-	
-	center.x = cos(vRadians) * sin(hRadians);
-	center.y = -sin(vRadians);
-	center.z = cos(vRadians) * sin(hRadians);
-
-	up.x = sin(vRadians) * sin(hRadians);
-	up.y = cos(vRadians);
-	up.z = sin(vRadians) * cos(hRadians);*/
-}	//rotate the camera in degrees around the x, y, or z axis
 
 void Camera::removeCamera(Camera& cam)
 {

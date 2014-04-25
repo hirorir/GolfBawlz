@@ -32,7 +32,7 @@ void Tile::draw_tile(Shader *shader)
 	glBindVertexArray(tile_vao);
 
 	set_shader_uniforms(shader, material);
-	glDrawArrays(GL_POLYGON, 0, vertex_count);
+	glDrawArrays(GL_POLYGON, 0, vertex_count / 3);
 
 	glBindVertexArray(0);
 }
