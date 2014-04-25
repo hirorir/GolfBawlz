@@ -29,23 +29,21 @@ void Level::draw()
 		tiles[i].draw(shader);
 	}
 
-	camera[0].model *= translate(vec3(ball.get_position().x, ball.get_position().y + 0.05, ball.get_position().z));
-	camera[0].model *= scale(vec3(0.2f));
+	camera[0].model *= translate(vec3(ball.get_position().x, ball.get_position().y + 0.05, ball.get_position().z)) * scale(vec3(0.2f));
 
 	set_uniforms_camera();
 
 	ball.draw(shader);
 
-	camera[0].model = mat4(1.0f);
+	camera[0].reset_model();
 
-	camera[0].model *= translate(vec3(cup.get_position().x, cup.get_position().y - 0.09, cup.get_position().z));
-	camera[0].model *= scale(vec3(0.2f));
+	camera[0].model *= translate(vec3(cup.get_position().x, cup.get_position().y - 0.09, cup.get_position().z)) * scale(vec3(0.2f));
 
 	set_uniforms_camera();
 
 	cup.draw(shader);
 
-	camera[0].model = mat4(1.0f);
+	camera[0].reset_model();
 
 	set_uniforms_camera();
 }

@@ -38,6 +38,12 @@ public:
 
 	void removeCamera(Camera& cam);					//removes the camera to the list of "active" cameras
 
+	void reset_model();                             //resets world space.
+
+	mat4 get_view();                                //returns the view matrix.
+
+	void change_view(mat4 transform);               //transform the view.
+
 	friend class GameManager;
 
 	friend class Level;

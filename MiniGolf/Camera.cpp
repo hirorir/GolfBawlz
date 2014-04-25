@@ -12,13 +12,15 @@ float Camera::dy;
 
 Camera::Camera()
 {
-	eye = vec3(0, 8, 0);
-	center = vec3(0, -1, 0);
+	eye = vec3(0, 5, 5);
+	center = vec3(0, 0, 0);
 	up = vec3(0, 1, 0);
 	model = mat4(1.0f);
-	hRadians = vRadians = dx = dy = 0;
+	view = lookAt(eye, center, up);
+	//hRadians = vRadians = dx = dy = 0;
 	addCamera(*this);
-}	//default constructor
+	//default constructor
+}
 
 Camera::Camera(float eyeX, float eyeY, float eyeZ, float centerX, float centerY, float centerZ, float upX, float upY, float upZ)
 {
@@ -52,30 +54,30 @@ void Camera::addCamera(Camera& cam)
 
 void Camera::update()
 {
-	model = mat4(1.0f);
-	rotate(dx, dy);
-	dx = dy = 0;
-	view = lookAt(eye, center + eye, up);
+	reset_model();
+	//rotate(dx, dy);
+	//dx = dy = 0;
+	//view = lookAt(eye, center + eye, up);
 }	//update the frame using this camera
 
 void Camera::translate(float x, float y, float z)
 {
-	eye += vec3(x, y, z);
+	//eye += vec3(x, y, z);
 }	//translate the camera in world units
 
 void Camera::translate(vec3 v)
 {
-	eye += v;
+	//eye += v;
 }
 
 void Camera::rotate(float h, float v)	//h and v is the amount that a mouse translates along the x and y plane on the screen
 {
-	vRadians += v / 900 * pi;
-	hRadians += h / 900 * pi;		//left and right arrow don't rotate properly
+	//vRadians += v / 900 * pi;
+	//hRadians += h / 900 * pi;		//left and right arrow don't rotate properly
 
 	//cout << vRadians << " " << hRadians << endl;
 
-	model *= glm::rotate(vRadians, vec3(1, 0, 0));
+	/*(model *= glm::rotate(vRadians, vec3(1, 0, 0));
 	model *= glm::rotate(hRadians, vec3(0, 1, 0));
 	
 	center.x = cos(vRadians) * sin(hRadians);
@@ -84,7 +86,7 @@ void Camera::rotate(float h, float v)	//h and v is the amount that a mouse trans
 
 	up.x = sin(vRadians) * sin(hRadians);
 	up.y = cos(vRadians);
-	up.z = sin(vRadians) * cos(hRadians);
+	up.z = sin(vRadians) * cos(hRadians);*/
 }	//rotate the camera in degrees around the x, y, or z axis
 
 void Camera::removeCamera(Camera& cam)
@@ -107,4 +109,19 @@ Camera& Camera::operator[](int index)
 		cout << "ERROR: Camera " + index << " doesn't exist!" << endl;
 		exit(0);
 	}
+}
+
+void Camera::reset_model()
+{
+	model = mat4(1.0f);
+}
+
+mat4 Camera::get_view()
+{
+	return view;
+}
+
+void Camera::change_view(mat4 transform)
+{
+	view *= transform;
 }
