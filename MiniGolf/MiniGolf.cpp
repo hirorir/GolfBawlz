@@ -7,6 +7,7 @@ int window_height = 512;
 
 GameManager *manager;
 bool keyState[256] = { false };
+bool specialState[256] = { false };
 float speed = 0.1f;
 
 void keyboard()		//perform action based on keystates
@@ -16,16 +17,16 @@ void keyboard()		//perform action based on keystates
 		if (keyState[i])
 			switch (i) {
 			case 'w':
-				manager->get_current_level().get_camera()->translate(vec3(0, 0, -speed));
-				break;
-			case 's':
 				manager->get_current_level().get_camera()->translate(vec3(0, 0, speed));
 				break;
+			case 's':
+				manager->get_current_level().get_camera()->translate(vec3(0, 0, -speed));
+				break;
 			case 'a':
-				manager->get_current_level().get_camera()->translate(vec3(-speed, 0, 0));
+				manager->get_current_level().get_camera()->translate(vec3(speed, 0, 0));
 				break;
 			case 'd':
-				manager->get_current_level().get_camera()->translate(vec3(speed, 0, 0));
+				manager->get_current_level().get_camera()->translate(vec3(-speed, 0, 0));
 				break;
 			case ' ':
 				manager->get_current_level().get_camera()->translate(vec3(0, speed, 0));
@@ -35,6 +36,27 @@ void keyboard()		//perform action based on keystates
 				break;
 			case 27:
 				exit(0);
+				break;
+			default:
+				break;
+		}
+	}
+
+	for (int i = 0; i < 256; i++)
+	{
+		if (specialState[i])
+			switch (i) {
+			case GLUT_KEY_UP:
+				manager->get_current_level().get_camera()->rotate(0,1);
+				break;
+			case GLUT_KEY_DOWN:
+				manager->get_current_level().get_camera()->rotate(0,-1);
+				break;
+			case GLUT_KEY_LEFT:
+				manager->get_current_level().get_camera()->rotate(-1,0);
+				break;
+			case GLUT_KEY_RIGHT:
+				manager->get_current_level().get_camera()->rotate(0,1);
 				break;
 			default:
 				break;
@@ -98,6 +120,14 @@ void mouse(int x, int y){
 	py = y;
 }
 
+void special(int key, int x, int y){
+	specialState[key] = true;
+}
+
+void specialUp(int key, int x, int y){
+	specialState[key] = false;
+}
+
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 
@@ -112,7 +142,9 @@ int main(int argc, char **argv) {
 	glutKeyboardFunc(keyboard_down);
 	glutIdleFunc(idle);
 	glutKeyboardUpFunc(keyboard_up);
-	glutPassiveMotionFunc(mouse);
+	//glutPassiveMotionFunc(mouse);
+	glutSpecialFunc(special);
+	glutSpecialUpFunc(specialUp);
 
 	print_opengl_info();
 	init_gl();

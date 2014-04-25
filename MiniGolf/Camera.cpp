@@ -12,8 +12,8 @@ float Camera::dy;
 
 Camera::Camera()
 {
-	eye = vec3(0, 3, 4);
-	center = vec3(0, 0, 0);
+	eye = vec3(0, 8, 0);
+	center = vec3(0, -1, 0);
 	up = vec3(0, 1, 0);
 	model = mat4(1.0f);
 	hRadians = vRadians = dx = dy = 0;
@@ -52,6 +52,7 @@ void Camera::addCamera(Camera& cam)
 
 void Camera::update()
 {
+	model = mat4(1.0f);
 	rotate(dx, dy);
 	dx = dy = 0;
 	view = lookAt(eye, center + eye, up);
@@ -70,10 +71,13 @@ void Camera::translate(vec3 v)
 void Camera::rotate(float h, float v)	//h and v is the amount that a mouse translates along the x and y plane on the screen
 {
 	vRadians += v / 900 * pi;
-	hRadians += h / 900 * pi;
+	hRadians += h / 900 * pi;		//left and right arrow don't rotate properly
 
-	cout << vRadians << " " << hRadians << endl;
+	//cout << vRadians << " " << hRadians << endl;
 
+	model *= glm::rotate(vRadians, vec3(1, 0, 0));
+	model *= glm::rotate(hRadians, vec3(0, 1, 0));
+	
 	center.x = cos(vRadians) * sin(hRadians);
 	center.y = -sin(vRadians);
 	center.z = cos(vRadians) * sin(hRadians);
