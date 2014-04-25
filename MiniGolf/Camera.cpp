@@ -12,7 +12,7 @@ float Camera::dy;
 
 Camera::Camera()
 {
-	eye = vec3(0, 3, 3);
+	eye = vec3(0, 3, 4);
 	center = vec3(0, 0, 0);
 	up = vec3(0, 1, 0);
 	model = mat4(1.0f);

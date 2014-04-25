@@ -18,7 +18,7 @@ class Tile
 public:
 	Tile(int tile_id, int vertex_count, int edge_count, vector<float> verticies, vector<int> neighbors);
 
-	void draw();
+	void draw(Shader *shader);
 
 	void print();
 
@@ -38,18 +38,26 @@ public:
 
 	void set_material(Material mat);
 
+	void set_shader_uniforms(Shader *shader, Material mat);
+
 private:
-	GLuint vao_handle;
+	GLuint tile_vao;
+	GLuint border_vao;
 	int tile_id;
 	int vertex_count;
 	int edge_count;
 	vector<float> vertices;
+	vector<float> edges;
 	vector<int> neighbors;
 	vec3 normal;
 	Material material;
 
+	vector<float> calculate_edges();
 	vec3 calculate_normal();
-	void init_gl();
+	void init_gl_tile();
+	void init_gl_border();
+	void draw_tile(Shader *shader);
+	void draw_border(Shader *shader);
 };
 
 #endif

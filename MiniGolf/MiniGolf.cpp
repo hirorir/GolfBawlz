@@ -60,7 +60,7 @@ void reshape(int w, int h)
 void print_opengl_info()
 {
 	cout << "OpenGL Version: " << glGetString(GL_VERSION) << endl;
-	cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
+	cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl << endl;
 }
 
 void init_gl()
@@ -68,6 +68,10 @@ void init_gl()
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LINE_SMOOTH);
+	glEnable(GL_MULTISAMPLE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);

@@ -47,8 +47,6 @@ private:
 	Tee tee;
 	Cup cup;
 	Light light;
-
-	void set_uniforms_tile(Tile tile);
 };
 
 #endif
