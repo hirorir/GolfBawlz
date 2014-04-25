@@ -24,8 +24,7 @@ void Level::draw()
 	set_uniforms_camera();
 
 	for (vector<Tile>::size_type i = 0; i < tiles.size(); ++i) {
-		set_uniforms_tile(tiles[i]);
-		tiles[i].draw();
+		tiles[i].draw(shader);
 	}
 
 	tee.draw();
@@ -37,14 +36,6 @@ void Level::print()
 	for (vector<Tile>::size_type i = 0; i < tiles.size(); ++i) {
 		tiles[i].print();
 	}
-}
-
-void Level::set_uniforms_tile(Tile tile)
-{
-	shader->setUniform("Material.Ka", tile.get_material().get_ambient());
-	shader->setUniform("Material.Kd", tile.get_material().get_diffuse());
-	shader->setUniform("Material.Ks", tile.get_material().get_specular());
-	shader->setUniform("Material.Shininess", tile.get_material().get_shininess());
 }
 
 void Level::set_uniforms_light()

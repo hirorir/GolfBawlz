@@ -11,7 +11,9 @@ Level FileIO::load_level(string fname)
 	if (in_file.is_open()) {
 
 		string line;
-		while (getline(in_file, line)) {
+		while (!in_file.eof()) {
+			getline(in_file, line);
+
 			vector<string> tokens = FileIO::string_split(line);
 
 			transform(tokens[0].begin(), tokens[0].end(), tokens[0].begin(), ::tolower);

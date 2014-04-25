@@ -52,7 +52,7 @@ void keyboard(unsigned char key, int x, int y)
 void print_opengl_info()
 {
 	cout << "OpenGL Version: " << glGetString(GL_VERSION) << endl;
-	cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
+	cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl << endl;
 }
 
 void init_gl()
