@@ -7,7 +7,7 @@ Level::Level(vector<Tile> tiles, Ball b, Object3D c)
 	this->ball = b;
 	this->cup = c;
 
-	shader = new Shader("shaders/phong.vert", "shaders/phong.frag");
+	shader = new Shader("shaders/ads.vert", "shaders/ads.frag");
 	shader->readAndCompileShader();
 	shader->use();
 
