@@ -6,18 +6,26 @@
 #include <gl\glew.h>
 #include <gl\freeglut.h>
 
+#include <glm\glm.hpp>
+
+#include "Shader.h"
+#include "Material.h"
+
 using namespace std;
+using namespace glm;
 
 class Object3D
 {
 public:
 	Object3D();
 
-	Object3D(vector<float> position, int tile_id);
+	Object3D(int tile_id, vec3 position);
 
-	virtual void init_gl() = 0;
+	virtual void init_gl();
 
-	virtual void draw() = 0;
+	virtual void draw(Shader *shader);
+
+	virtual void set_shader_uniforms(Shader *shader, Material mat);
 
 	void print();
 
@@ -27,14 +35,15 @@ public:
 
 	void set_tile_id(int id);
 
-	vector<float> get_position();
+	vec3 get_position();
 
-	void set_position(vector<float> position);
+	void set_position(vec3 position);
 
-private:
+protected:
 	GLuint vao_handle;
 	int tile_id;
-	vector<float> position;
+	vec3 position;
+	vector<float> circle_vertices;
 };
 
 #endif

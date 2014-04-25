@@ -77,8 +77,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Cup.cpp" />
     <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -87,12 +87,11 @@
     <ClCompile Include="MiniGolf.cpp" />
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="Tee.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Cup.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Level.h" />
@@ -100,7 +99,6 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="Tee.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,21 +3,25 @@
 Level FileIO::load_level(string fname)
 {
 	vector<Tile> tiles;
-	Tee tee;
-	Cup cup;
+	Object3D cup;
+	Ball ball;
+
+	int tile_id;
+	float positions[3];
 
 	ifstream in_file(fname);
 
 	if (in_file.is_open()) {
 
 		string line;
+
 		while (!in_file.eof()) {
 			getline(in_file, line);
 
 			vector<string> tokens = FileIO::string_split(line);
 
 			transform(tokens[0].begin(), tokens[0].end(), tokens[0].begin(), ::tolower);
-
+			
 			if (!tokens[0].compare(TILE)) {
 				int tile_id = atoi(tokens[1].c_str());
 				int edge_count = atoi(tokens[2].c_str());
@@ -35,22 +39,22 @@ Level FileIO::load_level(string fname)
 				tiles.push_back(Tile(tile_id, verticies.size(), edge_count, verticies, neighbors));
 			}
 			else if (!tokens[0].compare(TEE)) {
-				tee.set_tile_id(atoi(tokens[1].c_str()));
+				tile_id = atoi(tokens[1].c_str());
 				
-				vector<float> positions;
 				for (int i = 2; i < 5; ++i) {
-					positions.push_back((float) atof(tokens[i].c_str()));
+					positions[i-2] = (float) atof(tokens[i].c_str());
 				}
-				tee.set_position(positions);
+
+				ball = Ball(tile_id, vec3(positions[0], positions[1], positions[2]));
 			}
 			else if (!tokens[0].compare(CUP)) {
-				cup.set_tile_id(atoi(tokens[1].c_str()));
+				tile_id = atoi(tokens[1].c_str());
 
-				vector<float> positions;
 				for (int i = 2; i < 5; ++i) {
-					positions.push_back((float) atof(tokens[i].c_str()));
+					positions[i - 2] = (float)atof(tokens[i].c_str());
 				}
-				cup.set_position(positions);
+
+				cup = Object3D(tile_id, vec3(positions[0], positions[1], positions[2]));
 			}
 			else {
 				cout << "error - unable to identify first token." << endl;
@@ -63,7 +67,7 @@ Level FileIO::load_level(string fname)
 
 	in_file.close();
 
-	return Level(tiles, tee, cup);
+	return Level(tiles, ball, cup);
 }
 
 vector<string> FileIO::string_split(const string &source, const char *delim, bool keep_empty)

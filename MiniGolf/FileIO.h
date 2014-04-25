@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Level.h"
+#include "Object3D.h"
 
 using namespace std;
 
