@@ -14,7 +14,7 @@ public:
 
 	Ball(int tile_id, vec3 position) : Object3D(tile_id, position) {
 		// Default ball values.
-		radius = 0.2f;
+		radius = 0.4f;
 		slices = 40;
 		stacks = 40;
 	}
