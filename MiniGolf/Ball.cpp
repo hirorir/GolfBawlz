@@ -7,10 +7,6 @@ Ball::Ball()
 
 void Ball::init_gl()
 {
-	radius = 0.2f;
-	slices = 40;
-	stacks = 40;
-
 	nVerts = (GLuint) (slices + 1) * (GLuint) (stacks + 1);
 	elements = (GLuint) (slices * 2 * (GLuint) (stacks - 1)) * 3;
 
@@ -139,4 +135,19 @@ void Ball::set_shader_uniforms(Shader *shader, Material mat)
 	shader->setUniform("Material.Kd", mat.get_diffuse());
 	shader->setUniform("Material.Ks", mat.get_specular());
 	shader->setUniform("Material.Shininess", mat.get_shininess());
+}
+
+void Ball::set_radius(float r)
+{
+	radius = r;
+}
+
+void Ball::set_slices(float sl)
+{
+	slices = sl;
+}
+
+void Ball::set_stacks(float st)
+{
+	stacks = st;
 }
