@@ -18,11 +18,11 @@ void keyboard() //perform action based on keystates
 			switch (i) {
 			case 'w':
 				//manager->get_current_level().get_camera()->translate(vec3(0, 0, speed));
-				manager->get_current_level().get_camera()->change_view(glm::rotate(0.5f, vec3(1.0, 0.0, 0.0)));
+				manager->get_current_level().get_camera()->change_view(glm::rotate(-0.5f, vec3(1.0, 0.0, 0.0)));
 				break;
 			case 's':
 				//manager->get_current_level().get_camera()->translate(vec3(0, 0, -speed));
-				manager->get_current_level().get_camera()->change_view(glm::rotate(-0.5f, vec3(1.0, 0.0, 0.0)));
+				manager->get_current_level().get_camera()->change_view(glm::rotate(0.5f, vec3(1.0, 0.0, 0.0)));
 				break;
 			case 'a':
 				//manager->get_current_level().get_camera()->translate(vec3(speed, 0, 0));
