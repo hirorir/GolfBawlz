@@ -3,7 +3,7 @@
 Level FileIO::load_level(string fname)
 {
 	vector<Tile> tiles;
-	Object3D cup;
+	Cup cup;
 	Ball ball;
 
 	int tile_id;
@@ -54,7 +54,7 @@ Level FileIO::load_level(string fname)
 					positions[i - 2] = (float)atof(tokens[i].c_str());
 				}
 
-				cup = Object3D(tile_id, vec3(positions[0], positions[1], positions[2]));
+				cup = Cup(tile_id, vec3(positions[0], positions[1], positions[2]));
 			}
 			else {
 				cout << "error - unable to identify first token." << endl;

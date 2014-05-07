@@ -1,59 +1,50 @@
 #include "Tile.h"
 
-Tile::Tile(int id, int vcount, int ecount, vector<float> verts, vector<int> nbors)
+Tile::Tile(int id, int p, int ecount, vector<float> verts, vector<int> nbors)
 {
 	tile_id = id;
-	vertex_count = vcount;
-	edge_count = ecount;
+	num_position_indices = p;
+	num_edge_indices = ecount;
 	vertices = verts;
 	neighbors = nbors;
+
 	normal = calculate_normal();
-	material = Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.4f, 0.8f, 0.2f), vec3(0.8f), 100.0f);
 	edges = calculate_edges();
 
+	shader = new Shader("shaders/ads.vert", "shaders/ads.frag");
+	shader->readAndCompileShader();
+
+	material = Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.4f, 0.8f, 0.2f), vec3(0.8f), 100.0f);
+
 	init_gl_tile();
-
-	if (edges.size() > 0) {
-		init_gl_border();
-	}
+	init_gl_border();
 }
 
-void Tile::draw(Shader *shader)
+void Tile::draw(Camera *camera, Light *light)
 {
-	draw_tile(shader);
+	shader->use();
 
-	if (edges.size() > 0) {
-		draw_border(shader);
-	}
-}
-
-void Tile::draw_tile(Shader *shader)
-{
 	glBindVertexArray(tile_vao);
 
-	set_shader_uniforms(shader, material);
-	glDrawArrays(GL_POLYGON, 0, vertex_count / 3);
+	Shader::set_uniforms_camera(shader, camera, mat4(1.0f));
+	Shader::set_uniforms_light(shader, camera, light);
+	Shader::set_uniforms_material(shader, material);
+
+	glDrawArrays(GL_POLYGON, 0, num_position_indices / 3);
 
 	glBindVertexArray(0);
-}
 
-void Tile::draw_border(Shader *shader)
-{
-	glBindVertexArray(border_vao);
+	if (edges.size() > 0) {
+		glBindVertexArray(border_vao);
 
-	material = Material(vec3(1.0f, 0.1f, 0.1f), vec3(0.9f, 0.1f, 0.1f), vec3(0.0f), 100.0f);
-	set_shader_uniforms(shader, material);
-	glDrawArrays(GL_LINES, 0, edges.size());
+		glLineWidth(8.0f);
 
-	glBindVertexArray(0);
-}
+		Shader::set_uniforms_material(shader, Material(vec3(1.0f, 0.1f, 0.1f), vec3(0.9f, 0.1f, 0.1f), vec3(0.0f), 100.0f));
 
-void Tile::set_shader_uniforms(Shader *shader, Material mat)
-{
-	shader->setUniform("Material.Ka", mat.get_ambient());
-	shader->setUniform("Material.Kd", mat.get_diffuse());
-	shader->setUniform("Material.Ks", mat.get_specular());
-	shader->setUniform("Material.Shininess", mat.get_shininess());
+		glDrawArrays(GL_LINES, 0, edges.size());
+
+		glBindVertexArray(0);
+	}
 }
 
 vector<float> Tile::calculate_edges()
@@ -61,12 +52,12 @@ vector<float> Tile::calculate_edges()
 	int vertex_index = 0;
 	vector<float> edges;
 
-	for (int e = 0; e < edge_count; ++e) {
+	for (int e = 0; e < num_edge_indices; ++e) {
 		if (neighbors[e] == 0) {
-			if (vertex_index == vertex_count - 3) {
+			if (vertex_index == num_position_indices - 3) {
 				int i;
 
-				for (i = vertex_index; i < vertex_count; ++i) {
+				for (i = vertex_index; i < num_position_indices; ++i) {
 					edges.push_back(vertices[i]);
 				}
 
@@ -91,7 +82,7 @@ vec3 Tile::calculate_normal()
 {
 	vec3 a, b;
 
-	if (vertex_count >= 9) {
+	if (num_position_indices >= 9) {
 		vec3 v1(vertices[0], vertices[1], vertices[2]);
 
 		vec3 v2(vertices[3], vertices[4], vertices[5]);
@@ -117,7 +108,7 @@ void Tile::init_gl_tile()
 	glGenBuffers(2, handle);
 
 	glBindBuffer(GL_ARRAY_BUFFER, handle[0]);
-	glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, num_position_indices * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 	glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
 	glEnableVertexAttribArray(0);
 
@@ -130,27 +121,27 @@ void Tile::init_gl_tile()
 
 void Tile::init_gl_border()
 {
-	glLineWidth(8.0f);
+	if (edges.size() > 0) {
+		glGenVertexArrays(1, &border_vao);
+		glBindVertexArray(border_vao);
 
-	glGenVertexArrays(1, &border_vao);
-	glBindVertexArray(border_vao);
+		unsigned int handle[1];
+		glGenBuffers(1, handle);
 
-	unsigned int handle[1];
-	glGenBuffers(1, handle);
-
-	glBindBuffer(GL_ARRAY_BUFFER, handle[0]);
-	glBufferData(GL_ARRAY_BUFFER, edges.size() * sizeof(float), &edges[0], GL_STATIC_DRAW);
-	glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
-	glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, handle[0]);
+		glBufferData(GL_ARRAY_BUFFER, edges.size() * sizeof(float), &edges[0], GL_STATIC_DRAW);
+		glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
+		glEnableVertexAttribArray(0);
+	}
 }
 
 void Tile::print()
 {
 	cout << "TILE (ID: " << tile_id << "): ";
-	cout << "# vertex indicies: " << vertex_count << ", ";
-	cout << "# edges: " << edge_count << endl;
+	cout << "# total position indicies: " << num_position_indices << ", ";
+	cout << "# edges: " << num_edge_indices << endl;
 	cout << "Vertex indicies: (   ";
-	for (int i = 0; i < vertex_count; ++i) {
+	for (int i = 0; i < num_position_indices; ++i) {
 			cout << vertices[i] << "   ";
 	}
 	cout << ")" << endl;
@@ -160,8 +151,8 @@ void Tile::print()
 	}
 	cout << ")" << endl;
 	cout << "Neighbor IDs: ";
-	for (int i = 0; i < edge_count; ++i) {
-		if (i == edge_count - 1) {
+	for (int i = 0; i < num_edge_indices; ++i) {
+		if (i == num_edge_indices - 1) {
 			cout << neighbors[i];
 		}
 		else {
@@ -176,14 +167,14 @@ int Tile::get_tile_id()
 	return tile_id;
 }
 
-int Tile::get_vertex_count()
+int Tile::num_of_pos_indices()
 {
-	return vertex_count;
+	return num_position_indices;
 }
 
-int Tile::get_edge_count()
+int Tile::num_of_edge_indices()
 {
-	return edge_count;
+	return num_edge_indices;
 }
 
 vector<float> Tile::get_verticies()

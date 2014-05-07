@@ -2,13 +2,14 @@
 #include "Shader.h"
 #include "Camera.h"
 
+using namespace glm;
+
 int window_width = 512;
 int window_height = 512;
 
 GameManager *manager;
 bool keyState[256] = { false };
 bool specialState[256] = { false };
-//float speed = 0.1f;
 
 void keyboard() //perform action based on keystates
 {
@@ -17,34 +18,30 @@ void keyboard() //perform action based on keystates
 		if (keyState[i])
 			switch (i) {
 			case 'w':
-				//manager->get_current_level().get_camera()->translate(vec3(0, 0, speed));
-				manager->get_current_level().get_camera()->change_view(glm::rotate(-0.5f, vec3(1.0, 0.0, 0.0)));
+				manager->get_camera()->set_view(rotate(-0.5f, vec3(1.0, 0.0, 0.0)));
 				break;
 			case 's':
-				//manager->get_current_level().get_camera()->translate(vec3(0, 0, -speed));
-				manager->get_current_level().get_camera()->change_view(glm::rotate(0.5f, vec3(1.0, 0.0, 0.0)));
+				manager->get_camera()->set_view(rotate(0.5f, vec3(1.0, 0.0, 0.0)));
 				break;
 			case 'a':
-				//manager->get_current_level().get_camera()->translate(vec3(speed, 0, 0));
-				manager->get_current_level().get_camera()->change_view(glm::rotate(0.5f, vec3(0.0, 0.0, 1.0)));
+				manager->get_camera()->set_view(rotate(0.5f, vec3(0.0, 0.0, 1.0)));
 				break;
 			case 'd':
-				//manager->get_current_level().get_camera()->translate(vec3(-speed, 0, 0));
-				manager->get_current_level().get_camera()->change_view(glm::rotate(-0.5f, vec3(0.0, 0.0, 1.0)));
+				manager->get_camera()->set_view(rotate(-0.5f, vec3(0.0, 0.0, 1.0)));
 				break;
 			case 'x':
-				//manager->get_current_level().get_camera()->translate(vec3(0, speed, 0));
-				manager->get_current_level().get_camera()->change_view(glm::rotate(0.5f, vec3(0.0, 1.0, 0.0)));
+				manager->get_camera()->set_view(rotate(0.5f, vec3(0.0, 1.0, 0.0)));
 				break;
 			case 'z':
-				//manager->get_current_level().get_camera()->translate(vec3(0, -speed, 0));
-				manager->get_current_level().get_camera()->change_view(glm::rotate(-0.5f, vec3(0.0, 1.0, 0.0)));
+				manager->get_camera()->set_view(rotate(-0.5f, vec3(0.0, 1.0, 0.0)));
 				break;
 			case 'c':
-				manager->get_current_level().get_camera()->change_view(glm::translate(vec3(0.0, 0.2, 0.0)));
+				manager->get_camera()->set_view(translate(vec3(0.0, 0.2, 0.0)));
 				break;
 			case ' ':
-				manager->get_current_level().get_camera()->change_view(glm::translate(vec3(0.0, -0.2, 0.0)));
+				manager->get_camera()->set_view(translate(vec3(0.0, -0.2, 0.0)));
+				break;
+			case '1':
 				break;
 			case 27:
 				exit(0);
@@ -59,20 +56,16 @@ void keyboard() //perform action based on keystates
 		if (specialState[i])
 			switch (i) {
 			case GLUT_KEY_UP:
-				//manager->get_current_level().get_camera()->rotate(0, 1);
-				manager->get_current_level().get_camera()->change_view(glm::translate(vec3(0.0, 0.0, - 0.2)));
+				manager->get_camera()->set_view(translate(vec3(0.0, 0.0, -0.2)));
 				break;
 			case GLUT_KEY_DOWN:
-				//manager->get_current_level().get_camera()->rotate(0, -1);
-				manager->get_current_level().get_camera()->change_view(glm::translate(vec3(0.0, 0.0, 0.2)));
+				manager->get_camera()->set_view(translate(vec3(0.0, 0.0, 0.2)));
 				break;
 			case GLUT_KEY_LEFT:
-				//manager->get_current_level().get_camera()->rotate(-1, 0);
-				manager->get_current_level().get_camera()->change_view(glm::translate(vec3(-0.2, 0.0, 0.0)));
+				manager->get_camera()->set_view(translate(vec3(-0.2, 0.0, 0.0)));
 				break;
 			case GLUT_KEY_RIGHT:
-				//manager->get_current_level().get_camera()->rotate(0, 1);
-				manager->get_current_level().get_camera()->change_view(glm::translate(vec3(0.2, 0.0, 0.0)));
+				manager->get_camera()->set_view(translate(vec3(0.2, 0.0, 0.0)));
 				break;
 			default:
 				break;
@@ -86,7 +79,7 @@ void display()
 
 	keyboard();
 
-	manager->update();
+	manager->tick();
 
 	manager->draw();
 
@@ -119,7 +112,7 @@ void init_gl()
 }
 
 void idle(){
-	display();		//when idle, run display func
+	display();
 }
 
 void keyboard_up(unsigned char c, int x, int y){

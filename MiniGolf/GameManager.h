@@ -25,7 +25,7 @@ public:
 
 	~GameManager();
 
-	void update();
+	void tick();
 
 	void draw();
 
@@ -33,9 +33,12 @@ public:
 
 	Level get_current_level();
 
+	Camera *get_camera();
+
 private:
 	vector<Level> levels;
 	int current_level;
+	Camera *camera;
 };
 
 #endif

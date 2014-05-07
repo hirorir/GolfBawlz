@@ -4,24 +4,29 @@ GameManager::GameManager(int argc, char **argv)
 {
 	levels.push_back(FileIO::load_level(argv[1]));
 	current_level = 0;
+	camera = new Camera();
 }
 
-void GameManager::update()
+void GameManager::tick()
 {
-	get_current_level().get_camera()->update();
+	get_current_level().update();
 }
 
 void GameManager::draw()
 {
-	get_current_level().draw();
+	get_current_level().draw(camera);
 }
 
-
 void GameManager::resize(int w, int h){
-	get_current_level().get_camera()->resize(w, h);
+	camera->resize(w, h);
 }
 
 Level GameManager::get_current_level()
 {
 	return levels[current_level];
+}
+
+Camera* GameManager::get_camera()
+{
+	return camera;
 }

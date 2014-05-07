@@ -1,9 +1,23 @@
 #include "Ball.h"
 
-Ball::Ball()
-{
+Ball::Ball() {}
 
+Ball::Ball(int tile_id, vec3 position)
+{
+	this->tile_id = tile_id;
+	this->position = position;
+
+	radius = 0.4f;
+	slices = 40;
+	stacks = 40;
+	model_to_world = translate(vec3(position.x, position.y + 0.09, position.z)) * scale(vec3(0.2f));
+
+	shader = new Shader("shaders/ads.vert", "shaders/ads.frag");
+	shader->readAndCompileShader();
+
+	this->init_gl();
 }
+
 
 void Ball::init_gl()
 {
@@ -23,19 +37,19 @@ void Ball::init_gl()
 	generate_verts(v, n, tex, el);
 
 	// Create and populate the buffer objects
-	unsigned int handle[4];
-	glGenBuffers(4, handle);
+	unsigned int handle_ball[4];
+	glGenBuffers(4, handle_ball);
 
-	glBindBuffer(GL_ARRAY_BUFFER, handle[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, handle_ball[0]);
 	glBufferData(GL_ARRAY_BUFFER, (3 * nVerts) * sizeof(float), v, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ARRAY_BUFFER, handle[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, handle_ball[1]);
 	glBufferData(GL_ARRAY_BUFFER, (3 * nVerts) * sizeof(float), n, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ARRAY_BUFFER, handle[2]);
+	glBindBuffer(GL_ARRAY_BUFFER, handle_ball[2]);
 	glBufferData(GL_ARRAY_BUFFER, (2 * nVerts) * sizeof(float), tex, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle[3]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle_ball[3]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, elements * sizeof(unsigned int), el, GL_STATIC_DRAW);
 
 	delete[] v;
@@ -48,27 +62,35 @@ void Ball::init_gl()
 	glBindVertexArray(vao_handle);
 
 	glEnableVertexAttribArray(0);  // Vertex position
-	glBindBuffer(GL_ARRAY_BUFFER, handle[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, handle_ball[0]);
 	glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	glEnableVertexAttribArray(1);  // Vertex normal
-	glBindBuffer(GL_ARRAY_BUFFER, handle[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, handle_ball[1]);
 	glVertexAttribPointer((GLuint)1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, handle[2]);
+	glBindBuffer(GL_ARRAY_BUFFER, handle_ball[2]);
 	glEnableVertexAttribArray(2);  // Texture coords
 	glVertexAttribPointer((GLuint)2, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle[3]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle_ball[3]);
 
 	glBindVertexArray(0);
 }
 
-void Ball::draw(Shader *shader)
+void Ball::draw(Camera *camera, Light *light)
 {
+	shader->use();
+
 	glBindVertexArray(vao_handle);
-	set_shader_uniforms(shader, Material(vec3(0.0f, 0.1f, 1.0f), vec3(0.4f, 0.1f, 1.0f), vec3(0.0f), 100.0f));
+
+	Shader::set_uniforms_camera(shader, camera, model_to_world);
+	Shader::set_uniforms_light(shader, camera, light);
+	Shader::set_uniforms_material(shader, Material(vec3(0.0f, 0.1f, 1.0f), vec3(0.4f, 0.1f, 0.0f), vec3(0.0f), 100.0f));
+
 	glDrawElements(GL_TRIANGLES, elements, GL_UNSIGNED_INT, ((GLubyte *)NULL + (0)));
+
+	glBindVertexArray(0);
 }
 
 void Ball::generate_verts(float * verts, float * norms, float * tex, unsigned int * el)
@@ -127,27 +149,4 @@ void Ball::generate_verts(float * verts, float * norms, float * tex, unsigned in
 			}
 		}
 	}
-}
-
-void Ball::set_shader_uniforms(Shader *shader, Material mat)
-{
-	shader->setUniform("Material.Ka", mat.get_ambient());
-	shader->setUniform("Material.Kd", mat.get_diffuse());
-	shader->setUniform("Material.Ks", mat.get_specular());
-	shader->setUniform("Material.Shininess", mat.get_shininess());
-}
-
-void Ball::set_radius(float r)
-{
-	radius = r;
-}
-
-void Ball::set_slices(float sl)
-{
-	slices = sl;
-}
-
-void Ball::set_stacks(float st)
-{
-	stacks = st;
 }

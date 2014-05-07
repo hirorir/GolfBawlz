@@ -3,21 +3,14 @@
 using namespace glm;
 using namespace std;
 
-const double pi = 3.14159265358;
-
 vector<Camera*> Camera::activeCameras;
-
-float Camera::dx;
-float Camera::dy;
 
 Camera::Camera()
 {
 	eye = vec3(0, 5, 5);
 	center = vec3(0, 0, 0);
 	up = vec3(0, 1, 0);
-	model = mat4(1.0f);
 	view = lookAt(eye, center, up);
-	//hRadians = vRadians = dx = dy = 0;
 	addCamera(*this);
 	//default constructor
 }
@@ -27,8 +20,6 @@ Camera::Camera(float eyeX, float eyeY, float eyeZ, float centerX, float centerY,
 	eye.x = eyeX;	eye.y = eyeY;	eye.z = eyeZ;
 	center.x = centerX;	center.y = centerY;	center.z = centerZ;
 	up.x = upX; up.y = upY; up.z = upZ;
-	model = mat4(1.0f);
-	hRadians = vRadians = dx = dy = 0;
 	addCamera(*this);
 }	//construct using floats
 
@@ -37,27 +28,13 @@ Camera::Camera(vec3 eye, vec3 center, vec3 up)
 	this->eye = eye;
 	this->center = center;
 	this->up = up;
-	model = mat4(1.0f);
-	hRadians = vRadians = dx = dy = 0;
 	addCamera(*this);
 }	//construct using vecs
-
-Camera::~Camera()
-{
-
-}
 
 void Camera::addCamera(Camera& cam)
 {
 	activeCameras.push_back(&cam);
 }	//adds the camera to the list of "active" cameras
-
-void Camera::update()
-{
-	reset_model();
-}	//update the frame using this camera
-
-
 
 void Camera::removeCamera(Camera& cam)
 {
@@ -81,17 +58,17 @@ Camera& Camera::operator[](int index)
 	}
 }
 
-void Camera::reset_model()
-{
-	model = mat4(1.0f);
-}
-
 mat4 Camera::get_view()
 {
 	return view;
 }
 
-void Camera::change_view(mat4 transform)
+mat4 Camera::get_projection()
+{
+	return projection;
+}
+
+void Camera::set_view(mat4 transform)
 {
 	view *= transform;
 }

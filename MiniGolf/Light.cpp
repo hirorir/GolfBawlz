@@ -1,9 +1,6 @@
 #include "Light.h"
 
-Light::Light()
-{
-
-}
+Light::Light() {}
 
 Light::Light(vec4 p, vec3 a, vec3 d, vec3 s)
 {

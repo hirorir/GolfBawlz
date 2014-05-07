@@ -5,44 +5,39 @@
 #include <gl\glew.h>
 #include <gl\freeglut.h>
 
+#include "Shader.h"
 #include "Tile.h"
 #include "Light.h"
 #include "Camera.h"
-#include "Object3D.h"
 #include "Ball.h"
+#include "Cup.h"
 
 using namespace std;
 
 class Level
 {
 public:
-	Level(vector<Tile> tiles, Ball b, Object3D c);
+	Level(vector<Tile> tiles, Ball b, Cup c);
 
-	void draw();
+	void update();
+
+	void draw(Camera *camera);
 
 	void print();
 
-	void set_uniforms_light();
-
-	void set_uniforms_camera();
-
-	Shader* get_shader();
-
-	Camera* get_camera();
-
 	vector<Tile> get_tiles();
 
-	Light get_light();
+	Light* get_light();
 
-	void set_light(Light l);
+	void set_light(Light *l);
+
+	Ball get_ball();
 
 private:
-	Shader *shader;
-	Camera *camera;
 	vector<Tile> tiles;
-	Light light;
+	Light *light;
 	Ball ball;
-	Object3D cup;
+	Cup cup;
 };
 
 #endif

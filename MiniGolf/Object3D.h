@@ -7,7 +7,10 @@
 #include <gl\freeglut.h>
 
 #include <glm\glm.hpp>
+#include <glm\gtx\transform.hpp>
 
+#include "Light.h"
+#include "Camera.h"
 #include "Shader.h"
 #include "Material.h"
 
@@ -21,15 +24,9 @@ public:
 
 	Object3D(int tile_id, vec3 position);
 
-	virtual void init_gl();
-
-	virtual void draw(Shader *shader);
-
-	virtual void set_shader_uniforms(Shader *shader, Material mat);
+	virtual void draw(Camera *camera, Light *light) = 0;
 
 	void print();
-
-	GLuint get_vao_handle();
 
 	int get_tile_id();
 
@@ -39,11 +36,16 @@ public:
 
 	void set_position(vec3 position);
 
+	mat4 get_model_to_world();
+
+	void set_model_to_world(mat4 mtw);
+
 protected:
+	Shader *shader;
 	GLuint vao_handle;
 	int tile_id;
 	vec3 position;
-	vector<float> circle_vertices;
+	mat4 model_to_world;
 };
 
 #endif

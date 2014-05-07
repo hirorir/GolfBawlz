@@ -12,6 +12,10 @@
 #include <gl\freeglut.h>
 #include <glm\glm.hpp>
 
+#include "Material.h"
+#include "Light.h"
+#include "Camera.h"
+
 using namespace std;
 using namespace glm;
 
@@ -70,8 +74,14 @@ public:
 
 	const char* getGLErrorString(GLenum error);
 
+	static void set_uniforms_camera(Shader *shader, Camera *camera, mat4 model);
+
+	static void set_uniforms_light(Shader *shader, Camera *camera, Light *light);
+
+	static void set_uniforms_material(Shader *shader, Material mat);
+
 private:
-	GLuint programHandle;
+	GLuint program_handle;
 	const char *vertexShaderPath;
 	const char *fragmentShaderPath;
 

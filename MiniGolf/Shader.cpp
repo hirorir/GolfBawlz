@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-Shader::Shader(const char *v, const char *f) : programHandle(0)
+Shader::Shader(const char *v, const char *f) : program_handle(0)
 {
 	vertexShaderPath = v;
 	fragmentShaderPath = f;
@@ -83,32 +83,32 @@ void Shader::linkProgram()
 {
 	GLint logLength, status;
 
-	glLinkProgram(programHandle);
-	glGetProgramiv(programHandle, GL_INFO_LOG_LENGTH, &logLength);
+	glLinkProgram(program_handle);
+	glGetProgramiv(program_handle, GL_INFO_LOG_LENGTH, &logLength);
 
 	if (logLength > 0) {
 		GLchar *log = (GLchar*)malloc(logLength);
-		glGetProgramInfoLog(programHandle, logLength, &logLength, log);
+		glGetProgramInfoLog(program_handle, logLength, &logLength, log);
 		printf("Program link log:\n%s\n", log);
 		free(log);
 	}
 
-	glGetProgramiv(programHandle, GL_LINK_STATUS, &status);
+	glGetProgramiv(program_handle, GL_LINK_STATUS, &status);
 	if (status == 0) {
 		printf("Failed to link program");
 		return;
 	}
 
-	glValidateProgram(programHandle);
-	glGetProgramiv(programHandle, GL_INFO_LOG_LENGTH, &logLength);
+	glValidateProgram(program_handle);
+	glGetProgramiv(program_handle, GL_INFO_LOG_LENGTH, &logLength);
 	if (logLength > 0) {
 		GLchar *log = (GLchar*)malloc(logLength);
-		glGetProgramInfoLog(programHandle, logLength, &logLength, log);
+		glGetProgramInfoLog(program_handle, logLength, &logLength, log);
 		printf("Program validate log:\n%s\n", log);
 		free(log);
 	}
 
-	glGetProgramiv(programHandle, GL_VALIDATE_STATUS, &status);
+	glGetProgramiv(program_handle, GL_VALIDATE_STATUS, &status);
 	if (status == 0) {
 		printf("Failed to validate program");
 		return;
@@ -128,7 +128,7 @@ void Shader::buildProgram(sh *vtx, sh *frg)
 	GLuint version = static_cast<GLuint>(100 * glLanguageVersion);
 	const GLsizei versionStringSize = sizeof("#version 123\n");
 
-	programHandle = glCreateProgram();
+	program_handle = glCreateProgram();
 
 	vtxSourceString = (char*)malloc(vtx->byteSize + versionStringSize);
 	frgSourceString = (char*)malloc(frg->byteSize + versionStringSize);
@@ -162,10 +162,10 @@ void Shader::buildProgram(sh *vtx, sh *frg)
 	free(frgSourceString);
 	frgSourceString = NULL;
 
-	glAttachShader(programHandle, vtxShader);
+	glAttachShader(program_handle, vtxShader);
 	glDeleteShader(vtxShader);
 
-	glAttachShader(programHandle, frgShader);
+	glAttachShader(program_handle, frgShader);
 	glDeleteShader(frgShader);
 
 	linkProgram();
@@ -226,27 +226,27 @@ void Shader::readAndCompileShader()
 
 void Shader::use()
 {
-	if (programHandle <= 0) {
-		printf("[ERROR] Program Handle: %d", programHandle);
+	if (program_handle <= 0) {
+		printf("[ERROR] Program Handle: %d", program_handle);
 		return;
 	}
-	glUseProgram(programHandle);
+	glUseProgram(program_handle);
 	glBindVertexArray(0);
 }
 
 GLuint Shader::getProgramHandle()
 {
-	return programHandle;
+	return program_handle;
 }
 
 void Shader::bindAttribLocation(GLuint location, const char *name)
 {
-	glBindAttribLocation(programHandle, location, name);
+	glBindAttribLocation(program_handle, location, name);
 }
 
 void Shader::bindFragDataLocation(GLuint location, const char *name)
 {
-	glBindFragDataLocation(programHandle, location, name);
+	glBindFragDataLocation(program_handle, location, name);
 }
 
 void Shader::setUniform(const char *name, float x, float y)
@@ -325,16 +325,16 @@ void Shader::printActiveUniforms()
 	GLsizei written;
 	GLenum type;
 
-	glGetProgramiv(programHandle, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxLen);
-	glGetProgramiv(programHandle, GL_ACTIVE_UNIFORMS, &nUniforms);
+	glGetProgramiv(program_handle, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxLen);
+	glGetProgramiv(program_handle, GL_ACTIVE_UNIFORMS, &nUniforms);
 
 	name = (GLchar *)malloc(maxLen);
 
 	printf(" Location | Name\n");
 	printf("------------------------------------------------\n");
 	for (int i = 0; i < nUniforms; ++i) {
-		glGetActiveUniform(programHandle, i, maxLen, &written, &size, &type, name);
-		location = glGetUniformLocation(programHandle, name);
+		glGetActiveUniform(program_handle, i, maxLen, &written, &size, &type, name);
+		location = glGetUniformLocation(program_handle, name);
 		printf(" %-8d | %s\n", location, name);
 	}
 
@@ -348,16 +348,16 @@ void Shader::printActiveAttribs()
 	GLenum type;
 	GLchar * name;
 
-	glGetProgramiv(programHandle, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
-	glGetProgramiv(programHandle, GL_ACTIVE_ATTRIBUTES, &nAttribs);
+	glGetProgramiv(program_handle, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
+	glGetProgramiv(program_handle, GL_ACTIVE_ATTRIBUTES, &nAttribs);
 
 	name = (GLchar *)malloc(maxLength);
 
 	printf(" Index | Name\n");
 	printf("------------------------------------------------\n");
 	for (int i = 0; i < nAttribs; i++) {
-		glGetActiveAttrib(programHandle, i, maxLength, &written, &size, &type, name);
-		location = glGetAttribLocation(programHandle, name);
+		glGetActiveAttrib(program_handle, i, maxLength, &written, &size, &type, name);
+		location = glGetAttribLocation(program_handle, name);
 		printf(" %-5d | %s\n", location, name);
 	}
 
@@ -366,5 +366,29 @@ void Shader::printActiveAttribs()
 
 int Shader::getUniformLocation(const char *name)
 {
-	return glGetUniformLocation(programHandle, name);
+	return glGetUniformLocation(program_handle, name);
+}
+
+void Shader::set_uniforms_camera(Shader *shader, Camera *camera, mat4 model)
+{
+	mat4 mv = (camera->get_view() * model);
+	shader->setUniform("ModelViewMatrix", mv);
+	shader->setUniform("NormalMatrix", mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
+	shader->setUniform("MVP", camera->get_projection() * mv);
+}
+
+void Shader::set_uniforms_light(Shader *shader, Camera *camera, Light *light)
+{
+	shader->setUniform("Light.La", light->get_ambient());
+	shader->setUniform("Light.Ld", light->get_diffuse());
+	shader->setUniform("Light.Ls", light->get_specular());
+	shader->setUniform("Light.Position", camera->get_view() * light->get_position());
+}
+
+void Shader::set_uniforms_material(Shader *shader, Material mat)
+{
+	shader->setUniform("Material.Ka", mat.get_ambient());
+	shader->setUniform("Material.Kd", mat.get_diffuse());
+	shader->setUniform("Material.Ks", mat.get_specular());
+	shader->setUniform("Material.Shininess", mat.get_shininess());
 }
