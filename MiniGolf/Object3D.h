@@ -36,6 +36,12 @@ public:
 
 	void set_position(vec3 position);
 
+	void set_x(float x);
+
+	void set_y(float y);
+
+	void set_z(float z);
+
 	mat4 get_model_to_world();
 
 	void set_model_to_world(mat4 mtw);

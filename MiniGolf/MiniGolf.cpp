@@ -18,28 +18,46 @@ void keyboard() //perform action based on keystates
 		if (keyState[i])
 			switch (i) {
 			case 'w':
-				manager->get_camera()->set_view(rotate(-0.5f, vec3(1.0, 0.0, 0.0)));
+				manager->get_camera()->change_view(rotate(-0.5f, vec3(1.0, 0.0, 0.0)));
 				break;
 			case 's':
-				manager->get_camera()->set_view(rotate(0.5f, vec3(1.0, 0.0, 0.0)));
+				manager->get_camera()->change_view(rotate(0.5f, vec3(1.0, 0.0, 0.0)));
 				break;
 			case 'a':
-				manager->get_camera()->set_view(rotate(0.5f, vec3(0.0, 0.0, 1.0)));
+				manager->get_camera()->change_view(rotate(0.5f, vec3(0.0, 0.0, 1.0)));
 				break;
 			case 'd':
-				manager->get_camera()->set_view(rotate(-0.5f, vec3(0.0, 0.0, 1.0)));
+				manager->get_camera()->change_view(rotate(-0.5f, vec3(0.0, 0.0, 1.0)));
 				break;
 			case 'x':
-				manager->get_camera()->set_view(rotate(0.5f, vec3(0.0, 1.0, 0.0)));
+				manager->get_camera()->change_view(rotate(0.5f, vec3(0.0, 1.0, 0.0)));
 				break;
 			case 'z':
-				manager->get_camera()->set_view(rotate(-0.5f, vec3(0.0, 1.0, 0.0)));
+				manager->get_camera()->change_view(rotate(-0.5f, vec3(0.0, 1.0, 0.0)));
 				break;
 			case 'c':
-				manager->get_camera()->set_view(translate(vec3(0.0, 0.2, 0.0)));
+				manager->get_camera()->change_view(translate(vec3(0.0, 0.2, 0.0)));
 				break;
 			case ' ':
-				manager->get_camera()->set_view(translate(vec3(0.0, -0.2, 0.0)));
+				manager->get_camera()->change_view(translate(vec3(0.0, -0.2, 0.0)));
+				break;
+			case 'h':
+				manager->get_current_level()->get_ball()->set_x(0.1f);
+				break;
+			case 'u':
+				manager->get_current_level()->get_ball()->set_y(0.1f);
+				break;
+			case 'j':
+				manager->get_current_level()->get_ball()->set_z(0.1f);
+				break;
+			case 'l':
+				manager->get_current_level()->get_ball()->set_x(-0.1f);
+				break;
+			case 'b':
+				manager->get_current_level()->get_ball()->set_y(-0.1f);
+				break;
+			case 'n':
+				manager->get_current_level()->get_ball()->set_z(-0.1f);
 				break;
 			case '1':
 				break;
@@ -56,16 +74,16 @@ void keyboard() //perform action based on keystates
 		if (specialState[i])
 			switch (i) {
 			case GLUT_KEY_UP:
-				manager->get_camera()->set_view(translate(vec3(0.0, 0.0, -0.2)));
+				manager->get_camera()->change_view(translate(vec3(0.0, 0.0, -0.2)));
 				break;
 			case GLUT_KEY_DOWN:
-				manager->get_camera()->set_view(translate(vec3(0.0, 0.0, 0.2)));
+				manager->get_camera()->change_view(translate(vec3(0.0, 0.0, 0.2)));
 				break;
 			case GLUT_KEY_LEFT:
-				manager->get_camera()->set_view(translate(vec3(-0.2, 0.0, 0.0)));
+				manager->get_camera()->change_view(translate(vec3(-0.2, 0.0, 0.0)));
 				break;
 			case GLUT_KEY_RIGHT:
-				manager->get_camera()->set_view(translate(vec3(0.2, 0.0, 0.0)));
+				manager->get_camera()->change_view(translate(vec3(0.2, 0.0, 0.0)));
 				break;
 			default:
 				break;

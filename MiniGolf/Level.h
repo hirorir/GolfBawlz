@@ -17,7 +17,7 @@ using namespace std;
 class Level
 {
 public:
-	Level(vector<Tile> tiles, Ball b, Cup c);
+	Level(vector<Tile> tiles, Ball *b, Cup *c);
 
 	void update();
 
@@ -31,13 +31,13 @@ public:
 
 	void set_light(Light *l);
 
-	Ball get_ball();
+	Ball *get_ball();
 
 private:
 	vector<Tile> tiles;
 	Light *light;
-	Ball ball;
-	Cup cup;
+	Ball *ball;
+	Cup *cup;
 };
 
 #endif

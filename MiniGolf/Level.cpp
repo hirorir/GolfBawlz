@@ -1,6 +1,6 @@
 #include "Level.h"
 
-Level::Level(vector<Tile> tiles, Ball b, Cup c)
+Level::Level(vector<Tile> tiles, Ball *b, Cup *c)
 {
 	this->tiles = tiles;
 	this->ball = b;
@@ -20,9 +20,9 @@ void Level::draw(Camera *camera)
 		tiles[i].draw(camera, light);
 	}
 
-	ball.draw(camera, light);
+	ball->draw(camera, light);
 
-	cup.draw(camera, light);
+	cup->draw(camera, light);
 }
 
 void Level::print()
@@ -31,8 +31,8 @@ void Level::print()
 		tiles[i].print();
 	}
 
-	cout << "BALL: "; ball.print();
-	cout << "CUP: "; cup.print();
+	cout << "BALL: "; ball->print();
+	cout << "CUP: "; cup->print();
 }
 
 vector<Tile> Level::get_tiles()
@@ -50,7 +50,7 @@ void Level::set_light(Light *l)
 	light = l;
 }
 
-Ball Level::get_ball()
+Ball *Level::get_ball()
 {
 	return ball;
 }

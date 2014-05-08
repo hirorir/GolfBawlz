@@ -34,7 +34,9 @@ public:
 
 	mat4 get_projection(); //returns the projection matrix;
 
-	void set_view(mat4 transform); //transform the view.
+	void set_view(mat4 v);
+
+	void change_view(mat4 transform); //transform the view.
 
 	void resize(int w, int h);
 

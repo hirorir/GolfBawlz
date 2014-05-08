@@ -1,10 +1,10 @@
 #include "FileIO.h"
 
-Level FileIO::load_level(string fname)
+Level *FileIO::load_level(string fname)
 {
 	vector<Tile> tiles;
-	Cup cup;
-	Ball ball;
+	Cup *cup;
+	Ball *ball;
 
 	int tile_id;
 	float positions[3];
@@ -45,7 +45,7 @@ Level FileIO::load_level(string fname)
 					positions[i-2] = (float) atof(tokens[i].c_str());
 				}
 
-				ball = Ball(tile_id, vec3(positions[0], positions[1], positions[2]));
+				ball = new Ball(tile_id, vec3(positions[0], positions[1], positions[2]));
 			}
 			else if (!tokens[0].compare(CUP)) {
 				tile_id = atoi(tokens[1].c_str());
@@ -54,7 +54,7 @@ Level FileIO::load_level(string fname)
 					positions[i - 2] = (float)atof(tokens[i].c_str());
 				}
 
-				cup = Cup(tile_id, vec3(positions[0], positions[1], positions[2]));
+				cup = new Cup(tile_id, vec3(positions[0], positions[1], positions[2]));
 			}
 			else {
 				cout << "error - unable to identify first token." << endl;
@@ -67,7 +67,7 @@ Level FileIO::load_level(string fname)
 
 	in_file.close();
 
-	return Level(tiles, ball, cup);
+	return new Level(tiles, ball, cup);
 }
 
 vector<string> FileIO::string_split(const string &source, const char *delim, bool keep_empty)

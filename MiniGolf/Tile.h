@@ -7,18 +7,19 @@
 #include <gl\freeglut.h>
 #include <glm\glm.hpp>
 
+#include "Object3D.h"
 #include "Material.h"
 #include "Shader.h"
 
 using namespace std;
 using namespace glm;
 
-class Tile
+class Tile : public Object3D
 {
 public:
 	Tile(int tile_id, int position_indices, int edge_count, vector<float> verticies, vector<int> neighbors);
 
-	void draw(Camera *camera, Light *light);
+	virtual void draw(Camera *camera, Light *light);
 
 	void print();
 
@@ -39,12 +40,9 @@ public:
 	void set_material(Material mat);
 
 private:
-	Shader *shader;
-
 	GLuint tile_vao;
 	GLuint border_vao;
 
-	int tile_id;
 	int num_position_indices;
 	int num_edge_indices;
 
