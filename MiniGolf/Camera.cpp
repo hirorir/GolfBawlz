@@ -68,7 +68,12 @@ mat4 Camera::get_projection()
 	return projection;
 }
 
-void Camera::set_view(mat4 transform)
+void Camera::set_view(mat4 v)
+{
+	view = v;
+}
+
+void Camera::change_view(mat4 transform)
 {
 	view *= transform;
 }

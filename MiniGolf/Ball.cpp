@@ -10,7 +10,14 @@ Ball::Ball(int tile_id, vec3 position)
 	radius = 0.4f;
 	slices = 40;
 	stacks = 40;
-	model_to_world = translate(vec3(position.x, position.y + 0.09, position.z)) * scale(vec3(0.2f));
+
+	cout << "position.x = " << position.x << endl;
+	cout << "position.y = " << position.y << endl;
+	cout << "position.z = " << position.z << endl;
+
+	cout << "model_to_world: " << model_to_world[0].x << endl;
+	cout << "model_to_world: " << model_to_world[0].y << endl;
+	cout << "model_to_world: " << model_to_world[0].z << endl;
 
 	shader = new Shader("shaders/ads.vert", "shaders/ads.frag");
 	shader->readAndCompileShader();
@@ -83,6 +90,8 @@ void Ball::draw(Camera *camera, Light *light)
 	shader->use();
 
 	glBindVertexArray(vao_handle);
+
+	model_to_world = translate(vec3(position.x, position.y + 0.09, position.z)) * scale(vec3(0.2f));
 
 	Shader::set_uniforms_camera(shader, camera, model_to_world);
 	Shader::set_uniforms_light(shader, camera, light);

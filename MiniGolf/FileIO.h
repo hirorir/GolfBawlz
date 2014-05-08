@@ -18,7 +18,7 @@ static const string CUP = "cup";
 class FileIO
 {
 public:
-	static Level load_level(string fname);
+	static Level *load_level(string fname);
 	static vector<string> string_split(const string &source, const char *delim = " ", bool keep_empty = false);
 };
 

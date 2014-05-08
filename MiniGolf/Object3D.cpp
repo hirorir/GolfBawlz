@@ -32,6 +32,7 @@ vec3 Object3D::get_position()
 void Object3D::set_position(vec3 position)
 {
 	this->position = position;
+	model_to_world *= translate(position);
 }
 
 mat4 Object3D::get_model_to_world()
@@ -43,3 +44,22 @@ void Object3D::set_model_to_world(mat4 mtw)
 {
 	model_to_world = mtw;
 }
+
+void Object3D::set_x(float x)
+{
+	position.x += x;
+	model_to_world *= translate(position);
+}
+
+void Object3D::set_y(float y)
+{
+	position.y += y;
+	model_to_world *= translate(position);
+}
+
+void Object3D::set_z(float z)
+{
+	position.z += z;
+	model_to_world *= translate(position);
+}
+

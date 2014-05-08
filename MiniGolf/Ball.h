@@ -12,14 +12,13 @@ public:
 
 	Ball(int tile_id, vec3 position);
 
-	virtual void init_gl();
-
 	virtual void draw(Camera *camera, Light *light);
 
 private:
 	GLuint nVerts, elements;
 	float radius, slices, stacks;
 
+	void init_gl();
 	void generate_verts(float * verts, float * norms, float * tex, unsigned int * el);
 };
 #endif

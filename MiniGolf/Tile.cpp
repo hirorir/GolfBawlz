@@ -96,7 +96,7 @@ vec3 Tile::calculate_normal()
 		cout << "error - not enough vertices in this Tile to calculate the normals." << endl;
 	}
 
-	return cross(a, b);
+	return normalize(cross(a, b));
 }
 
 void Tile::init_gl_tile()
@@ -117,6 +117,8 @@ void Tile::init_gl_tile()
 	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float), n, GL_STATIC_DRAW);
 	glVertexAttribPointer((GLuint)1, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
 	glEnableVertexAttribArray(1);
+
+	glBindVertexArray(0);
 }
 
 void Tile::init_gl_border()
@@ -132,6 +134,8 @@ void Tile::init_gl_border()
 		glBufferData(GL_ARRAY_BUFFER, edges.size() * sizeof(float), &edges[0], GL_STATIC_DRAW);
 		glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
 		glEnableVertexAttribArray(0);
+
+		glBindVertexArray(0);
 	}
 }
 

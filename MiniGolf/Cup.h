@@ -10,9 +10,10 @@ public:
 
 	Cup(int tile_id, vec3 position);
 
-	virtual void init_gl();
-
 	virtual void draw(Camera *camera, Light *light);
+
+private:
+	void init_gl();
 };
 
 #endif

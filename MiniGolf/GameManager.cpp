@@ -9,19 +9,19 @@ GameManager::GameManager(int argc, char **argv)
 
 void GameManager::tick()
 {
-	get_current_level().update();
+	get_current_level()->update();
 }
 
 void GameManager::draw()
 {
-	get_current_level().draw(camera);
+	get_current_level()->draw(camera);
 }
 
 void GameManager::resize(int w, int h){
 	camera->resize(w, h);
 }
 
-Level GameManager::get_current_level()
+Level *GameManager::get_current_level()
 {
 	return levels[current_level];
 }
