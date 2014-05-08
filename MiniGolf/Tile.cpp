@@ -1,8 +1,7 @@
 #include "Tile.h"
 
-Tile::Tile(int id, int p, int ecount, vector<float> verts, vector<int> nbors)
+Tile::Tile(int id, int p, int ecount, vector<float> verts, vector<int> nbors, char *vtx_path, char *frg_path) : Object3D(tile_id, vtx_path, frg_path)
 {
-	tile_id = id;
 	num_position_indices = p;
 	num_edge_indices = ecount;
 	vertices = verts;
@@ -10,11 +9,6 @@ Tile::Tile(int id, int p, int ecount, vector<float> verts, vector<int> nbors)
 
 	normal = calculate_normal();
 	edges = calculate_edges();
-
-	shader = new Shader("shaders/ads.vert", "shaders/ads.frag");
-	shader->readAndCompileShader();
-
-	material = Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.4f, 0.8f, 0.2f), vec3(0.8f), 100.0f);
 
 	init_gl_tile();
 	init_gl_border();
@@ -25,6 +19,8 @@ void Tile::draw(Camera *camera, Light *light)
 	shader->use();
 
 	glBindVertexArray(tile_vao);
+
+	material = Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.4f, 0.8f, 0.2f), vec3(0.8f), 100.0f);
 
 	Shader::set_uniforms_camera(shader, camera, mat4(1.0f));
 	Shader::set_uniforms_light(shader, camera, light);
@@ -39,7 +35,9 @@ void Tile::draw(Camera *camera, Light *light)
 
 		glLineWidth(8.0f);
 
-		Shader::set_uniforms_material(shader, Material(vec3(1.0f, 0.1f, 0.1f), vec3(0.9f, 0.1f, 0.1f), vec3(0.0f), 100.0f));
+		material = Material(vec3(1.0f, 0.1f, 0.1f), vec3(0.9f, 0.1f, 0.1f), vec3(0.0f), 100.0f);
+
+		Shader::set_uniforms_material(shader, material);
 
 		glDrawArrays(GL_LINES, 0, edges.size());
 
@@ -142,14 +140,14 @@ void Tile::init_gl_border()
 void Tile::print()
 {
 	cout << "TILE (ID: " << tile_id << "): ";
-	cout << "# total position indicies: " << num_position_indices << ", ";
-	cout << "# edges: " << num_edge_indices << endl;
-	cout << "Vertex indicies: (   ";
+	cout << "# total position indices: " << num_position_indices << ", ";
+	cout << "# total edge indices: " << num_edge_indices << endl;
+	cout << "Vertex indices: (   ";
 	for (int i = 0; i < num_position_indices; ++i) {
 			cout << vertices[i] << "   ";
 	}
 	cout << ")" << endl;
-	cout << "Edge indicies (Size = " << edges.size() << "): (   ";
+	cout << "Edge indices (Size = " << edges.size() << "): (   ";
 	for (vector<float>::size_type i = 0; i < edges.size(); ++i) {
 		cout << edges[i] << "   ";
 	}
@@ -194,14 +192,4 @@ vector<int> Tile::get_neighbors()
 vec3 Tile::get_normal()
 {
 	return normal;
-}
-
-Material Tile::get_material()
-{
-	return material;
-}
-
-void Tile::set_material(Material mat)
-{
-	material = mat;
 }

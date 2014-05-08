@@ -2,10 +2,25 @@
 
 Object3D::Object3D() {}
 
-Object3D::Object3D(int tile_id, vec3 position)
+Object3D::Object3D(int id, vec3 pos, char *vtx_path, char *frg_path)
 {
-	this->tile_id = tile_id;
-	this->position = position;
+	shader = new Shader(vtx_path, frg_path);
+	shader->readAndCompileShader();
+
+	vao_handle = 0;
+	tile_id = id;
+	position = pos;
+	model_to_world = mat4(1.0f);
+}
+
+Object3D::Object3D(int id, char *vtx_path, char *frg_path)
+{
+	shader = new Shader(vtx_path, frg_path);
+	shader->readAndCompileShader();
+
+	vao_handle = 0;
+	tile_id = id;
+	model_to_world = mat4(1.0f);
 }
 
 Object3D::~Object3D()
@@ -54,18 +69,32 @@ void Object3D::set_model_to_world(mat4 mtw)
 void Object3D::set_x(float x)
 {
 	position.x += x;
-	model_to_world *= translate(position);
+	model_to_world *= translate(vec3(x, 0.0f, 0.0f));
 }
 
 void Object3D::set_y(float y)
 {
 	position.y += y;
-	model_to_world *= translate(position);
+	model_to_world *= translate(vec3(0.0f, y, 0.0f));
 }
 
 void Object3D::set_z(float z)
 {
 	position.z += z;
-	model_to_world *= translate(position);
+	model_to_world *= translate(vec3(0.0f, 0.0f, z));
 }
 
+void Object3D::new_shader(char *vtx_path, char *frg_path)
+{
+	shader->new_shader(vtx_path, frg_path);
+}
+
+Material Object3D::get_material()
+{
+	return material;
+}
+
+void Object3D::set_material(Material mat)
+{
+	material = mat;
+}

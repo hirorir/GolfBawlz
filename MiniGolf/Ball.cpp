@@ -2,25 +2,14 @@
 
 Ball::Ball() {}
 
-Ball::Ball(int tile_id, vec3 position)
+Ball::Ball(int tile_id, vec3 position, char *vtx_path, char *frg_path) : Object3D(tile_id, position, vtx_path, frg_path)
 {
-	this->tile_id = tile_id;
-	this->position = position;
-
 	radius = 0.4f;
 	slices = 40;
 	stacks = 40;
 
-	cout << "position.x = " << position.x << endl;
-	cout << "position.y = " << position.y << endl;
-	cout << "position.z = " << position.z << endl;
-
-	cout << "model_to_world: " << model_to_world[0].x << endl;
-	cout << "model_to_world: " << model_to_world[0].y << endl;
-	cout << "model_to_world: " << model_to_world[0].z << endl;
-
-	shader = new Shader("shaders/ads.vert", "shaders/ads.frag");
-	shader->readAndCompileShader();
+	material = Material(vec3(0.0f, 0.1f, 1.0f), vec3(0.4f, 0.1f, 0.0f), vec3(0.0f), 100.0f);
+	model_to_world = translate(vec3(position.x, position.y + 0.09, position.z)) * scale(vec3(0.2f));
 
 	this->init_gl();
 }
@@ -91,11 +80,9 @@ void Ball::draw(Camera *camera, Light *light)
 
 	glBindVertexArray(vao_handle);
 
-	model_to_world = translate(vec3(position.x, position.y + 0.09, position.z)) * scale(vec3(0.2f));
-
 	Shader::set_uniforms_camera(shader, camera, model_to_world);
 	Shader::set_uniforms_light(shader, camera, light);
-	Shader::set_uniforms_material(shader, Material(vec3(0.0f, 0.1f, 1.0f), vec3(0.4f, 0.1f, 0.0f), vec3(0.0f), 100.0f));
+	Shader::set_uniforms_material(shader, material);
 
 	glDrawElements(GL_TRIANGLES, elements, GL_UNSIGNED_INT, ((GLubyte *)NULL + (0)));
 
@@ -158,4 +145,9 @@ void Ball::generate_verts(float * verts, float * norms, float * tex, unsigned in
 			}
 		}
 	}
+}
+
+float Ball::get_radius()
+{
+	return radius;
 }

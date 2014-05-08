@@ -17,7 +17,7 @@ using namespace glm;
 class Tile : public Object3D
 {
 public:
-	Tile(int tile_id, int position_indices, int edge_count, vector<float> verticies, vector<int> neighbors);
+	Tile(int tile_id, int position_indices, int edge_count, vector<float> verticies, vector<int> neighbors, char *vtx_path, char *frg_path);
 
 	virtual void draw(Camera *camera, Light *light);
 
@@ -35,10 +35,6 @@ public:
 
 	vec3 get_normal();
 
-	Material get_material();
-
-	void set_material(Material mat);
-
 private:
 	GLuint tile_vao;
 	GLuint border_vao;
@@ -51,7 +47,6 @@ private:
 	vector<int> neighbors;
 
 	vec3 normal;
-	Material material;
 
 	vector<float> calculate_edges();
 	vec3 calculate_normal();
