@@ -100,7 +100,6 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Object3D.h" />
-    <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>

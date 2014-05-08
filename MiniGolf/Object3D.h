@@ -24,6 +24,8 @@ public:
 
 	Object3D(int tile_id, vec3 position);
 
+	~Object3D();
+
 	virtual void draw(Camera *camera, Light *light) = 0;
 
 	void print();

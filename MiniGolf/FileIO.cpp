@@ -2,7 +2,7 @@
 
 Level *FileIO::load_level(string fname)
 {
-	vector<Tile> tiles;
+	vector<Tile*> tiles;
 	Cup *cup;
 	Ball *ball;
 
@@ -36,7 +36,7 @@ Level *FileIO::load_level(string fname)
 					verticies.push_back((float) atof(tokens[i].c_str()));
 				}
 
-				tiles.push_back(Tile(tile_id, verticies.size(), edge_count, verticies, neighbors));
+				tiles.push_back(new Tile(tile_id, verticies.size(), edge_count, verticies, neighbors));
 			}
 			else if (!tokens[0].compare(TEE)) {
 				tile_id = atoi(tokens[1].c_str());

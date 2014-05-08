@@ -8,6 +8,12 @@ Object3D::Object3D(int tile_id, vec3 position)
 	this->position = position;
 }
 
+Object3D::~Object3D()
+{
+	delete shader;
+}
+
+
 void Object3D::print()
 {
 	cout << "Object3D (Tile ID: " << tile_id << ")" << endl;

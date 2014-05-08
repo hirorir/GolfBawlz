@@ -37,8 +37,8 @@ public:
 
 private:
 	vector<Level*> levels;
-	int current_level;
 	Camera *camera;
+	int current_level;
 };
 
 #endif

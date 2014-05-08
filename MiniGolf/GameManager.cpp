@@ -7,6 +7,14 @@ GameManager::GameManager(int argc, char **argv)
 	camera = new Camera();
 }
 
+GameManager::~GameManager()
+{
+	for (vector<Level*>::size_type i = 0; i < levels.size(); ++i) {
+		delete levels[i];
+	}
+	delete camera;
+}
+
 void GameManager::tick()
 {
 	get_current_level()->update();
