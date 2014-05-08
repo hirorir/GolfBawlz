@@ -14,3 +14,7 @@ void PhysicsObject::update(){
 void Collision::generateCollisions(){
 	//stub
 }
+
+void Collision::resolveCollision(){
+	//stub
+}
