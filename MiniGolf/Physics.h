@@ -11,8 +11,8 @@ namespace physics{
 	using namespace glm;
 	using namespace std;
 
-	static float timestep;
-	static float gravity;
+	static float timestep = 0.02f;			//physics timestep
+	static float gravity = 9.81f;			//accelerating due to gravity
 
 	enum PhysicsType : int{
 	DEFAULT = 0,
