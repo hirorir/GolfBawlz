@@ -39,7 +39,7 @@ Level *FileIO::load_level(string fname)
 					verticies.push_back((float) atof(tokens[i].c_str()));
 				}
 
-				tiles.push_back(new Tile(tile_id, verticies.size(), edge_count, verticies, neighbors, init_vtx_path, init_frg_path));
+				tiles.push_back(new Tile(tile_id, edge_count, verticies, neighbors, init_vtx_path, init_frg_path));
 			}
 			else if (!tokens[0].compare(TEE)) {
 				tile_id = atoi(tokens[1].c_str());

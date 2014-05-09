@@ -14,6 +14,7 @@
 #include "Tile.h"
 #include "FileIO.h"
 #include "Camera.h"
+#include "Timer.h"
 
 using namespace std;
 using namespace glm;
@@ -25,7 +26,7 @@ public:
 
 	~GameManager();
 
-	void tick();
+	void update();
 
 	void draw();
 
@@ -39,6 +40,7 @@ private:
 	vector<Level*> levels;
 	Camera *camera;
 	int current_level;
+	Timer *timer;
 };
 
 #endif

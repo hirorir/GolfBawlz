@@ -8,6 +8,7 @@
 #include <glm\glm.hpp>
 
 #include "Object3D.h"
+#include "Ball.h"
 #include "Material.h"
 #include "Shader.h"
 
@@ -17,15 +18,11 @@ using namespace glm;
 class Tile : public Object3D
 {
 public:
-	Tile(int tile_id, int position_indices, int edge_count, vector<float> verticies, vector<int> neighbors, char *vtx_path, char *frg_path);
+	Tile(int id, int edge_count, vector<float> verticies, vector<int> neighbors, char *vtx_path, char *frg_path);
 
 	virtual void draw(Camera *camera, Light *light);
 
 	void print();
-
-	int get_tile_id();
-
-	int num_of_pos_indices();
 
 	int num_of_edge_indices();
 
@@ -39,11 +36,10 @@ private:
 	GLuint tile_vao;
 	GLuint border_vao;
 
-	int num_position_indices;
 	int num_edge_indices;
 
-	vector<float> vertices;
-	vector<float> edges;
+	vector<float> vertex_indices;
+	vector<float> edge_indices;
 	vector<int> neighbors;
 
 	vec3 normal;

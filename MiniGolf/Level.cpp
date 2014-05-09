@@ -19,14 +19,14 @@ Level::~Level()
 	delete cup;
 }
 
-void Level::update()
+void Level::update(float32 dt)
 {
 	// Run physics on ball and update ball position.
 }
 
 void Level::draw(Camera *camera)
 {
-	for (vector<Tile>::size_type i = 0; i < tiles.size(); ++i) {
+	for (vector<Tile*>::size_type i = 0; i < tiles.size(); ++i) {
 		tiles[i]->draw(camera, light);
 	}
 
@@ -37,7 +37,7 @@ void Level::draw(Camera *camera)
 
 void Level::print()
 {
-	for (vector<Tile>::size_type i = 0; i < tiles.size(); ++i) {
+	for (vector<Tile*>::size_type i = 0; i < tiles.size(); ++i) {
 		tiles[i]->print();
 	}
 
@@ -63,4 +63,13 @@ void Level::set_light(Light *l)
 Ball *Level::get_ball()
 {
 	return ball;
+}
+
+Tile *Level::get_tile_by_id(int id)
+{
+	for (vector<Tile*>::size_type i = 0; i < tiles.size(); ++i) {
+		if (tiles[i]->get_tile_id() == id) {
+			return tiles[i];
+		}
+	}
 }

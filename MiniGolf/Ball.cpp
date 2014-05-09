@@ -2,14 +2,17 @@
 
 Ball::Ball() {}
 
-Ball::Ball(int tile_id, vec3 position, char *vtx_path, char *frg_path) : Object3D(tile_id, position, vtx_path, frg_path)
+Ball::Ball(int tile_id, vec3 pos, char *vtx_path, char *frg_path) : Object3D(tile_id, vtx_path, frg_path)
 {
-	radius = 0.4f;
+	radius = 0.1f;
 	slices = 40;
 	stacks = 40;
 
+	position = pos;
+	position.y += 1.0;
+
 	material = Material(vec3(0.0f, 0.1f, 1.0f), vec3(0.4f, 0.1f, 0.0f), vec3(0.0f), 100.0f);
-	model_to_world = translate(vec3(position.x, position.y + 0.09, position.z)) * scale(vec3(0.2f));
+	model_to_world = translate(vec3(position.x, position.y, position.z));
 
 	this->init_gl();
 }

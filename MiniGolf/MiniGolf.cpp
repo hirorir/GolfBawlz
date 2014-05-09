@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "Intersect.h"
 
 using namespace glm;
 
@@ -13,6 +14,12 @@ bool specialState[256] = { false };
 
 void keyboard() //perform action based on keystates
 {
+	Ball *ball = manager->get_current_level()->get_ball();
+
+	int ball_tile_id = ball->get_tile_id();
+
+	Tile *tile = manager->get_current_level()->get_tile_by_id(ball_tile_id);
+
 	for (int i = 0; i < 256; i++)
 	{
 		if (keyState[i])
@@ -42,16 +49,18 @@ void keyboard() //perform action based on keystates
 				manager->get_camera()->change_view(translate(vec3(0.0, -0.2, 0.0)));
 				break;
 			case 't':
-				manager->get_current_level()->get_ball()->set_x(0.1f);
+				manager->get_current_level()->get_ball()->set_x(-0.1f);
 				break;
 			case 'y':
-				manager->get_current_level()->get_ball()->set_x(-0.1f);
+				manager->get_current_level()->get_ball()->set_x(0.1f);
 				break;
 			case 'u':
 				manager->get_current_level()->get_ball()->set_y(0.1f);
 				break;
 			case 'i':
-				manager->get_current_level()->get_ball()->set_y(-0.1f);
+				if (!Intersect::sphere_plane(ball, tile)) {
+					manager->get_current_level()->get_ball()->set_y(-0.1f);
+				}
 				break;
 			case 'o':
 				manager->get_current_level()->get_ball()->set_z(0.1f);
@@ -95,7 +104,7 @@ void display()
 
 	keyboard();
 
-	manager->tick();
+	manager->update();
 
 	manager->draw();
 

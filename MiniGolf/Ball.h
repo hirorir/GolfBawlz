@@ -10,7 +10,7 @@ class Ball : public Object3D
 public:
 	Ball();
 
-	Ball(int tile_id, vec3 position, char *vtx_path, char *frg_path);
+	Ball(int tile_id, vec3 pos, char *vtx_path, char *frg_path);
 
 	virtual void draw(Camera *camera, Light *light);
 
