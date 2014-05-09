@@ -170,7 +170,7 @@ int Tile::num_of_edge_indices()
 	return num_edge_indices;
 }
 
-vector<float> Tile::get_verticies()
+vector<float> Tile::get_vertices()
 {
 	return vertex_indices;
 }

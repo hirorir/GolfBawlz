@@ -21,9 +21,9 @@ void GameManager::update()
 {
 	timer->start();
 
-	get_current_level()->update(timer->get_dt());
+	get_current_level()->update();
 
-	cout << "dt: " << timer->get_dt() << endl;
+	//cout << "dt: " << timer->get_dt() << endl;
 
 	timer->end();
 }

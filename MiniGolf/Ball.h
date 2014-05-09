@@ -2,10 +2,11 @@
 #define BALL_H
 
 #include "Object3D.h"
+#include "Physics.h"
 
 #define PI 3.141592653589793
 
-class Ball : public Object3D
+class Ball : public Object3D, public physics::PhysicsObject
 {
 public:
 	Ball();

@@ -11,8 +11,8 @@ namespace physics{
 	using namespace glm;
 	using namespace std;
 
-	static float timestep = 0.02f;			//physics timestep
-	static float gravity = 9.81f;			//accelerating due to gravity
+	static float timestep = 0.02f;						//physics timestep
+	static vec3 gravity = vec3(0, -0.01f, 0);			//accel due to gravity
 
 	enum PhysicsType : int{
 	DEFAULT = 0,
@@ -26,36 +26,53 @@ namespace physics{
 	static list<PhysicsObject*> physicsObjects;	//physicsObject containing the list of all the physicsObjects in the game
 
 	class PhysicsObject{
-	private:
-		list<PhysicsObject*>::iterator itor;
-		vec3 position;						//position of this object in worldspace
-		vector<vec3> points;				//collision mesh vertices
-		vector< vector<int> > polygons;		//List of polygon indices of the collision mesh vertices
-		float drag;							//UNUSED: passive fluid friction, or drag
-
-		float mass;							//mass of the object
-		vec3 velocity;						//velocity that the object is currently traveling at
-
+	public:
 		PhysicsObject(vector<vec3> pts, vector< vector<int> > poly, float m){
 			points = pts;
 			polygons = poly;
 			mass = m;
+			velocity = vec3(0.0f);
+			type = DEFAULT;
+			physicsObjects.push_back(this);
+			itor = --physicsObjects.end();
+		}
+
+		PhysicsObject(PhysicsType p, float m){
+			type = p;
+			mass = m;
+			velocity = vec3(0.0f);
 			physicsObjects.push_back(this);
 			itor = --physicsObjects.end();
 		}
 
 		PhysicsObject(){
-			mass = 0;
+			mass = 1;
 			drag = 0;
-			position = vec3(0.0f);
+			velocity = vec3(0.0f);
+			type = DEFAULT;
 		}
 
 		~PhysicsObject(){
 			physicsObjects.erase(itor);
 		}
 
+		vec3 get_velocity();
+
+		static vec3 update(vec3 position, vec3 velocity);	//update the physicsObject for the tick
+
 		void applyForce(vec3 force);		//force in Newtons
-		void update();						//update the physicsObject for the tick
+
+	protected:
+		PhysicsType type;
+
+	private:
+		list<PhysicsObject*>::iterator itor;
+		vector<vec3> points;				//collision mesh vertices for default object
+		vector< vector<int> > polygons;		//List of polygon indices of the collision mesh vertices
+		float drag;							//UNUSED: passive fluid friction, or drag
+		
+		float mass;							//mass of the object
+		vec3 velocity;						//velocity that the object is currently traveling at
 	};
 
 	static list<Collision*> collisions;		//collision list containing all the collisions for this tick

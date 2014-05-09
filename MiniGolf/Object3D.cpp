@@ -50,7 +50,7 @@ vec3 Object3D::get_position()
 	return position;
 }
 
-void Object3D::set_position(vec3 position)
+void Object3D::set_position(vec3 position)		//the vec3 position is the amount it translates by, or the delta
 {
 	this->position = position;
 	model_to_world *= translate(position);

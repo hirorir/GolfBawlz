@@ -2,6 +2,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Intersect.h"
+#include "Physics.h"
 
 using namespace glm;
 
@@ -48,28 +49,20 @@ void keyboard() //perform action based on keystates
 			case ' ':
 				manager->get_camera()->change_view(translate(vec3(0.0, -0.2, 0.0)));
 				break;
-			case 't':
-				manager->get_current_level()->get_ball()->set_x(-0.1f);
-				break;
-			case 'y':
-				manager->get_current_level()->get_ball()->set_x(0.1f);
-				break;
-			case 'u':
-				manager->get_current_level()->get_ball()->set_y(0.1f);
-				break;
-			case 'i':
-				if (!Intersect::sphere_plane(ball, tile)) {
-					manager->get_current_level()->get_ball()->set_y(-0.1f);
-				}
-				break;
-			case 'o':
-				manager->get_current_level()->get_ball()->set_z(0.1f);
-				break;
-			case 'p':
-				manager->get_current_level()->get_ball()->set_z(-0.1f);
-				break;
 			case 27:
 				exit(0);
+				break;
+			case 'i':
+				manager->get_current_level()->get_ball()->applyForce(vec3(0, 0, -0.01f));
+				break;
+			case 'j':
+				manager->get_current_level()->get_ball()->applyForce(vec3(-0.01f, 0, 0));
+				break;
+			case 'k':
+				manager->get_current_level()->get_ball()->applyForce(vec3(0, 0, 0.01f));
+				break;
+			case 'l':
+				manager->get_current_level()->get_ball()->applyForce(vec3(0.01f, 0, 0));
 				break;
 			default:
 				break;
@@ -81,16 +74,16 @@ void keyboard() //perform action based on keystates
 		if (specialState[i])
 			switch (i) {
 			case GLUT_KEY_UP:
-				manager->get_camera()->change_view(translate(vec3(0.0, 0.0, -0.2)));
-				break;
-			case GLUT_KEY_DOWN:
 				manager->get_camera()->change_view(translate(vec3(0.0, 0.0, 0.2)));
 				break;
+			case GLUT_KEY_DOWN:
+				manager->get_camera()->change_view(translate(vec3(0.0, 0.0, -0.2)));
+				break;
 			case GLUT_KEY_LEFT:
-				manager->get_camera()->change_view(translate(vec3(-0.2, 0.0, 0.0)));
+				manager->get_camera()->change_view(translate(vec3(0.2, 0.0, 0.0)));
 				break;
 			case GLUT_KEY_RIGHT:
-				manager->get_camera()->change_view(translate(vec3(0.2, 0.0, 0.0)));
+				manager->get_camera()->change_view(translate(vec3(-0.2, 0.0, 0.0)));
 				break;
 			default:
 				break;

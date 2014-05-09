@@ -26,7 +26,7 @@ public:
 
 	int num_of_edge_indices();
 
-	vector<float> get_verticies();
+	vector<float> get_vertices();
 
 	vector<int> get_neighbors();
 

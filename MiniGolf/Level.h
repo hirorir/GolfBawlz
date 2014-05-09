@@ -21,7 +21,7 @@ public:
 
 	~Level();
 
-	void update(float32 dt);
+	void update();
 
 	void draw(Camera *camera);
 
