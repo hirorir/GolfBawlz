@@ -28,7 +28,7 @@ typedef struct ShaderInfo {
 class Shader
 {
 public:
-	Shader(const char *vtxPath, const char *frgPath);
+	Shader(char *vtxPath, char *frgPath);
 
 	void buildProgram(sh *vtx, sh *frg);
 
@@ -80,10 +80,12 @@ public:
 
 	static void set_uniforms_material(Shader *shader, Material mat);
 
+	void new_shader(char *vtxPath, char *frgPath);
+
 private:
 	GLuint program_handle;
-	const char *vertexShaderPath;
-	const char *fragmentShaderPath;
+	char *vertexShaderPath;
+	char *fragmentShaderPath;
 
 	int getUniformLocation(const char *name);
 };

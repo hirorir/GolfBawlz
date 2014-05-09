@@ -22,7 +22,11 @@ class Object3D
 public:
 	Object3D();
 
-	Object3D(int tile_id, vec3 position);
+	Object3D(int id, vec3 position, char *vtx_path, char *frg_path);
+
+	Object3D(int id, char *vtx_path, char *frg_path);
+
+	~Object3D();
 
 	virtual void draw(Camera *camera, Light *light) = 0;
 
@@ -46,8 +50,15 @@ public:
 
 	void set_model_to_world(mat4 mtw);
 
+	void new_shader(char *vtx_path, char *frg_path);
+
+	Material get_material();
+
+	void set_material(Material mat);
+
 protected:
 	Shader *shader;
+	Material material;
 	GLuint vao_handle;
 	int tile_id;
 	vec3 position;

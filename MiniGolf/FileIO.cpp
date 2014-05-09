@@ -2,9 +2,12 @@
 
 Level *FileIO::load_level(string fname)
 {
-	vector<Tile> tiles;
+	vector<Tile*> tiles;
 	Cup *cup;
 	Ball *ball;
+
+	char *init_vtx_path = "shaders/ads.vert";
+	char *init_frg_path = "shaders/ads.frag";
 
 	int tile_id;
 	float positions[3];
@@ -36,7 +39,7 @@ Level *FileIO::load_level(string fname)
 					verticies.push_back((float) atof(tokens[i].c_str()));
 				}
 
-				tiles.push_back(Tile(tile_id, verticies.size(), edge_count, verticies, neighbors));
+				tiles.push_back(new Tile(tile_id, edge_count, verticies, neighbors, init_vtx_path, init_frg_path));
 			}
 			else if (!tokens[0].compare(TEE)) {
 				tile_id = atoi(tokens[1].c_str());
@@ -45,7 +48,7 @@ Level *FileIO::load_level(string fname)
 					positions[i-2] = (float) atof(tokens[i].c_str());
 				}
 
-				ball = new Ball(tile_id, vec3(positions[0], positions[1], positions[2]));
+				ball = new Ball(tile_id, vec3(positions[0], positions[1], positions[2]), init_vtx_path, init_frg_path);
 			}
 			else if (!tokens[0].compare(CUP)) {
 				tile_id = atoi(tokens[1].c_str());
@@ -54,7 +57,7 @@ Level *FileIO::load_level(string fname)
 					positions[i - 2] = (float)atof(tokens[i].c_str());
 				}
 
-				cup = new Cup(tile_id, vec3(positions[0], positions[1], positions[2]));
+				cup = new Cup(tile_id, vec3(positions[0], positions[1], positions[2]), init_vtx_path, init_frg_path);
 			}
 			else {
 				cout << "error - unable to identify first token." << endl;

@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-Shader::Shader(const char *v, const char *f) : program_handle(0)
+Shader::Shader(char *v, char *f) : program_handle(0)
 {
 	vertexShaderPath = v;
 	fragmentShaderPath = f;
@@ -391,4 +391,12 @@ void Shader::set_uniforms_material(Shader *shader, Material mat)
 	shader->setUniform("Material.Kd", mat.get_diffuse());
 	shader->setUniform("Material.Ks", mat.get_specular());
 	shader->setUniform("Material.Shininess", mat.get_shininess());
+}
+
+void Shader::new_shader(char *vtxPath, char *frgPath)
+{
+	program_handle = 0;
+	vertexShaderPath = vtxPath;
+	fragmentShaderPath = frgPath;
+	this->readAndCompileShader();
 }

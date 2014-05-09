@@ -17,15 +17,17 @@ using namespace std;
 class Level
 {
 public:
-	Level(vector<Tile> tiles, Ball *b, Cup *c);
+	Level(vector<Tile*> tiles, Ball *b, Cup *c);
 
-	void update();
+	~Level();
+
+	void update(float32 dt);
 
 	void draw(Camera *camera);
 
 	void print();
 
-	vector<Tile> get_tiles();
+	vector<Tile*> get_tiles();
 
 	Light* get_light();
 
@@ -33,8 +35,10 @@ public:
 
 	Ball *get_ball();
 
+	Tile* get_tile_by_id(int id);
+
 private:
-	vector<Tile> tiles;
+	vector<Tile*> tiles;
 	Light *light;
 	Ball *ball;
 	Cup *cup;

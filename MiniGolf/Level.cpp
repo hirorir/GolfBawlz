@@ -1,6 +1,6 @@
 #include "Level.h"
 
-Level::Level(vector<Tile> tiles, Ball *b, Cup *c)
+Level::Level(vector<Tile*> tiles, Ball *b, Cup *c)
 {
 	this->tiles = tiles;
 	this->ball = b;
@@ -9,15 +9,25 @@ Level::Level(vector<Tile> tiles, Ball *b, Cup *c)
 	light = new Light(vec4(0.0f, 5.0f, 0.0f, 1.0f), vec3(0.5f), vec3(1.0f), vec3(1.0f));
 }
 
-void Level::update()
+Level::~Level()
+{
+	for (vector<Tile*>::size_type i = 0; i < tiles.size(); ++i) {
+		delete tiles[i];
+	}
+	delete light;
+	delete ball;
+	delete cup;
+}
+
+void Level::update(float32 dt)
 {
 	// Run physics on ball and update ball position.
 }
 
 void Level::draw(Camera *camera)
 {
-	for (vector<Tile>::size_type i = 0; i < tiles.size(); ++i) {
-		tiles[i].draw(camera, light);
+	for (vector<Tile*>::size_type i = 0; i < tiles.size(); ++i) {
+		tiles[i]->draw(camera, light);
 	}
 
 	ball->draw(camera, light);
@@ -27,15 +37,15 @@ void Level::draw(Camera *camera)
 
 void Level::print()
 {
-	for (vector<Tile>::size_type i = 0; i < tiles.size(); ++i) {
-		tiles[i].print();
+	for (vector<Tile*>::size_type i = 0; i < tiles.size(); ++i) {
+		tiles[i]->print();
 	}
 
 	cout << "BALL: "; ball->print();
 	cout << "CUP: "; cup->print();
 }
 
-vector<Tile> Level::get_tiles()
+vector<Tile*> Level::get_tiles()
 {
 	return this->tiles;
 }
@@ -53,4 +63,13 @@ void Level::set_light(Light *l)
 Ball *Level::get_ball()
 {
 	return ball;
+}
+
+Tile *Level::get_tile_by_id(int id)
+{
+	for (vector<Tile*>::size_type i = 0; i < tiles.size(); ++i) {
+		if (tiles[i]->get_tile_id() == id) {
+			return tiles[i];
+		}
+	}
 }

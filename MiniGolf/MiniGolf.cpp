@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "Intersect.h"
 
 using namespace glm;
 
@@ -13,6 +14,12 @@ bool specialState[256] = { false };
 
 void keyboard() //perform action based on keystates
 {
+	Ball *ball = manager->get_current_level()->get_ball();
+
+	int ball_tile_id = ball->get_tile_id();
+
+	Tile *tile = manager->get_current_level()->get_tile_by_id(ball_tile_id);
+
 	for (int i = 0; i < 256; i++)
 	{
 		if (keyState[i])
@@ -41,25 +48,25 @@ void keyboard() //perform action based on keystates
 			case ' ':
 				manager->get_camera()->change_view(translate(vec3(0.0, -0.2, 0.0)));
 				break;
-			case 'h':
+			case 't':
+				manager->get_current_level()->get_ball()->set_x(-0.1f);
+				break;
+			case 'y':
 				manager->get_current_level()->get_ball()->set_x(0.1f);
 				break;
 			case 'u':
 				manager->get_current_level()->get_ball()->set_y(0.1f);
 				break;
-			case 'j':
+			case 'i':
+				if (!Intersect::sphere_plane(ball, tile)) {
+					manager->get_current_level()->get_ball()->set_y(-0.1f);
+				}
+				break;
+			case 'o':
 				manager->get_current_level()->get_ball()->set_z(0.1f);
 				break;
-			case 'l':
-				manager->get_current_level()->get_ball()->set_x(-0.1f);
-				break;
-			case 'b':
-				manager->get_current_level()->get_ball()->set_y(-0.1f);
-				break;
-			case 'n':
+			case 'p':
 				manager->get_current_level()->get_ball()->set_z(-0.1f);
-				break;
-			case '1':
 				break;
 			case 27:
 				exit(0);
@@ -97,7 +104,7 @@ void display()
 
 	keyboard();
 
-	manager->tick();
+	manager->update();
 
 	manager->draw();
 

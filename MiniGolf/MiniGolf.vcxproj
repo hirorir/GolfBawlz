@@ -82,11 +82,13 @@
     <ClCompile Include="Cup.cpp" />
     <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Intersect.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MiniGolf.cpp" />
     <ClCompile Include="Object3D.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
@@ -96,13 +98,16 @@
     <ClInclude Include="Cup.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="Intersect.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Object3D.h" />
-    <ClInclude Include="PhysicsObject.h" />
+    <ClInclude Include="Physics.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
