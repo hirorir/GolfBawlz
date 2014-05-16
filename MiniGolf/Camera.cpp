@@ -7,9 +7,9 @@ vector<Camera*> Camera::activeCameras;
 
 Camera::Camera()
 {
-	eye = vec3(0, 5, 5);
-	center = vec3(0, 0, 0);
-	up = vec3(0, 1, 0);
+	eye = vec3(0.1f, 8.0f, 0.1f);
+	center = vec3(0.0f, 0.0f, 0.0f);
+	up = vec3(0.0f, 1.0f, 0.0f);
 	view = lookAt(eye, center, up);
 	addCamera(*this);
 	//default constructor
@@ -38,7 +38,6 @@ void Camera::addCamera(Camera& cam)
 
 void Camera::removeCamera(Camera& cam)
 {
-
 }	//removes the camera to the list of "active" cameras
 
 void Camera::resize(int w, int h)

@@ -40,12 +40,6 @@ public:
 
 	void resize(int w, int h);
 
-	friend class GameManager;
-
-	friend class Level;
-
-	friend class Shader;
-
 private:
 	mat4 view;
 	mat4 projection;

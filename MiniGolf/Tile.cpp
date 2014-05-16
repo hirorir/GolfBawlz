@@ -1,48 +1,73 @@
 #include "Tile.h"
 
-Tile::Tile(int id, int ecount, vector<float> verts, vector<int> nbors, char *vtx_path, char *frg_path) : Object3D(id, vtx_path, frg_path)
+Tile::Tile() {}
+
+Tile::Tile(int id, int ecount, vector<float> verts, vector<int> nbors, char *vtx_path, char *frg_path) : Object3D(id, vtx_path, frg_path), Plane(verts)
 {
 	num_edge_indices = ecount;
 	vertex_indices = verts;
 	neighbors = nbors;
 
-	normal = calculate_normal();
 	edge_indices = calculate_edges();
 
+	init_borders(vtx_path, frg_path);
+	
 	position = vec3(vertex_indices[0], vertex_indices[1], vertex_indices[2]);
 
-	init_gl_tile();
-	init_gl_border();
+	material = Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.4f, 0.8f, 0.2f), vec3(0.8f), 100.0f);
+
+	friction = 0.4f;
+
+	init_gl();
+}
+
+Tile::~Tile()
+{
+	for (vector<Border*>::size_type i = 0; i < borders.size(); ++i) {
+		delete borders[i];
+	}
+}
+
+void Tile::init_borders(char *vtx_path, char *frg_path)
+{
+	if (edge_indices.size()) {
+
+		vector<vec3> edges;
+
+		for (vector<float>::size_type i = 0; i < edge_indices.size(); i += 3) {
+			edges.push_back(vec3(edge_indices[i], edge_indices[i + 1], edge_indices[i + 2]));
+		}
+
+		for (vector<Border*>::size_type i = 0; i < edges.size(); i += 2) {
+			vector<vec3> edges_for_border;
+			edges_for_border.push_back(edges[i]);
+			edges_for_border.push_back(edges[i + 1]);
+			borders.push_back(new Border(tile_id, edges_for_border, vtx_path, frg_path));
+		}
+	}
 }
 
 void Tile::draw(Camera *camera, Light *light)
 {
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
 	shader->use();
 
-	glBindVertexArray(tile_vao);
-
-	material = Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.4f, 0.8f, 0.2f), vec3(0.8f), 100.0f);
+	glBindVertexArray(vao_handle);
 
 	Shader::set_uniforms_camera(shader, camera, mat4(1.0f));
 	Shader::set_uniforms_light(shader, camera, light);
 	Shader::set_uniforms_material(shader, material);
 
-	glDrawArrays(GL_POLYGON, 0, vertex_indices.size() / 3);
+	glDrawArrays(GL_POLYGON, 0, vertices.size());
 
 	glBindVertexArray(0);
 
-	if (edge_indices.size() > 0) {
-		glBindVertexArray(border_vao);
+	glDisable(GL_CULL_FACE);
 
-		glLineWidth(8.0f);
-
-		material = Material(vec3(1.0f, 0.1f, 0.1f), vec3(0.9f, 0.1f, 0.1f), vec3(0.0f), 100.0f);
-
-		Shader::set_uniforms_material(shader, material);
-
-		glDrawArrays(GL_LINES, 0, edge_indices.size());
-
-		glBindVertexArray(0);
+	for (vector<Border*>::size_type i = 0; i < borders.size(); ++i) {
+		borders[i]->draw(camera, light);
 	}
 }
 
@@ -77,31 +102,10 @@ vector<float> Tile::calculate_edges()
 	return edges;
 }
 
-vec3 Tile::calculate_normal()
+void Tile::init_gl()
 {
-	vec3 a, b;
-
-	if (vertex_indices.size() >= 9) {
-		vec3 v1(vertex_indices[0], vertex_indices[1], vertex_indices[2]);
-
-		vec3 v2(vertex_indices[3], vertex_indices[4], vertex_indices[5]);
-
-		vec3 v3(vertex_indices[6], vertex_indices[7], vertex_indices[8]);
-
-		a = v1 - v2;
-		b = v1 - v3;
-	}
-	else {
-		cout << "error - not enough vertices in this Tile to calculate the normals." << endl;
-	}
-
-	return normalize(cross(a, b));
-}
-
-void Tile::init_gl_tile()
-{
-	glGenVertexArrays(1, &tile_vao);
-	glBindVertexArray(tile_vao);
+	glGenVertexArrays(1, &vao_handle);
+	glBindVertexArray(vao_handle);
 
 	unsigned int handle[2];
 	glGenBuffers(2, handle);
@@ -118,24 +122,6 @@ void Tile::init_gl_tile()
 	glEnableVertexAttribArray(1);
 
 	glBindVertexArray(0);
-}
-
-void Tile::init_gl_border()
-{
-	if (edge_indices.size() > 0) {
-		glGenVertexArrays(1, &border_vao);
-		glBindVertexArray(border_vao);
-
-		unsigned int handle[1];
-		glGenBuffers(1, handle);
-
-		glBindBuffer(GL_ARRAY_BUFFER, handle[0]);
-		glBufferData(GL_ARRAY_BUFFER, edge_indices.size() * sizeof(float), &edge_indices[0], GL_STATIC_DRAW);
-		glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
-		glEnableVertexAttribArray(0);
-
-		glBindVertexArray(0);
-	}
 }
 
 void Tile::print()
@@ -165,22 +151,17 @@ void Tile::print()
 	cout << endl << endl;
 }
 
-int Tile::num_of_edge_indices()
+float Tile::get_friction()
 {
-	return num_edge_indices;
+	return friction;
 }
 
-vector<float> Tile::get_verticies()
+vector<Border*> Tile::get_borders()
 {
-	return vertex_indices;
+	return borders;
 }
 
 vector<int> Tile::get_neighbors()
 {
 	return neighbors;
-}
-
-vec3 Tile::get_normal()
-{
-	return normal;
 }

@@ -8,47 +8,51 @@
 #include <glm\glm.hpp>
 
 #include "Object3D.h"
-#include "Ball.h"
 #include "Material.h"
 #include "Shader.h"
+#include "Border.h"
+#include "Plane.h"
 
 using namespace std;
 using namespace glm;
 
-class Tile : public Object3D
+class Tile : public Object3D, public Plane
 {
 public:
+	Tile();
+
 	Tile(int id, int edge_count, vector<float> verticies, vector<int> neighbors, char *vtx_path, char *frg_path);
+
+	~Tile();
 
 	virtual void draw(Camera *camera, Light *light);
 
 	void print();
 
-	int num_of_edge_indices();
+	float get_friction();
 
-	vector<float> get_verticies();
+	vector<Border*> get_borders();
 
 	vector<int> get_neighbors();
 
-	vec3 get_normal();
-
 private:
-	GLuint tile_vao;
-	GLuint border_vao;
+	vector<Border*> borders;
 
 	int num_edge_indices;
 
 	vector<float> vertex_indices;
+
 	vector<float> edge_indices;
+
 	vector<int> neighbors;
 
-	vec3 normal;
-
 	vector<float> calculate_edges();
-	vec3 calculate_normal();
 
-	void init_gl_tile();
-	void init_gl_border();
+	void init_gl();
+
+	float friction;
+
+	void init_borders(char *vtx_path, char *frg_path);
 };
 
 #endif

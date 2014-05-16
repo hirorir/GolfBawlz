@@ -36,11 +36,20 @@ public:
 
 	Camera *get_camera();
 
+	Timer get_timer();
+
+	double get_current_time() const;
+
+	void set_current_time(double t);
+
 private:
 	vector<Level*> levels;
 	Camera *camera;
 	int current_level;
-	Timer *timer;
+
+	// Timer members.
+	Timer timer;
+	double current_time;
 };
 
 #endif

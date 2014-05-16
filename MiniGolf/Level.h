@@ -21,7 +21,7 @@ public:
 
 	~Level();
 
-	void update(float32 dt);
+	void update();
 
 	void draw(Camera *camera);
 
@@ -35,7 +35,7 @@ public:
 
 	Ball *get_ball();
 
-	Tile* get_tile_by_id(int id);
+	void get_tile_by_id(int id, Tile *tile);
 
 private:
 	vector<Tile*> tiles;

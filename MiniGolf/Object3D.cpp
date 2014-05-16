@@ -42,6 +42,7 @@ int Object3D::get_tile_id()
 
 void Object3D::set_tile_id(int id)
 {
+	cout << "Now in tile: " << get_tile_id() << endl;
 	tile_id = id;
 }
 

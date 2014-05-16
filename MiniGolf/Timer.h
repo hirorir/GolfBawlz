@@ -1,51 +1,43 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include <Windows.h>
+#include <ctime>
+#include <iostream>
+#include <windows.h>
+
+using namespace std;
 
 class Timer
 {
-private:
-	float32 dt; // Delta time.
-	UINT64 time_begin; // Start time of timer.
-	UINT64 time_end; // End time of timer.
-
 public:
-	// Construct a clock.
-	explicit Timer()
-	{
-		dt = 1.0f / 30.0f; // Initial dt.
-	}
+	Timer();
 
-	void start() // Record the start time of the timer.
-	{
-		time_begin = read_hi_res_timer();
-	}
+	void start();
 
-	void end() // Record the end time of the timer.
-	{
-		time_end = read_hi_res_timer();
-		dt = (float32)(time_end - time_begin) * 1000 / (float32)read_hi_res_timer_frequency();
-	}
+	void stop();
 
-	float32 get_dt() // Query seconds passed.
-	{
-		return dt;
-	}
+	double get_elapsed_time();
 
-	static UINT64 read_hi_res_timer_frequency() // Gives machine clock frequency.
-	{
-		LARGE_INTEGER freq;
-		QueryPerformanceFrequency(&freq);
-		return (UINT64)freq.QuadPart;
-	}
+	double get_elapsed_time_in_sec();
 
-	static UINT64 read_hi_res_timer()
-	{
-		LARGE_INTEGER tim;
-		QueryPerformanceCounter(&tim);
-		return (UINT64)tim.QuadPart;
-	}
+	double get_elapsed_time_in_milli_sec();
+
+	double get_elapsed_time_in_micro_sec();
+
+	string get_time_stamp();
+
+private:
+	double start_time_in_micro_sec;
+
+	double end_time_in_micro_sec;
+
+	int stopped;
+
+	LARGE_INTEGER frequency;
+
+	LARGE_INTEGER startCount;
+
+	LARGE_INTEGER endCount;
 };
 
 #endif

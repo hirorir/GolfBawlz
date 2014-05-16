@@ -1,7 +1,6 @@
 #include "GameManager.h"
 #include "Shader.h"
 #include "Camera.h"
-#include "Intersect.h"
 
 using namespace glm;
 
@@ -14,15 +13,9 @@ bool specialState[256] = { false };
 
 void keyboard() //perform action based on keystates
 {
-	Ball *ball = manager->get_current_level()->get_ball();
-
-	int ball_tile_id = ball->get_tile_id();
-
-	Tile *tile = manager->get_current_level()->get_tile_by_id(ball_tile_id);
-
-	for (int i = 0; i < 256; i++)
-	{
-		if (keyState[i])
+	for (int i = 0; i < 256; i++) {
+		if (keyState[i]) {
+			vec3 p;
 			switch (i) {
 			case 'w':
 				manager->get_camera()->change_view(rotate(-0.5f, vec3(1.0, 0.0, 0.0)));
@@ -45,22 +38,17 @@ void keyboard() //perform action based on keystates
 			case 'c':
 				manager->get_camera()->change_view(translate(vec3(0.0, 0.2, 0.0)));
 				break;
-			case ' ':
+			case 'v':
 				manager->get_camera()->change_view(translate(vec3(0.0, -0.2, 0.0)));
 				break;
-			case 't':
-				manager->get_current_level()->get_ball()->set_x(-0.1f);
+			case ' ':
+				manager->get_current_level()->get_ball()->add_force();
 				break;
-			case 'y':
+			case 't':
 				manager->get_current_level()->get_ball()->set_x(0.1f);
 				break;
-			case 'u':
-				manager->get_current_level()->get_ball()->set_y(0.1f);
-				break;
-			case 'i':
-				if (!Intersect::sphere_plane(ball, tile)) {
-					manager->get_current_level()->get_ball()->set_y(-0.1f);
-				}
+			case 'y':
+				manager->get_current_level()->get_ball()->set_x(-0.1f);
 				break;
 			case 'o':
 				manager->get_current_level()->get_ball()->set_z(0.1f);
@@ -68,16 +56,20 @@ void keyboard() //perform action based on keystates
 			case 'p':
 				manager->get_current_level()->get_ball()->set_z(-0.1f);
 				break;
+			case 'q':
+				p = manager->get_current_level()->get_ball()->get_position();
+				manager->get_camera()->set_view(lookAt(vec3(p.x - 0.7, p.y + 0.6, p.z + 0.7), p, vec3(0.0f, 1.0f, 0.0f)));
+				break;
 			case 27:
 				exit(0);
 				break;
 			default:
 				break;
+			}
 		}
 	}
 
-	for (int i = 0; i < 256; i++)
-	{
+	for (int i = 0; i < 256; i++) {
 		if (specialState[i])
 			switch (i) {
 			case GLUT_KEY_UP:
@@ -131,28 +123,31 @@ void init_gl()
 	glEnable(GL_MULTISAMPLE);
 
 	glFrontFace(GL_CCW);
-
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
 }
 
 void idle(){
-	display();
+	double time_now = manager->get_timer().get_elapsed_time();
+
+	if ((time_now - manager->get_current_time()) > 0.01666666666f) { // If we exceed the period time (60 FPS).
+		manager->set_current_time(time_now); // Set new time.
+		manager->update(); // Update.
+	}
+	glutPostRedisplay();
 }
 
-void keyboard_up(unsigned char c, int x, int y){
+void keyboard_up(unsigned char c, int x, int y) {
 	keyState[c] = false;
 }
 
-void keyboard_down(unsigned char c, int x, int y){
+void keyboard_down(unsigned char c, int x, int y) {
 	keyState[c] = true;
 }
 
-void special(int key, int x, int y){
+void special(int key, int x, int y) {
 	specialState[key] = true;
 }
 
-void specialUp(int key, int x, int y){
+void specialUp(int key, int x, int y) {
 	specialState[key] = false;
 }
 

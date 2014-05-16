@@ -5,7 +5,9 @@ GameManager::GameManager(int argc, char **argv)
 	levels.push_back(FileIO::load_level(argv[1]));
 	current_level = 0;
 	camera = new Camera();
-	timer = new Timer();
+	
+	timer.start();
+	current_time = 0;
 }
 
 GameManager::~GameManager()
@@ -14,18 +16,11 @@ GameManager::~GameManager()
 		delete levels[i];
 	}
 	delete camera;
-	delete timer;
 }
 
 void GameManager::update()
 {
-	timer->start();
-
-	get_current_level()->update(timer->get_dt());
-
-	cout << "dt: " << timer->get_dt() << endl;
-
-	timer->end();
+	get_current_level()->update();
 }
 
 void GameManager::draw()
@@ -45,4 +40,19 @@ Level *GameManager::get_current_level()
 Camera* GameManager::get_camera()
 {
 	return camera;
+}
+
+Timer GameManager::get_timer()
+{
+	return timer;
+}
+
+double GameManager::get_current_time() const
+{
+	return  current_time;
+}
+
+void GameManager::set_current_time(double t)
+{
+	current_time = t;
 }
