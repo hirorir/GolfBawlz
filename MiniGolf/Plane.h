@@ -16,7 +16,7 @@ class Plane
 public:
 	Plane();
 
-	Plane(vector<float> verts);
+	Plane(vector<vec3> verts);
 
 	bool point_in_plane(vec3 point);
 
@@ -47,8 +47,6 @@ private:
 	vec3 min_vec;
 
 	vec3 max_vec;
-
-	void calculate_vertices(vector<float> verts);
 
 };
 

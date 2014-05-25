@@ -21,13 +21,11 @@ class Tile : public Object3D, public Plane
 public:
 	Tile();
 
-	Tile(int id, int edge_count, vector<float> verticies, vector<int> neighbors, char *vtx_path, char *frg_path);
+	Tile(int id, int edge_count, vector<vec3> verticies, vector<int> neighbors, char *vtx_path, char *frg_path);
 
 	~Tile();
 
 	virtual void draw(Camera *camera, Light *light);
-
-	void print();
 
 	float get_friction();
 
@@ -38,15 +36,11 @@ public:
 private:
 	vector<Border*> borders;
 
-	int num_edge_indices;
+	int edge_count;
 
-	vector<float> vertex_indices;
-
-	vector<float> edge_indices;
+	vector<vec3> vertices;
 
 	vector<int> neighbors;
-
-	vector<float> calculate_edges();
 
 	void init_gl();
 

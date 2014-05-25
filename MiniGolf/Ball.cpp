@@ -4,7 +4,7 @@ Ball::Ball() {}
 
 Ball::Ball(int tile_id, vec3 pos, char *vtx_path, char *frg_path) : Object3D(tile_id, pos, vtx_path, frg_path)
 {
-	radius = 0.1f;
+	radius = 0.05f;
 	slices = 40;
 	stacks = 40;
 

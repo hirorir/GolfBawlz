@@ -2,9 +2,9 @@
 
 Plane::Plane() {}
 
-Plane::Plane(vector<float> verts)
+Plane::Plane(vector<vec3> verts)
 {
-	calculate_vertices(verts);
+	vertices = verts;
 
 	normal = calculate_normal();
 
@@ -78,15 +78,6 @@ vec3 Plane::calculate_normal()
 	vec3 b = v3 - v1;
 
 	return normalize(cross(a, b));
-}
-
-void Plane::calculate_vertices(vector<float> verts)
-{
-	for (vector<float>::size_type i = 0; i < verts.size(); i += 3) {
-		vec3 v = vec3(verts[i], verts[i + 1], verts[i + 2]);
-		vertices.push_back(v);
-	}
-
 }
 
 vec3 Plane::get_direction_gravity()

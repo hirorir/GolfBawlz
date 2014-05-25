@@ -38,9 +38,13 @@ Level *FileIO::load_level(string fname)
 					neighbors.push_back(atoi(tokens[i].c_str())); // Store the neighbors.
 				}
 
-				vector<float> vertices; // Temp for the tiles vertices.
-				for (vector<float>::size_type i = 3; i < tokens.size() - edge_count; ++i) {
-					vertices.push_back((float)atof(tokens[i].c_str()));
+				vector<vec3> vertices; // Temp for the tiles vertices.
+				vec3 v; // Temp vertex.
+				for (vector<float>::size_type i = 3; i < tokens.size() - edge_count; i += 3) {
+					v.x = atof(tokens[i].c_str());
+					v.y = atof(tokens[i + 1].c_str());
+					v.z = atof(tokens[i + 2].c_str());
+					vertices.push_back(v);
 				}
 
 				tiles.push_back(new Tile(tile_id, edge_count, vertices, neighbors, init_vtx_path, init_frg_path));
