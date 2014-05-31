@@ -8,7 +8,7 @@ class Cup : public Object3D
 public:
 	Cup();
 
-	Cup(int tile_id, vec3 position, char *vtx_path, char *frg_path);
+	Cup(int tile_id, vec3 position);
 
 	virtual void draw(Camera *camera, Light *light);
 

@@ -38,13 +38,11 @@ public:
 
 	void readAndCompileShader();
 
+	void set_uniforms(Camera *camera, Light *light, Material *material, mat4 model);
+
 	void use();
 
 	GLuint getProgramHandle();
-
-	void bindAttribLocation(GLuint location, const char * name);
-
-	void bindFragDataLocation(GLuint location, const char * name);
 
 	void setUniform(const char *name, float x, float y);
 
@@ -64,23 +62,9 @@ public:
 
 	void setUniform(const char *name, bool val);
 
-	void printActiveUniforms();
-
-	void printActiveAttribs();
-
 	void getGLError();
 
 	GLint checkCompileError(GLuint);
-
-	const char* getGLErrorString(GLenum error);
-
-	static void set_uniforms_camera(Shader *shader, Camera *camera, mat4 model);
-
-	static void set_uniforms_light(Shader *shader, Camera *camera, Light *light);
-
-	static void set_uniforms_material(Shader *shader, Material mat);
-
-	void new_shader(char *vtxPath, char *frgPath);
 
 private:
 	GLuint program_handle;

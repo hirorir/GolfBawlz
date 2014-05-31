@@ -9,6 +9,7 @@
 #include <glm\glm.hpp>
 #include <glm\gtx\transform.hpp>
 
+#include "Object.h"
 #include "Light.h"
 #include "Camera.h"
 #include "Shader.h"
@@ -17,52 +18,30 @@
 using namespace std;
 using namespace glm;
 
-class Object3D
+class Object3D : public Object
 {
 public:
 	Object3D();
 
-	Object3D(int id, vec3 position, char *vtx_path, char *frg_path);
-
-	Object3D(int id, char *vtx_path, char *frg_path);
+	Object3D(int id, vec3 position);
 
 	~Object3D();
 
 	virtual void draw(Camera *camera, Light *light) = 0;
 
-	void print();
-
-	int get_tile_id();
+	int get_tile_id() const;
 
 	void set_tile_id(int id);
 
-	vec3 get_position();
+	Material *get_material() const;
 
-	void set_position(vec3 position);
-
-	void set_x(float x);
-
-	void set_y(float y);
-
-	void set_z(float z);
-
-	mat4 get_model_to_world();
-
-	void set_model_to_world(mat4 mtw);
-
-	void new_shader(char *vtx_path, char *frg_path);
-
-	Material get_material();
-
-	void set_material(Material mat);
+	void set_material(Material *mat);
 
 protected:
 	Shader *shader;
-	Material material;
+	Material *material;
 	GLuint vao_handle;
 	int tile_id;
-	vec3 position;
-	mat4 model_to_world;
 };
 
 #endif

@@ -8,6 +8,7 @@ int window_width = 512;
 int window_height = 512;
 
 GameManager *manager;
+
 bool keyState[256] = { false };
 bool specialState[256] = { false };
 
@@ -40,25 +41,6 @@ void keyboard() //perform action based on keystates
 				break;
 			case 'v':
 				manager->get_camera()->change_view(translate(vec3(0.0, -0.2, 0.0)));
-				break;
-			case ' ':
-				manager->get_current_level()->get_ball()->add_force();
-				break;
-			case 't':
-				manager->get_current_level()->get_ball()->set_x(0.1f);
-				break;
-			case 'y':
-				manager->get_current_level()->get_ball()->set_x(-0.1f);
-				break;
-			case 'o':
-				manager->get_current_level()->get_ball()->set_z(0.1f);
-				break;
-			case 'p':
-				manager->get_current_level()->get_ball()->set_z(-0.1f);
-				break;
-			case 'q':
-				p = manager->get_current_level()->get_ball()->get_position();
-				manager->get_camera()->set_view(lookAt(vec3(p.x - 0.7, p.y + 0.6, p.z + 0.7), p, vec3(0.0f, 1.0f, 0.0f)));
 				break;
 			case 27:
 				exit(0);
@@ -132,6 +114,7 @@ void idle(){
 		manager->set_current_time(time_now); // Set new time.
 		manager->update(); // Update.
 	}
+
 	glutPostRedisplay();
 }
 
@@ -162,6 +145,7 @@ int main(int argc, char **argv) {
 
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
+	
 	glutKeyboardFunc(keyboard_down);
 	glutIdleFunc(idle);
 	glutKeyboardUpFunc(keyboard_up);

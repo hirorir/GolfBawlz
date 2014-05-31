@@ -4,21 +4,20 @@
 #include <vector>
 #include <glm\glm.hpp>
 
+#include "Object3D.h"
 #include "PhysicsObject.h"
 
 using namespace glm;
 using namespace std;
 
-#define PI 3.141592653589793
-
-class Plane
+class Plane : public Object3D
 {
 public:
 	Plane();
 
-	Plane(vector<vec3> verts);
+	Plane(int id, vec3 position, vector<vec3> verts);
 
-	bool point_in_plane(vec3 point);
+	virtual void draw(Camera *camera, Light *light);
 
 	vector<vec3> get_vertices();
 
@@ -31,6 +30,8 @@ public:
 	vec3 get_direction_gravity();
 
 protected:
+	int faces;
+
 	vector<vec3> vertices;
 
 	float dist_from_origin;
@@ -41,13 +42,13 @@ protected:
 
 	vec3 normal;
 
-	vec3 calculate_normal();
-
-private:
 	vec3 min_vec;
 
 	vec3 max_vec;
 
+	vec3 calculate_normal();
+
+	void init_gl();
 };
 
 #endif

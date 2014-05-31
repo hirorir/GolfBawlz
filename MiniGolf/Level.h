@@ -14,6 +14,10 @@
 
 using namespace std;
 
+static const string TILE = "tile";
+static const string TEE = "tee";
+static const string CUP = "cup";
+
 class Level
 {
 public:
@@ -23,23 +27,12 @@ public:
 
 	void update();
 
-	void draw(Camera *camera);
+	void draw(Camera *camera, Light *light);
 
-	void print();
-
-	vector<Tile*> get_tiles();
-
-	Light* get_light();
-
-	void set_light(Light *l);
-
-	Ball *get_ball();
-
-	void get_tile_by_id(int id, Tile *tile);
+	static Level *load_level(string fname);
 
 private:
 	vector<Tile*> tiles;
-	Light *light;
 	Ball *ball;
 	Cup *cup;
 };

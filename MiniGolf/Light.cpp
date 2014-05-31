@@ -10,22 +10,22 @@ Light::Light(vec4 p, vec3 a, vec3 d, vec3 s)
 	specular = s;
 }
 
-vec4 Light::get_position()
+vec4 Light::get_position() const
 {
 	return position;
 }
 
-vec3 Light::get_ambient()
+vec3 Light::get_ambient() const
 {
 	return ambient;
 }
 
-vec3 Light::get_diffuse()
+vec3 Light::get_diffuse() const
 {
 	return diffuse;
 }
 
-vec3 Light::get_specular()
+vec3 Light::get_specular() const
 {
 	return specular;
 }

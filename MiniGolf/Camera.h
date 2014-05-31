@@ -20,32 +20,18 @@ class Camera
 public:
 	Camera(); //default constructor
 
-	Camera(float eyeX, float eyeY, float eyeZ, float centerX, float centerY, float centerZ, float upX, float upY, float upZ);
+	void resize(int w, int h);
 
-	Camera(vec3 eye, vec3 center, vec3 up);	
+	mat4 get_view() const; //returns the view matrix.
 
-	Camera& operator[](int index); //retrieve camera at index from activeCameras
-
-	static void addCamera(Camera& cam); //adds the camera to the list of "active" cameras
-
-	void removeCamera(Camera& cam); //removes the camera to the list of "active" cameras
-
-	mat4 get_view(); //returns the view matrix.
-
-	mat4 get_projection(); //returns the projection matrix;
-
-	void set_view(mat4 v);
+	mat4 get_projection() const; //returns the projection matrix;
 
 	void change_view(mat4 transform); //transform the view.
-
-	void resize(int w, int h);
 
 private:
 	mat4 view;
 	mat4 projection;
 	vec3 eye, center, up;
-
-	static vector<Camera*> activeCameras; //singleton handler of the cameras that are active
 };
 
 #endif

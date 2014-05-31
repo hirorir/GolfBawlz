@@ -12,13 +12,13 @@ public:
 
 	Light(vec4 p, vec3 a, vec3 d, vec3 s);
 
-	vec4 get_position();
+	vec4 get_position() const;
 
-	vec3 get_ambient();
+	vec3 get_ambient() const;
 
-	vec3 get_diffuse();
+	vec3 get_diffuse() const;
 
-	vec3 get_specular();
+	vec3 get_specular() const;
 
 private:
 	vec4 position;

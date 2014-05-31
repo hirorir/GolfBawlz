@@ -12,7 +12,6 @@
 #include "Shader.h"
 #include "Level.h"
 #include "Tile.h"
-#include "FileIO.h"
 #include "Camera.h"
 #include "Timer.h"
 
@@ -32,11 +31,11 @@ public:
 
 	void resize(int w, int h);
 
-	Level *get_current_level();
+	Level *get_current_level() const;
 
-	Camera *get_camera();
+	Camera *get_camera() const;
 
-	Timer get_timer();
+	Timer get_timer() const;
 
 	double get_current_time() const;
 
@@ -45,6 +44,7 @@ public:
 private:
 	vector<Level*> levels;
 	Camera *camera;
+	Light *light;
 	int current_level;
 
 	// Timer members.

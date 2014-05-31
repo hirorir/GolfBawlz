@@ -7,12 +7,12 @@
 
 #define PI 3.141592653589793
 
-class Ball : public Object3D, public PhysicsObject
+class Ball : public Object3D
 {
 public:
 	Ball();
 
-	Ball(int tile_id, vec3 pos, char *vtx_path, char *frg_path);
+	Ball(int tile_id, vec3 pos);
 
 	virtual void draw(Camera *camera, Light *light);
 

@@ -5,106 +5,159 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="EngineObjects">
+      <UniqueIdentifier>{4b27b4a3-4218-47c1-897a-775d2ea63ac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineObjects\Sphere">
+      <UniqueIdentifier>{d2ec9796-e08f-4e08-861f-a0a36df4aff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineObjects\Plane">
+      <UniqueIdentifier>{3a083318-0751-4773-b374-f2a833e5790b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineObjects\Circle">
+      <UniqueIdentifier>{3185fca8-8008-4ec4-ac7f-19acd1d8094e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{d9af5544-730b-4b44-89b5-be4c5cd4b969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Ball">
+      <UniqueIdentifier>{2b054550-2de4-4b2f-b683-5d8e07371a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Tile">
+      <UniqueIdentifier>{175bc040-1151-4a44-8679-999550ef8df8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Cup">
+      <UniqueIdentifier>{3af4567a-7f9f-46ae-a9ca-504e2aa1b498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Border">
+      <UniqueIdentifier>{fafa094a-efb5-4ebb-b647-92e4bab852ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Level">
+      <UniqueIdentifier>{4747637a-c6c9-4510-ac21-eda0a5723d9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineObjects\Camera">
+      <UniqueIdentifier>{ea38ad8c-e61a-45c2-abfa-684db8d16a10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineObjects\Light">
+      <UniqueIdentifier>{997a6b47-5a37-4af4-879f-b4d9e621aa5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineObjects\Material">
+      <UniqueIdentifier>{6ce26d9e-1089-41cb-b3c7-c0d3ac879082}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineObjects\Shader">
+      <UniqueIdentifier>{f331f73b-2b49-4b98-a3c8-013ff8d25da9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineObjects\Timer">
+      <UniqueIdentifier>{e9cfd2f5-fd41-4258-a7d4-31abfac11686}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineManagers">
+      <UniqueIdentifier>{b3d4fc7b-503a-46e4-9d5a-e3c6542d1afa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineManagers\Game">
+      <UniqueIdentifier>{8dd8e53c-252f-4032-b9d1-cb324b141901}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineObjects\Object">
+      <UniqueIdentifier>{9883bf22-9e06-4dfb-8227-ca129eb1d850}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineManagers\Physics">
+      <UniqueIdentifier>{d2cf93ba-3ec2-434f-93e1-35f07c75986d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniGolf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FileIO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Plane.cpp">
+      <Filter>EngineObjects\Plane</Filter>
     </ClCompile>
     <ClCompile Include="Ball.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GameObjects\Ball</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>GameObjects\Tile</Filter>
     </ClCompile>
     <ClCompile Include="Cup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GameObjects\Cup</Filter>
     </ClCompile>
     <ClCompile Include="Border.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GameObjects\Border</Filter>
     </ClCompile>
-    <ClCompile Include="Plane.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Level.cpp">
+      <Filter>GameObjects\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>EngineObjects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>EngineObjects\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>EngineObjects\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>EngineObjects\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>EngineObjects\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>EngineManagers\Game</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsObject.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>EngineManagers\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3D.cpp">
+      <Filter>EngineObjects\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>EngineObjects\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileIO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Plane.h">
+      <Filter>EngineObjects\Plane</Filter>
     </ClInclude>
     <ClInclude Include="Ball.h">
-      <Filter>Header Files</Filter>
+      <Filter>GameObjects\Ball</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>GameObjects\Tile</Filter>
     </ClInclude>
     <ClInclude Include="Cup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
+      <Filter>GameObjects\Cup</Filter>
     </ClInclude>
     <ClInclude Include="Border.h">
-      <Filter>Header Files</Filter>
+      <Filter>GameObjects\Border</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Level.h">
+      <Filter>GameObjects\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>EngineObjects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>EngineObjects\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>EngineObjects\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>EngineObjects\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>EngineObjects\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>EngineManagers\Game</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsObject.h">
-      <Filter>Header Files</Filter>
+      <Filter>EngineManagers\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3D.h">
+      <Filter>EngineObjects\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>EngineObjects\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 
 Plane::Plane() {}
 
-Plane::Plane(vector<vec3> verts)
+Plane::Plane(int id, vec3 position, vector<vec3> verts) : Object3D(id, position)
 {
 	vertices = verts;
 
@@ -44,6 +44,56 @@ Plane::Plane(vector<vec3> verts)
 		direction_gravity = PhysicsObject::plane_gravity_direction(normal);
 		is_sloped = true;
 	}
+
+	init_gl();
+}
+
+void Plane::draw(Camera *camera, Light *light)
+{
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
+	shader->use();
+
+	glBindVertexArray(vao_handle);
+
+	shader->set_uniforms(camera, light, material, mat4(1.0f));
+
+	glDrawArrays(GL_POLYGON, 0, vertices.size());
+
+	glBindVertexArray(0);
+
+	glDisable(GL_CULL_FACE);
+}
+
+void Plane::init_gl()
+{
+	vector<float> vertex_indices;
+
+	for (vector<vec3>::size_type i = 0; i < vertices.size(); ++i) {
+		vertex_indices.push_back(vertices[i].x);
+		vertex_indices.push_back(vertices[i].y);
+		vertex_indices.push_back(vertices[i].z);
+	}
+
+	glGenVertexArrays(1, &vao_handle);
+	glBindVertexArray(vao_handle);
+
+	unsigned int handle[2];
+	glGenBuffers(2, handle);
+
+	glBindBuffer(GL_ARRAY_BUFFER, handle[0]);
+	glBufferData(GL_ARRAY_BUFFER, vertex_indices.size() * sizeof(float), &vertex_indices[0], GL_STATIC_DRAW);
+	glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, handle[1]);
+	float n[3] = { normal.x, normal.y, normal.z };
+	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float), n, GL_STATIC_DRAW);
+	glVertexAttribPointer((GLuint)1, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
+	glEnableVertexAttribArray(1);
+
+	glBindVertexArray(0);
 }
 
 vector<vec3> Plane::get_vertices()
@@ -83,12 +133,4 @@ vec3 Plane::calculate_normal()
 vec3 Plane::get_direction_gravity()
 {
 	return direction_gravity;
-}
-
-bool Plane::point_in_plane(vec3 point)
-{
-	if (point.x < min_vec.x || point.z < min_vec.z || point.x > max_vec.x || point.z > max_vec.z) {
-		return false;
-	}
-	return true;
 }

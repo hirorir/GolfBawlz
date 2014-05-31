@@ -12,15 +12,13 @@ public:
 
 	Material(vec3 a, vec3 d, vec3 s, float shine);
 
-	vec4 get_position();
+	vec3 get_ambient() const;
 
-	vec3 get_ambient();
+	vec3 get_diffuse() const;
 
-	vec3 get_diffuse();
+	vec3 get_specular() const;
 
-	vec3 get_specular();
-
-	float get_shininess();
+	float get_shininess() const;
 
 private:
 	vec3 ambient;

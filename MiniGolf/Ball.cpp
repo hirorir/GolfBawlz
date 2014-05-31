@@ -2,13 +2,13 @@
 
 Ball::Ball() {}
 
-Ball::Ball(int tile_id, vec3 pos, char *vtx_path, char *frg_path) : Object3D(tile_id, pos, vtx_path, frg_path)
+Ball::Ball(int tile_id, vec3 pos) : Object3D(tile_id, pos)
 {
 	radius = 0.05f;
 	slices = 40;
 	stacks = 40;
 
-	material = Material(vec3(0.0f, 0.1f, 1.0f), vec3(0.4f, 0.1f, 0.0f), vec3(0.0f), 100.0f);
+	material = new Material(vec3(0.0f, 0.1f, 1.0f), vec3(0.4f, 0.1f, 0.0f), vec3(0.0f), 100.0f);
 
 	model_to_world = translate(vec3(position.x, position.y + 0.1, position.z));
 
@@ -17,60 +17,11 @@ Ball::Ball(int tile_id, vec3 pos, char *vtx_path, char *frg_path) : Object3D(til
 
 void Ball::run_simulation()
 {
-	double time_now = timer.get_elapsed_time_in_sec();
-	double time_elapsed = time_now - last_time;
-	last_time = time_now;
-
-	while (!forces.empty()) {
-		velocity += forces.front(); // Apply all forces.
-		forces.pop();
-	}
-
-	if (t->sloped() || dot(velocity, velocity) >= t->get_friction()) {
-		velocity += t->get_direction_gravity();
-
-		velocity += PhysicsObject::friction(velocity, t->get_friction());
-
-		if (!collide_with_edge(time_elapsed)) {
-			position = PhysicsObject::euler_integration(position, velocity, time_elapsed);
-		}
-
-		position.y = (-t->get_dist_from_origin() - position.x * t->get_normal().x - position.z * t->get_normal().z) / t->get_normal().y;
-	}
-	else {
-		velocity = vec3(0.0f);
-	}
-
-	model_to_world = translate(vec3(position.x, position.y + 0.1, position.z));
+	//model_to_world = translate(vec3(position.x, position.y + 0.1, position.z));
 }
 
 bool Ball::collide_with_edge(double time_elapsed)
 {
-	vector<Border*> borders = t->get_borders();
-
-	if (borders.size()) {
-		bool collision_handled = false;
-
-		for (vector<Border*>::size_type i = 0; i < borders.size(); ++i) {
-			float time_of_collide = -(dot(borders[i]->get_normal(), position) + borders[i]->get_dist_from_origin()) / dot(velocity, borders[i]->get_normal());
-
-			if (time_of_collide >= 0 && time_of_collide <= time_elapsed) {
-				vec3 collision_position = PhysicsObject::euler_integration(position, velocity, time_of_collide);
-
-				position = collision_position;
-
-				velocity = PhysicsObject::plane_reflection_velocity(velocity, borders[i]->get_normal());
-
-				double time_remaining = time_elapsed - time_of_collide;
-
-				position = PhysicsObject::euler_integration(position, velocity, time_remaining);
-
-				collision_handled = true;
-			}
-		}
-
-		return collision_handled;
-	}
 	return false;
 }
 
@@ -80,9 +31,7 @@ void Ball::draw(Camera *camera, Light *light)
 
 	glBindVertexArray(vao_handle);
 
-	Shader::set_uniforms_camera(shader, camera, model_to_world);
-	Shader::set_uniforms_light(shader, camera, light);
-	Shader::set_uniforms_material(shader, material);
+	shader->set_uniforms(camera, light, material, model_to_world);
 
 	glDrawElements(GL_TRIANGLES, elements, GL_UNSIGNED_INT, ((GLubyte *)NULL + (0)));
 

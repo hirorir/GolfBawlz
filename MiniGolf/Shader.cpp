@@ -10,8 +10,7 @@ void Shader::getGLError()
 {
 	GLenum err = glGetError();
 	while (err != GL_NO_ERROR) {
-		printf("GLError %s set in File:%s Line:%d\n",
-			getGLErrorString(err),
+		printf("GLError set in File:%s Line:%d\n",
 			__FILE__,
 			__LINE__);
 		err = glGetError();
@@ -35,48 +34,6 @@ GLint Shader::checkCompileError(GLuint shader)
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 
 	return status;
-}
-
-const char* Shader::getGLErrorString(GLenum error)
-{
-	const char *str;
-	switch (error) {
-	case GL_NO_ERROR:
-		str = "GL_NO_ERROR";
-		break;
-	case GL_INVALID_ENUM:
-		str = "GL_INVALID_ENUM";
-		break;
-	case GL_INVALID_VALUE:
-		str = "GL_INVALID_VALUE";
-		break;
-	case GL_INVALID_OPERATION:
-		str = "GL_INVALID_OPERATION";
-		break;
-#if defined __gl_h_ || defined __gl3_h_
-	case GL_OUT_OF_MEMORY:
-		str = "GL_OUT_OF_MEMORY";
-		break;
-	case GL_INVALID_FRAMEBUFFER_OPERATION:
-		str = "GL_INVALID_FRAMEBUFFER_OPERATION";
-		break;
-#endif
-#if defined __gl_h_
-	case GL_STACK_OVERFLOW:
-		str = "GL_STACK_OVERFLOW";
-		break;
-	case GL_STACK_UNDERFLOW:
-		str = "GL_STACK_UNDERFLOW";
-		break;
-	case GL_TABLE_TOO_LARGE:
-		str = "GL_TABLE_TOO_LARGE";
-		break;
-#endif
-	default:
-		str = "(ERROR: Unknown Error Enum)";
-		break;
-	}
-	return str;
 }
 
 void Shader::linkProgram()
@@ -239,16 +196,6 @@ GLuint Shader::getProgramHandle()
 	return program_handle;
 }
 
-void Shader::bindAttribLocation(GLuint location, const char *name)
-{
-	glBindAttribLocation(program_handle, location, name);
-}
-
-void Shader::bindFragDataLocation(GLuint location, const char *name)
-{
-	glBindFragDataLocation(program_handle, location, name);
-}
-
 void Shader::setUniform(const char *name, float x, float y)
 {
 	int loc = getUniformLocation(name);
@@ -318,85 +265,25 @@ void Shader::setUniform(const char *name, bool val)
 	}
 }
 
-void Shader::printActiveUniforms()
-{
-	GLint nUniforms, size, location, maxLen;
-	GLchar * name;
-	GLsizei written;
-	GLenum type;
-
-	glGetProgramiv(program_handle, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxLen);
-	glGetProgramiv(program_handle, GL_ACTIVE_UNIFORMS, &nUniforms);
-
-	name = (GLchar *)malloc(maxLen);
-
-	printf(" Location | Name\n");
-	printf("------------------------------------------------\n");
-	for (int i = 0; i < nUniforms; ++i) {
-		glGetActiveUniform(program_handle, i, maxLen, &written, &size, &type, name);
-		location = glGetUniformLocation(program_handle, name);
-		printf(" %-8d | %s\n", location, name);
-	}
-
-	free(name);
-}
-
-void Shader::printActiveAttribs()
-{
-
-	GLint written, size, location, maxLength, nAttribs;
-	GLenum type;
-	GLchar * name;
-
-	glGetProgramiv(program_handle, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
-	glGetProgramiv(program_handle, GL_ACTIVE_ATTRIBUTES, &nAttribs);
-
-	name = (GLchar *)malloc(maxLength);
-
-	printf(" Index | Name\n");
-	printf("------------------------------------------------\n");
-	for (int i = 0; i < nAttribs; i++) {
-		glGetActiveAttrib(program_handle, i, maxLength, &written, &size, &type, name);
-		location = glGetAttribLocation(program_handle, name);
-		printf(" %-5d | %s\n", location, name);
-	}
-
-	free(name);
-}
-
 int Shader::getUniformLocation(const char *name)
 {
 	return glGetUniformLocation(program_handle, name);
 }
 
-void Shader::set_uniforms_camera(Shader *shader, Camera *camera, mat4 model)
+void Shader::set_uniforms(Camera *camera, Light *light, Material *material, mat4 model)
 {
 	mat4 mv = (camera->get_view() * model);
-	shader->setUniform("ModelViewMatrix", mv);
-	shader->setUniform("NormalMatrix", mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
-	shader->setUniform("MVP", camera->get_projection() * mv);
-}
+	setUniform("ModelViewMatrix", mv);
+	setUniform("NormalMatrix", mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
+	setUniform("MVP", camera->get_projection() * mv);
 
-void Shader::set_uniforms_light(Shader *shader, Camera *camera, Light *light)
-{
-	shader->setUniform("Light.La", light->get_ambient());
-	shader->setUniform("Light.Ld", light->get_diffuse());
-	shader->setUniform("Light.Ls", light->get_specular());
-	shader->setUniform("Light.Position", camera->get_view() * light->get_position());
-}
+	setUniform("Light.La", light->get_ambient());
+	setUniform("Light.Ld", light->get_diffuse());
+	setUniform("Light.Ls", light->get_specular());
+	setUniform("Light.Position", camera->get_view() * light->get_position());
 
-void Shader::set_uniforms_material(Shader *shader, Material mat)
-{
-	shader->setUniform("Material.Ka", mat.get_ambient());
-	shader->setUniform("Material.Kd", mat.get_diffuse());
-	shader->setUniform("Material.Ks", mat.get_specular());
-	shader->setUniform("Material.Shininess", mat.get_shininess());
-}
-
-void Shader::new_shader(char *vtxPath, char *frgPath)
-{
-	program_handle = 0;
-	vertexShaderPath = vtxPath;
-	fragmentShaderPath = frgPath;
-	this->readAndCompileShader();
+	setUniform("Material.Ka", material->get_ambient());
+	setUniform("Material.Kd", material->get_diffuse());
+	setUniform("Material.Ks", material->get_specular());
+	setUniform("Material.Shininess", material->get_shininess());
 }

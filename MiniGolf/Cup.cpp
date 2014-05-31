@@ -2,10 +2,11 @@
 
 Cup::Cup() {}
 
-Cup::Cup(int tile_id, vec3 position, char *vtx_path, char *frg_path) : Object3D(tile_id, position, vtx_path, frg_path)
+Cup::Cup(int tile_id, vec3 position) : Object3D(tile_id, position)
 {
 	model_to_world = translate(vec3(position.x, position.y - 0.09, position.z)) * scale(vec3(0.2f));
-	material = Material(vec3(0.1f, 0.1f, 0.1f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f), 100.0f);
+
+	material = new Material(vec3(0.1f, 0.1f, 0.1f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f), 100.0f);
 
 	this->init_gl();
 }
@@ -156,9 +157,7 @@ void Cup::draw(Camera *camera, Light *light)
 
 	glBindVertexArray(vao_handle);
 
-	Shader::set_uniforms_camera(shader, camera, model_to_world);
-	Shader::set_uniforms_light(shader, camera, light);
-	Shader::set_uniforms_material(shader, material);
+	shader->set_uniforms(camera, light, material, model_to_world);
 
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, ((GLubyte *)NULL + (0)));
 

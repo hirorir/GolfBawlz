@@ -16,12 +16,12 @@
 using namespace std;
 using namespace glm;
 
-class Tile : public Object3D, public Plane
+class Tile : public Plane
 {
 public:
 	Tile();
 
-	Tile(int id, int edge_count, vector<vec3> verticies, vector<int> neighbors, char *vtx_path, char *frg_path);
+	Tile(int id, int edge_count, vector<vec3> verticies, vector<int> neighbors);
 
 	~Tile();
 
@@ -46,7 +46,7 @@ private:
 
 	float friction;
 
-	void init_borders(char *vtx_path, char *frg_path);
+	void init_borders();
 };
 
 #endif

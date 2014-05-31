@@ -2,15 +2,15 @@
 
 Tile::Tile() {}
 
-Tile::Tile(int id, int ecount, vector<vec3> verts, vector<int> nbors, char *vtx_path, char *frg_path) : Object3D(id, vtx_path, frg_path), Plane(verts)
+Tile::Tile(int id, int ecount, vector<vec3> verts, vector<int> nbors) : Plane(id, verts[0], verts)
 {
 	edge_count = ecount;
 	vertices = verts;
 	neighbors = nbors;
 
-	init_borders(vtx_path, frg_path);
+	init_borders();
 
-	material = Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.4f, 0.8f, 0.2f), vec3(0.8f), 100.0f);
+	material = new Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.4f, 0.8f, 0.2f), vec3(0.8f), 100.0f);
 
 	friction = 0.08f;
 
@@ -24,7 +24,7 @@ Tile::~Tile()
 	}
 }
 
-void Tile::init_borders(char *vtx_path, char *frg_path)
+void Tile::init_borders()
 {
 	vector<vec3> edges;
 
@@ -45,7 +45,7 @@ void Tile::init_borders(char *vtx_path, char *frg_path)
 		vector<vec3> edges_for_border;
 		edges_for_border.push_back(edges[i]);
 		edges_for_border.push_back(edges[i + 1]);
-		borders.push_back(new Border(tile_id, edges_for_border, vtx_path, frg_path));
+		borders.push_back(new Border(tile_id, edges_for_border));
 	}
 }
 
@@ -58,9 +58,7 @@ void Tile::draw(Camera *camera, Light *light)
 
 	glBindVertexArray(vao_handle);
 
-	Shader::set_uniforms_camera(shader, camera, mat4(1.0f));
-	Shader::set_uniforms_light(shader, camera, light);
-	Shader::set_uniforms_material(shader, material);
+	shader->set_uniforms(camera, light, material, mat4(1.0f));
 
 	glDrawArrays(GL_POLYGON, 0, vertices.size());
 
