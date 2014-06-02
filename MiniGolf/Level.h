@@ -51,6 +51,8 @@ public:
 
 	static vector<Level*> load_levels(string fname);
 
+	void Level::set_ball_tile(vec3 point);
+
 private:
 	vector<Tile*> tiles;
 	Camera *camera;

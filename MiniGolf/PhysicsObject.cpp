@@ -5,7 +5,6 @@ PhysicsObject::PhysicsObject()
 {
 	velocity = vec3(0.0f); // No initial velocity.
 	angle = (float)2.5; // Starting at about a 45 degree angle.
-	type = DEFAULT; // Default type to start.
 
 	timer.start(); // Start the timer.
 	last_time = timer.get_elapsed_time_in_sec(); // Set the initial time step.
@@ -29,19 +28,8 @@ void PhysicsObject::add_force(vec3 f)
 
 void PhysicsObject::add_force()
 {
-	vec3 f = vec3(sin_angle(0.5f), 0.0f, cos_angle(0.5f));
-	cout << "Force Added: " << "(" << f.x << ", " << f.y << ", " << f.z << ")" << endl;
- 	forces.push(f); // Add force to queue using angle member.
-}
-
-float PhysicsObject::sin_angle(float a)
-{
-	return sin(angle) * a * 6.0f;
-}
-
-float PhysicsObject::cos_angle(float a)
-{
-	return cos(angle) * a * 6.0f;
+	vec3 f = vec3(3.0f, 0.0f, -3.5f);
+ 	forces.push(f);
 }
 
 vec3 PhysicsObject::euler_integration(vec3 position, vec3 velocity, float t)

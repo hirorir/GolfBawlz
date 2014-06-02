@@ -17,12 +17,63 @@ Ball::Ball(int tile_id, vec3 pos) : Object3D(tile_id, pos)
 
 void Ball::run_simulation()
 {
-	//model_to_world = translate(vec3(position.x, position.y + 0.1, position.z));
+	double current_time = timer.get_elapsed_time_in_sec();
+	double elapsed_time = current_time - last_time;
+	last_time = current_time;
+
+	while (!forces.empty()) {
+		velocity += forces.front();
+		forces.pop();
+	}
+
+	if (glm::sqrt(dot(velocity, velocity)) >= t->get_friction() || t->sloped()) {
+		active = true;
+		velocity += t->get_direction_gravity() * .1f;
+
+		velocity += PhysicsObject::friction(velocity, t->get_friction());
+
+		if (!collide_with_edge(elapsed_time)) {
+			position = PhysicsObject::euler_integration(position, velocity, elapsed_time);
+		}
+
+		vec3 norm = t->get_normal();
+		position.y = (-t->get_dist_from_origin() - position.x * norm.x - position.z * norm.z) / norm.y;
+		model_to_world = translate(vec3(position.x, position.y + 0.05, position.z));
+	}
+	else {
+		velocity = vec3(0.0f);
+		active = false;
+	}
 }
 
 bool Ball::collide_with_edge(double time_elapsed)
 {
+	vector<Border*> borders = t->get_borders();
+
+	if (borders.size() > 0) {
+		bool collision_handled = false;
+
+		for (vector<Border*>::size_type i = 0; i < borders.size(); ++i) {
+			float time_of_collide = -(dot(borders[i]->get_normal(), position) + borders[i]->get_dist_from_origin()) / dot(velocity, borders[i]->get_normal());
+
+			if (time_of_collide >= 0 && time_of_collide <= time_elapsed) {
+				vec3 collision_position = PhysicsObject::euler_integration(position, velocity, time_of_collide);
+				position = collision_position;
+				velocity = PhysicsObject::plane_reflection_velocity(velocity, borders[i]->get_normal());
+				
+				double time_remaining = time_elapsed - time_of_collide;
+				position = PhysicsObject::euler_integration(position, velocity, time_remaining);
+				collision_handled = true;
+			}
+		}
+		return collision_handled;
+	}
 	return false;
+}
+
+bool Ball::is_active() const
+{
+	return active;
 }
 
 void Ball::draw(Camera *camera, Light *light)

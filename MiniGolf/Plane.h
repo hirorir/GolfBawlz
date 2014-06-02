@@ -31,6 +31,8 @@ public:
 
 	vec3 get_direction_gravity();
 
+	bool point_in_plane(vec3 point);
+
 protected:
 	int faces;
 
@@ -51,6 +53,8 @@ protected:
 	vec3 calculate_normal();
 
 	void init_gl();
+
+	void calc_min_max();
 };
 
 #endif

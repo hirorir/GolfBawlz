@@ -8,12 +8,6 @@
 
 using namespace glm;
 
-enum PhysicsType : int{
-	DEFAULT = 0,
-	PLANE = 1,
-	SPHERE = 2,
-};
-
 class PhysicsObject
 {
 public:
@@ -28,10 +22,6 @@ public:
 	void add_force(vec3 f);
 
 	void add_force();
-
-	float sin_angle(float a);
-
-	float cos_angle(float a);
 
 	// General Static Functions for all things Physics.
 
@@ -50,7 +40,6 @@ protected:
 	vec3 velocity;
 	queue<vec3> forces; // Accumulate forces.
 	float angle; // Angle of this object.
-	PhysicsType type; // What kind of physics object is this?
 
 	// Timimg members.
 	Timer timer; // This physics objects timer.

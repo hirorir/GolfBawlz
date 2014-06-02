@@ -12,7 +12,7 @@ Tile::Tile(int id, int ecount, vector<vec3> verts, vector<int> nbors) : Plane(id
 
 	material = new Material(vec3(0.5f, 0.4f, 0.3f), vec3(0.4f, 0.8f, 0.2f), vec3(0.8f), 100.0f);
 
-	friction = 0.08f;
+	friction = 0.05f;
 
 	init_gl();
 }
@@ -43,8 +43,10 @@ void Tile::init_borders()
 
 	for (vector<Border*>::size_type i = 0; i < edges.size(); i += 2) {
 		vector<vec3> edges_for_border;
+
 		edges_for_border.push_back(edges[i]);
 		edges_for_border.push_back(edges[i + 1]);
+
 		borders.push_back(new Border(tile_id, edges_for_border));
 	}
 }

@@ -60,6 +60,11 @@ void special(int key, int x, int y) {
 		case GLUT_KEY_RIGHT:
 			game->next_level();
 			break;
+		case GLUT_KEY_UP:
+			if (!game->get_current_level()->get_ball()->is_active()) {
+				game->get_current_level()->get_ball()->add_force();
+			}
+			break;
 		default:
 			break;
 	}

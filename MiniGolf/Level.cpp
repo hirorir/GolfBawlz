@@ -26,6 +26,17 @@ Level::~Level()
 
 void Level::update()
 {
+	set_ball_tile(ball->get_position());
+	ball->run_simulation(); // Run physics on the ball.
+}
+
+void Level::set_ball_tile(vec3 point) {
+	for (vector<Tile*>::size_type i = 0; i < tiles.size(); ++i) {
+		Tile *t = tiles[i];
+		if (t->point_in_plane(point)) {
+			ball->set_current_tile(t);
+		}
+	}
 }
 
 void Level::draw()

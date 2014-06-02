@@ -1,13 +1,13 @@
 #include "Border.h"
 
-Border::Border(int id, vector<vec3> e) : Plane(id, e[0], e)
+Border::Border(int id, vector<vec3> e) : Plane(id, e[0])
 {
 	material = new Material(vec3(1.0f, 0.1f, 0.1f), vec3(0.9f, 0.1f, 0.1f), vec3(0.0f), 100.0f);
 
 	vector<vec3> new_edges;
 	for (vector<vec3>::size_type i = 0; i < e.size(); i += 2) {
-		vec3 first_vertex = vertices[i];
-		vec3 second_vertex = vertices[i + 1];
+		vec3 first_vertex = e[i];
+		vec3 second_vertex = e[i + 1];
 
 		new_edges.push_back(first_vertex);
 		new_edges.push_back(second_vertex);
@@ -16,6 +16,10 @@ Border::Border(int id, vector<vec3> e) : Plane(id, e[0], e)
 	}
 
 	vertices = new_edges;
+
+	normal = calculate_normal();
+
+	dist_from_origin = -dot(normal, vertices[0]);
 
 	init_gl();
 }

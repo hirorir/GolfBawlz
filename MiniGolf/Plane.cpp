@@ -8,31 +8,40 @@ Plane::Plane(int id, vec3 position, vector<vec3> verts) : Object3D(id, position)
 
 	normal = calculate_normal();
 
+	calc_min_max();
+
 	dist_from_origin = -dot(normal, vertices[0]);
 
+	init_gl();
+}
+
+Plane::Plane(int id, vec3 position) : Object3D(id, position) {}
+
+void Plane::calc_min_max()
+{
 	min_vec = max_vec = vertices[0];
 	for (vector<vec3>::size_type i = 0; i < vertices.size(); ++i) {
 		vec3 v = vertices[i];
 
-		if (v.x < min_vec.x) { 
-			min_vec.x = v.x; 
+		if (v.x < min_vec.x) {
+			min_vec.x = v.x;
 		}
-		else if (v.x > max_vec.x) { 
-			max_vec.x = v.x; 
+		else if (v.x > max_vec.x) {
+			max_vec.x = v.x;
 		}
 
-		if (v.y < min_vec.y) { 
-			min_vec.y = v.y; 
+		if (v.y < min_vec.y) {
+			min_vec.y = v.y;
 		}
 		else if (v.y > max_vec.y) {
-			max_vec.y = v.y; 
+			max_vec.y = v.y;
 		}
 
-		if (v.z < min_vec.z) { 
-			min_vec.z = v.z; 
+		if (v.z < min_vec.z) {
+			min_vec.z = v.z;
 		}
-		else if (v.z > max_vec.z) { 
-			max_vec.z = v.z; 
+		else if (v.z > max_vec.z) {
+			max_vec.z = v.z;
 		}
 	}
 
@@ -44,8 +53,14 @@ Plane::Plane(int id, vec3 position, vector<vec3> verts) : Object3D(id, position)
 		direction_gravity = PhysicsObject::plane_gravity_direction(normal);
 		is_sloped = true;
 	}
+}
 
-	init_gl();
+bool Plane::point_in_plane(vec3 point)
+{
+	if (point.x < min_vec.x  || point.z < min_vec.z || point.x > max_vec.x || point.z > max_vec.z) {
+		return false;
+	}
+	return true;
 }
 
 void Plane::draw(Camera *camera, Light *light)

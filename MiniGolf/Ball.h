@@ -5,9 +5,13 @@
 #include "PhysicsObject.h"
 #include "Tile.h"
 
+#include <glm\glm.hpp>
+
 #define PI 3.141592653589793
 
-class Ball : public Object3D
+using namespace glm;
+
+class Ball : public Object3D, public PhysicsObject
 {
 public:
 	Ball();
@@ -24,6 +28,8 @@ public:
 
 	bool collide_with_edge(double time_elapsed);
 
+	bool is_active() const;
+
 private:
 	Tile *t;
 
@@ -32,6 +38,7 @@ private:
 
 	void init_gl();
 	void generate_verts(float * verts, float * norms, float * tex, unsigned int * el);
+	bool active;
 };
 
 #endif
