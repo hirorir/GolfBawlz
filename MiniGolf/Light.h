@@ -1,8 +1,10 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
+#include <iostream>
 #include <glm\glm.hpp>
 
+using namespace std;
 using namespace glm;
 
 class Light
@@ -19,6 +21,8 @@ public:
 	vec3 get_diffuse() const;
 
 	vec3 get_specular() const;
+
+	void print() const;
 
 private:
 	vec4 position;

@@ -1,10 +1,15 @@
 #include "Level.h"
 
-Level::Level(vector<Tile*> tiles, Ball *b, Cup *c)
+Level::Level(vector<Tile*> tiles, Ball *b, Cup *c, string course_name, string level_name, int par)
 {
 	this->tiles = tiles;
+	camera = new Camera();
+	light = new Light(vec4(0.0f, 5.0f, 0.0f, 1.0f), vec3(0.5f), vec3(1.0f), vec3(1.0f));
 	this->ball = b;
 	this->cup = c;
+	this->par = par;
+	this->course_name = course_name;
+	this->level_name = level_name;
 }
 
 Level::~Level()
@@ -12,6 +17,8 @@ Level::~Level()
 	for (vector<Tile*>::size_type i = 0; i < tiles.size(); ++i) {
 		delete tiles[i];
 	}
+	delete camera;
+	delete light;
 	delete ball;
 	delete cup;
 }
@@ -21,7 +28,7 @@ void Level::update()
 	ball->run_simulation(); // Run physics on the ball.
 }
 
-void Level::draw(Camera *camera, Light *light)
+void Level::draw()
 {
 	for (vector<Tile*>::size_type i = 0; i < tiles.size(); ++i) {
 		tiles[i]->draw(camera, light);
@@ -30,6 +37,48 @@ void Level::draw(Camera *camera, Light *light)
 	ball->draw(camera, light);
 
 	cup->draw(camera, light);
+}
+
+Camera *Level::get_camera() const
+{
+	return camera;
+}
+
+Ball *Level::get_ball() const
+{
+	return ball;
+}
+
+string Level::get_course_name() const
+{
+	return course_name;
+}
+
+string Level::get_level_name() const
+{
+	return level_name;
+}
+
+int Level::get_par() const
+{
+	return par;
+}
+
+vector<Tile*> Level::get_tiles() const
+{
+	return tiles;
+}
+
+void Level::print() const
+{
+	cout << "Course this Level belongs to: " << course_name << endl;
+	cout << "Level name: " << level_name << endl;
+	cout << "Par: " << par << endl;
+	cout << "Tile Vertices: " << endl;
+	for (vector<Tile*>::size_type i = 0; i < tiles.size(); ++i) {
+		tiles.at(i)->print();
+	}
+	light->print();
 }
 
 vector<string> string_split(const string &source, const char *delim, bool keep_empty)
@@ -52,71 +101,101 @@ vector<string> string_split(const string &source, const char *delim, bool keep_e
 	return tokens;
 }
 
-Level *Level::load_level(string fname)
+vector<Level*> Level::load_levels(string fname)
 {
-	vector<Tile*> tiles; // List of tiles in level.
-	Cup *cup; // Level's cup.
-	Ball *ball; // Level's ball.
+	vector<Level*> levels;
+	string course_name;
+	int number_of_holes;
 
-	int tile_id; // Temp tile_id for each tile.
+	ifstream in_file(fname);
+	if (in_file.is_open()) {
 
-	float positions[3]; // Temp position for tee and cup.
+		string line;
+			getline(in_file, line);
+			vector<string> tokens = string_split(line, " ", false); // Split up tokens by spaces.
 
-	ifstream in_file(fname); // Open level file.
-
-	if (in_file.is_open()) { // If the file opened successfully.
-
-		string line; // Holds a line in the file.
-
-		while (!in_file.eof()) {
-			getline(in_file, line); // Get a line.
-
-			vector<string> tokens = string_split(line, " ", false); // Split the line into individual tokens.
-
-			transform(tokens[0].begin(), tokens[0].end(), tokens[0].begin(), ::tolower); // Turn each token to lower-case.
-
-			if (!tokens[0].compare(TILE)) { // It the first token is 'tile.'
-				int tile_id = atoi(tokens[1].c_str()); // Store the tile_id.
-				int edge_count = atoi(tokens[2].c_str()); // Store the edge_count.
-
-				vector<int> neighbors; // Temp for the tiles neighbors.
-				for (vector<int>::size_type i = tokens.size() - edge_count; i < tokens.size(); ++i) { // Loop through starting 'neighbors' portion of the line.
-					neighbors.push_back(atoi(tokens[i].c_str())); // Store the neighbors.
+			if (!tokens[0].compare(COURSE)) {
+				course_name = "";
+				for (vector<string>::size_type i = 1; i < tokens.size() - 1; ++i) {
+					course_name += tokens[i] + " ";
 				}
+				number_of_holes = atoi(tokens[tokens.size() - 1].c_str());
+				
+				for (int i = 0; i < number_of_holes; ++i) {
+					vector<Tile*> tiles;
+					Ball *ball;
+					Cup *cup;
+					string level_name;
+					int par;
+					float positions[3];
 
-				vector<vec3> vertices; // Temp for the tiles vertices.
-				vec3 v; // Temp vertex.
-				for (vector<float>::size_type i = 3; i < tokens.size() - edge_count; i += 3) {
-					v.x = atof(tokens[i].c_str());
-					v.y = atof(tokens[i + 1].c_str());
-					v.z = atof(tokens[i + 2].c_str());
-					vertices.push_back(v);
+					getline(in_file, line);
+					vector<string> tokens = string_split(line, " ", false); // Split up tokens by spaces.
+
+					if (!tokens[0].compare(BEGIN_HOLE)) {
+						while (true) {
+							getline(in_file, line);
+							vector<string> tokens = string_split(line, " ", false); // Split up tokens by spaces.
+
+							if (!tokens[0].compare(NAME)) {
+								level_name = "";
+								for (vector<string>::size_type i = 1; i < tokens.size(); ++i) {
+									level_name += tokens[i] + " ";
+								}
+							}
+							else if (!tokens[0].compare(PAR)) {
+								par = atoi(tokens[1].c_str());
+							}
+							else if (!tokens[0].compare(TILE)) {
+								int tile_id = atoi(tokens[1].c_str());
+								int edge_count = atoi(tokens[2].c_str());
+
+								vector<int> neighbors;
+								for (vector<int>::size_type i = tokens.size() - edge_count; i < tokens.size(); ++i) {
+									neighbors.push_back(atoi(tokens[i].c_str()));
+								}
+
+								vector<vec3> vertices;
+								vec3 v;
+								for (vector<float>::size_type i = 3; i < tokens.size() - edge_count; i += 3) {
+									v.x = atof(tokens[i].c_str());
+									v.y = atof(tokens[i + 1].c_str());
+									v.z = atof(tokens[i + 2].c_str());
+									vertices.push_back(v);
+								}
+
+								tiles.push_back(new Tile(tile_id, edge_count, vertices, neighbors));
+							}
+							else if (!tokens[0].compare(TEE)) {
+								int tile_id = atoi(tokens[1].c_str());
+
+								for (int i = 2; i < 5; ++i) {
+									positions[i - 2] = (float)atof(tokens[i].c_str());
+								}
+
+			
+								ball = new Ball(tile_id, vec3(positions[0], positions[1], positions[2]));
+							}
+							else if (!tokens[0].compare(CUP)) {
+								int tile_id = atoi(tokens[1].c_str());
+
+								for (int i = 2; i < 5; ++i) {
+									positions[i - 2] = (float)atof(tokens[i].c_str());
+								}
+
+								cup = new Cup(tile_id, vec3(positions[0], positions[1], positions[2]));
+							}
+							else if (!tokens[0].compare(END_HOLE)) {
+								break;
+							}
+							else {
+								cout << "error - unable to identify first token." << endl;
+							}
+						}
+						levels.push_back(new Level(tiles, ball, cup, course_name, level_name, par));
+					}
 				}
-
-				tiles.push_back(new Tile(tile_id, edge_count, vertices, neighbors));
 			}
-			else if (!tokens[0].compare(TEE)) {
-				tile_id = atoi(tokens[1].c_str());
-
-				for (int i = 2; i < 5; ++i) {
-					positions[i - 2] = (float)atof(tokens[i].c_str());
-				}
-
-				ball = new Ball(tile_id, vec3(positions[0], positions[1], positions[2]));
-			}
-			else if (!tokens[0].compare(CUP)) {
-				tile_id = atoi(tokens[1].c_str());
-
-				for (int i = 2; i < 5; ++i) {
-					positions[i - 2] = (float)atof(tokens[i].c_str());
-				}
-
-				cup = new Cup(tile_id, vec3(positions[0], positions[1], positions[2]));
-			}
-			else {
-				cout << "error - unable to identify first token." << endl;
-			}
-		}
 	}
 	else {
 		cout << "error - unable to open in_file." << endl;
@@ -124,5 +203,5 @@ Level *Level::load_level(string fname)
 
 	in_file.close();
 
-	return new Level(tiles, ball, cup);
+	return levels;
 }

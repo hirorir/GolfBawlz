@@ -50,17 +50,17 @@
     <Filter Include="EngineObjects\Timer">
       <UniqueIdentifier>{e9cfd2f5-fd41-4258-a7d4-31abfac11686}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EngineManagers">
-      <UniqueIdentifier>{b3d4fc7b-503a-46e4-9d5a-e3c6542d1afa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EngineManagers\Game">
-      <UniqueIdentifier>{8dd8e53c-252f-4032-b9d1-cb324b141901}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EngineObjects\Object">
       <UniqueIdentifier>{9883bf22-9e06-4dfb-8227-ca129eb1d850}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EngineManagers\Physics">
+    <Filter Include="GameObjects\Game">
+      <UniqueIdentifier>{e7d96dde-e8c1-40a4-9e87-982b59b4d14c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineObjects\Physics">
       <UniqueIdentifier>{d2cf93ba-3ec2-434f-93e1-35f07c75986d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Player">
+      <UniqueIdentifier>{602b8882-fca6-4653-873e-76806aa522d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,17 +100,20 @@
     <ClCompile Include="Timer.cpp">
       <Filter>EngineObjects\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>EngineManagers\Game</Filter>
-    </ClCompile>
     <ClCompile Include="PhysicsObject.cpp">
-      <Filter>EngineManagers\Physics</Filter>
+      <Filter>EngineObjects\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Object3D.cpp">
       <Filter>EngineObjects\Object</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>EngineObjects\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>GameObjects\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameObjects\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,17 +150,20 @@
     <ClInclude Include="Timer.h">
       <Filter>EngineObjects\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>EngineManagers\Game</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicsObject.h">
-      <Filter>EngineManagers\Physics</Filter>
+      <Filter>EngineObjects\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Object3D.h">
       <Filter>EngineObjects\Object</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>EngineObjects\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>GameObjects\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

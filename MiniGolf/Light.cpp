@@ -29,3 +29,9 @@ vec3 Light::get_specular() const
 {
 	return specular;
 }
+
+void Light::print() const
+{
+	cout << "Light Position: ";
+	cout << "(" << position.x << ", " << position.y << ", " << position.z << ")" << endl;
+}

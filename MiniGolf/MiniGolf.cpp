@@ -1,4 +1,4 @@
-#include "GameManager.h"
+#include "Game.h"
 #include "Shader.h"
 #include "Camera.h"
 
@@ -7,7 +7,7 @@ using namespace glm;
 int window_width = 512;
 int window_height = 512;
 
-GameManager *manager;
+Game *game;
 
 bool keyState[256] = { false };
 bool specialState[256] = { false };
@@ -19,28 +19,28 @@ void keyboard() //perform action based on keystates
 			vec3 p;
 			switch (i) {
 			case 'w':
-				manager->get_camera()->change_view(rotate(-0.5f, vec3(1.0, 0.0, 0.0)));
+				game->get_current_level()->get_camera()->change_view(rotate(-0.5f, vec3(1.0, 0.0, 0.0)));
 				break;
 			case 's':
-				manager->get_camera()->change_view(rotate(0.5f, vec3(1.0, 0.0, 0.0)));
+				game->get_current_level()->get_camera()->change_view(rotate(0.5f, vec3(1.0, 0.0, 0.0)));
 				break;
 			case 'a':
-				manager->get_camera()->change_view(rotate(0.5f, vec3(0.0, 0.0, 1.0)));
+				game->get_current_level()->get_camera()->change_view(rotate(0.5f, vec3(0.0, 0.0, 1.0)));
 				break;
 			case 'd':
-				manager->get_camera()->change_view(rotate(-0.5f, vec3(0.0, 0.0, 1.0)));
+				game->get_current_level()->get_camera()->change_view(rotate(-0.5f, vec3(0.0, 0.0, 1.0)));
 				break;
 			case 'x':
-				manager->get_camera()->change_view(rotate(0.5f, vec3(0.0, 1.0, 0.0)));
+				game->get_current_level()->get_camera()->change_view(rotate(0.5f, vec3(0.0, 1.0, 0.0)));
 				break;
 			case 'z':
-				manager->get_camera()->change_view(rotate(-0.5f, vec3(0.0, 1.0, 0.0)));
+				game->get_current_level()->get_camera()->change_view(rotate(-0.5f, vec3(0.0, 1.0, 0.0)));
 				break;
 			case 'c':
-				manager->get_camera()->change_view(translate(vec3(0.0, 0.2, 0.0)));
+				game->get_current_level()->get_camera()->change_view(translate(vec3(0.0, 0.2, 0.0)));
 				break;
 			case 'v':
-				manager->get_camera()->change_view(translate(vec3(0.0, -0.2, 0.0)));
+				game->get_current_level()->get_camera()->change_view(translate(vec3(0.0, -0.2, 0.0)));
 				break;
 			case 27:
 				exit(0);
@@ -50,25 +50,18 @@ void keyboard() //perform action based on keystates
 			}
 		}
 	}
+}
 
-	for (int i = 0; i < 256; i++) {
-		if (specialState[i])
-			switch (i) {
-			case GLUT_KEY_UP:
-				manager->get_camera()->change_view(translate(vec3(0.0, 0.0, -0.2)));
-				break;
-			case GLUT_KEY_DOWN:
-				manager->get_camera()->change_view(translate(vec3(0.0, 0.0, 0.2)));
-				break;
-			case GLUT_KEY_LEFT:
-				manager->get_camera()->change_view(translate(vec3(-0.2, 0.0, 0.0)));
-				break;
-			case GLUT_KEY_RIGHT:
-				manager->get_camera()->change_view(translate(vec3(0.2, 0.0, 0.0)));
-				break;
-			default:
-				break;
-		}
+void special(int key, int x, int y) {
+	switch (key) {
+		case GLUT_KEY_LEFT:
+			game->previous_level();
+			break;
+		case GLUT_KEY_RIGHT:
+			game->next_level();
+			break;
+		default:
+			break;
 	}
 }
 
@@ -76,18 +69,24 @@ void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	game->resize(window_width, window_height);
+
 	keyboard();
 
-	manager->update();
+	game->update();
 
-	manager->draw();
+	game->draw();
 
 	glutSwapBuffers();
+	glFlush();
 }
 
 void reshape(int w, int h) 
 {
-	manager->resize(w, h);
+	window_width = w;
+	window_height = h;
+
+	game->resize(w, h);
 }
 
 void print_opengl_info()
@@ -108,11 +107,11 @@ void init_gl()
 }
 
 void idle(){
-	double time_now = manager->get_timer().get_elapsed_time();
+	double time_now = game->get_timer().get_elapsed_time();
 
-	if ((time_now - manager->get_current_time()) > 0.01666666666f) { // If we exceed the period time (60 FPS).
-		manager->set_current_time(time_now); // Set new time.
-		manager->update(); // Update.
+	if ((time_now - game->get_current_time()) > 0.01666666666f) { // If we exceed the period time (60 FPS).
+		game->set_current_time(time_now); // Set new time.
+		game->update(); // Update.
 	}
 
 	glutPostRedisplay();
@@ -124,14 +123,6 @@ void keyboard_up(unsigned char c, int x, int y) {
 
 void keyboard_down(unsigned char c, int x, int y) {
 	keyState[c] = true;
-}
-
-void special(int key, int x, int y) {
-	specialState[key] = true;
-}
-
-void specialUp(int key, int x, int y) {
-	specialState[key] = false;
 }
 
 int main(int argc, char **argv) {
@@ -150,12 +141,11 @@ int main(int argc, char **argv) {
 	glutIdleFunc(idle);
 	glutKeyboardUpFunc(keyboard_up);
 	glutSpecialFunc(special);
-	glutSpecialUpFunc(specialUp);
 
 	print_opengl_info();
 	init_gl();
 
-	manager = new GameManager(argc, argv);
+	game = new Game(argc, argv);
 
 	glutMainLoop();
 	

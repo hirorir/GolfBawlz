@@ -69,6 +69,8 @@ void Tile::draw(Camera *camera, Light *light)
 	for (vector<Border*>::size_type i = 0; i < borders.size(); ++i) {
 		borders[i]->draw(camera, light);
 	}
+
+	glBindVertexArray(0);
 }
 
 void Tile::init_gl()
@@ -114,4 +116,14 @@ vector<Border*> Tile::get_borders()
 vector<int> Tile::get_neighbors()
 {
 	return neighbors;
+}
+
+void Tile::print()
+{
+	for (vector<vec3>::size_type i = 0; i < vertices.size(); ++i) {
+		cout << "x: " << vertices.at(i).x << ", ";
+		cout << "y: " << vertices.at(i).y << ", ";
+		cout << "z: " << vertices.at(i).z << endl;
+	}
+	cout << "VAO: " << vao_handle << endl;
 }

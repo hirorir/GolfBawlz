@@ -33,6 +33,8 @@ public:
 
 	vector<int> get_neighbors();
 
+	void print();
+
 private:
 	vector<Border*> borders;
 

@@ -81,7 +81,7 @@
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cup.cpp" />
-    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -90,6 +90,7 @@
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="PhysicsObject.cpp" />
     <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -99,7 +100,7 @@
     <ClInclude Include="Border.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cup.h" />
-    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
@@ -107,6 +108,7 @@
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Timer.h" />

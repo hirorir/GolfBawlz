@@ -17,24 +17,48 @@ using namespace std;
 static const string TILE = "tile";
 static const string TEE = "tee";
 static const string CUP = "cup";
+static const string COURSE = "course";
+static const string BEGIN_HOLE = "begin_hole";
+static const string END_HOLE = "end_hole";
+static const string NAME = "name";
+static const string PAR = "par";
 
 class Level
 {
 public:
-	Level(vector<Tile*> tiles, Ball *b, Cup *c);
+	Level(vector<Tile*> tiles, Ball *b, Cup *c, string course_name, string level_name, int par);
 
 	~Level();
 
 	void update();
 
-	void draw(Camera *camera, Light *light);
+	void draw();
 
-	static Level *load_level(string fname);
+	Camera *get_camera() const;
+
+	Ball *get_ball() const;
+
+	string get_course_name() const;
+
+	string get_level_name() const;
+
+	int get_par() const;
+
+	vector<Tile*> get_tiles() const;
+
+	void print() const;
+
+	static vector<Level*> load_levels(string fname);
 
 private:
 	vector<Tile*> tiles;
+	Camera *camera;
+	Light *light;
 	Ball *ball;
 	Cup *cup;
+	string course_name;
+	string level_name;
+	int par;
 };
 
 #endif
