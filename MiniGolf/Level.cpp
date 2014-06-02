@@ -1,12 +1,13 @@
 #include "Level.h"
 
-Level::Level(vector<Tile*> tiles, Ball *b, Cup *c, string course_name, string level_name, int par)
+Level::Level(vector<Tile*> tiles, Ball *b, Cup *c, Tee *tee, string course_name, string level_name, int par)
 {
 	this->tiles = tiles;
 	camera = new Camera();
 	light = new Light(vec4(0.0f, 5.0f, 0.0f, 1.0f), vec3(0.5f), vec3(1.0f), vec3(1.0f));
 	this->ball = b;
 	this->cup = c;
+	this->tee = tee;
 	this->par = par;
 	this->course_name = course_name;
 	this->level_name = level_name;
@@ -25,7 +26,6 @@ Level::~Level()
 
 void Level::update()
 {
-	ball->run_simulation(); // Run physics on the ball.
 }
 
 void Level::draw()
@@ -37,6 +37,8 @@ void Level::draw()
 	ball->draw(camera, light);
 
 	cup->draw(camera, light);
+
+	tee->draw(camera, light);
 }
 
 Camera *Level::get_camera() const
@@ -125,6 +127,7 @@ vector<Level*> Level::load_levels(string fname)
 					vector<Tile*> tiles;
 					Ball *ball;
 					Cup *cup;
+					Tee *tee;
 					string level_name;
 					int par;
 					float positions[3];
@@ -158,9 +161,9 @@ vector<Level*> Level::load_levels(string fname)
 								vector<vec3> vertices;
 								vec3 v;
 								for (vector<float>::size_type i = 3; i < tokens.size() - edge_count; i += 3) {
-									v.x = atof(tokens[i].c_str());
-									v.y = atof(tokens[i + 1].c_str());
-									v.z = atof(tokens[i + 2].c_str());
+									v.x = (float) atof(tokens[i].c_str());
+									v.y = (float) atof(tokens[i + 1].c_str());
+									v.z = (float) atof(tokens[i + 2].c_str());
 									vertices.push_back(v);
 								}
 
@@ -173,8 +176,17 @@ vector<Level*> Level::load_levels(string fname)
 									positions[i - 2] = (float)atof(tokens[i].c_str());
 								}
 
+								vec3 pos = vec3(positions[0], positions[1], positions[2]);
 			
-								ball = new Ball(tile_id, vec3(positions[0], positions[1], positions[2]));
+								ball = new Ball(tile_id, pos);
+
+								vector<vec3> verts;
+								verts.push_back(vec3(pos.x - 0.09, pos.y + 0.01, pos.z - 0.09));
+								verts.push_back(vec3(pos.x + 0.09, pos.y + 0.01, pos.z - 0.09));
+								verts.push_back(vec3(pos.x + 0.09, pos.y + 0.01, pos.z + 0.09));
+								verts.push_back(vec3(pos.x - 0.09, pos.y + 0.01, pos.z + 0.09));
+
+								tee = new Tee(tile_id, pos, verts);
 							}
 							else if (!tokens[0].compare(CUP)) {
 								int tile_id = atoi(tokens[1].c_str());
@@ -192,7 +204,7 @@ vector<Level*> Level::load_levels(string fname)
 								cout << "error - unable to identify first token." << endl;
 							}
 						}
-						levels.push_back(new Level(tiles, ball, cup, course_name, level_name, par));
+						levels.push_back(new Level(tiles, ball, cup, tee, course_name, level_name, par));
 					}
 				}
 			}

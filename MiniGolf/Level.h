@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "Ball.h"
 #include "Cup.h"
+#include "Tee.h"
 
 using namespace std;
 
@@ -26,7 +27,7 @@ static const string PAR = "par";
 class Level
 {
 public:
-	Level(vector<Tile*> tiles, Ball *b, Cup *c, string course_name, string level_name, int par);
+	Level(vector<Tile*> tiles, Ball *b, Cup *c, Tee *tee, string course_name, string level_name, int par);
 
 	~Level();
 
@@ -56,6 +57,7 @@ private:
 	Light *light;
 	Ball *ball;
 	Cup *cup;
+	Tee *tee;
 	string course_name;
 	string level_name;
 	int par;

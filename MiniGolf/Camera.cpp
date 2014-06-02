@@ -2,7 +2,7 @@
 
 Camera::Camera()
 {
-	eye = vec3(0.1f, 8.0f, 0.1f);
+	eye = vec3(0.1f, 6.0f, 0.1f);
 	center = vec3(0.0f, 0.0f, 0.0f);
 	up = vec3(0.0f, 1.0f, 0.0f);
 	view = lookAt(eye, center, up);

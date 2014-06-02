@@ -8,9 +8,6 @@
     <Filter Include="EngineObjects">
       <UniqueIdentifier>{4b27b4a3-4218-47c1-897a-775d2ea63ac2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EngineObjects\Sphere">
-      <UniqueIdentifier>{d2ec9796-e08f-4e08-861f-a0a36df4aff3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EngineObjects\Plane">
       <UniqueIdentifier>{3a083318-0751-4773-b374-f2a833e5790b}</UniqueIdentifier>
     </Filter>
@@ -61,6 +58,9 @@
     </Filter>
     <Filter Include="GameObjects\Player">
       <UniqueIdentifier>{602b8882-fca6-4653-873e-76806aa522d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Tee">
+      <UniqueIdentifier>{7912fb66-2ae1-4aa1-8c5d-b45ae0a66471}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +115,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Tee.cpp">
+      <Filter>GameObjects\Tee</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Plane.h">
@@ -164,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Tee.h">
+      <Filter>GameObjects\Tee</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

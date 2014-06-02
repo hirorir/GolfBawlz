@@ -17,6 +17,8 @@ public:
 
 	Plane(int id, vec3 position, vector<vec3> verts);
 
+	Plane(int id, vec3 position);
+
 	virtual void draw(Camera *camera, Light *light);
 
 	vector<vec3> get_vertices();

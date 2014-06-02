@@ -50,9 +50,6 @@ Plane::Plane(int id, vec3 position, vector<vec3> verts) : Object3D(id, position)
 
 void Plane::draw(Camera *camera, Light *light)
 {
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-
 	shader->use();
 
 	glBindVertexArray(vao_handle);
@@ -62,8 +59,6 @@ void Plane::draw(Camera *camera, Light *light)
 	glDrawArrays(GL_POLYGON, 0, vertices.size());
 
 	glBindVertexArray(0);
-
-	glDisable(GL_CULL_FACE);
 }
 
 void Plane::init_gl()

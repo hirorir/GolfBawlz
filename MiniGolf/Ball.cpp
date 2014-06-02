@@ -8,9 +8,9 @@ Ball::Ball(int tile_id, vec3 pos) : Object3D(tile_id, pos)
 	slices = 40;
 	stacks = 40;
 
-	material = new Material(vec3(0.0f, 0.1f, 1.0f), vec3(0.4f, 0.1f, 0.0f), vec3(0.0f), 100.0f);
+	material = new Material(vec3(1.0f, 0.2f, 0.5f), vec3(1.0f, 0.2f, 0.5f), vec3(0.0f), 100.0f);
 
-	model_to_world = translate(vec3(position.x, position.y + 0.1, position.z));
+	model_to_world = translate(vec3(position.x, position.y + 0.05, position.z));
 
 	this->init_gl();
 }
