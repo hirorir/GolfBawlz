@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "Gui.h"
 
 using namespace glm;
 
@@ -8,6 +9,7 @@ int window_width = 512;
 int window_height = 512;
 
 Game *game;
+GUI *gui;
 
 bool keyState[256] = { false };
 bool specialState[256] = { false };
@@ -82,6 +84,8 @@ void display()
 
 	game->draw();
 
+	gui->draw();
+
 	glutSwapBuffers();
 	glFlush();
 }
@@ -151,6 +155,7 @@ int main(int argc, char **argv) {
 	init_gl();
 
 	game = new Game(argc, argv);
+	gui = new GUI("Textures/arrow.png");
 
 	glutMainLoop();
 	
