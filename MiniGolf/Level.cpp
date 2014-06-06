@@ -1,6 +1,6 @@
 #include "Level.h"
 
-Level::Level(vector<Tile*> tiles, Ball *b, Cup *c, Tee *tee, string course_name, string level_name, int par)
+Level::Level(vector<Tile*> tiles, Ball *b, Cup *c, Tee *tee, string course_name, string level_name, string par)
 {
 	this->tiles = tiles;
 	camera = new Camera();
@@ -62,6 +62,11 @@ Ball *Level::get_ball() const
 	return ball;
 }
 
+Cup *Level::get_cup() const
+{
+	return cup;
+}
+
 string Level::get_course_name() const
 {
 	return course_name;
@@ -72,7 +77,7 @@ string Level::get_level_name() const
 	return level_name;
 }
 
-int Level::get_par() const
+string Level::get_par() const
 {
 	return par;
 }
@@ -140,7 +145,7 @@ vector<Level*> Level::load_levels(string fname)
 					Cup *cup;
 					Tee *tee;
 					string level_name;
-					int par;
+					string par;
 					float positions[3];
 
 					getline(in_file, line);
@@ -158,7 +163,7 @@ vector<Level*> Level::load_levels(string fname)
 								}
 							}
 							else if (!tokens[0].compare(PAR)) {
-								par = atoi(tokens[1].c_str());
+								par = tokens[1];
 							}
 							else if (!tokens[0].compare(TILE)) {
 								int tile_id = atoi(tokens[1].c_str());

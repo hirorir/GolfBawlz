@@ -19,6 +19,16 @@ Game::~Game()
 void Game::update()
 {
 	get_current_level()->update();
+
+	Ball *ball = get_current_level()->get_ball();
+	Cup * cup = get_current_level()->get_cup();
+
+	vec3 ball_pos = ball->get_position();
+	vec3 cup_pos = cup->get_position();
+
+	if (ball_pos == cup_pos) {
+		next_level();
+	}
 }
 
 void Game::draw()

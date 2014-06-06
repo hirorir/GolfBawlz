@@ -13,7 +13,7 @@ class GUI{
 public:
 	GLuint texture;
 
-	void draw();
+	void draw(string course, string level, string par, string angle, string power);
 	void loadTexture(string path);
 	GUI(string path);
 };

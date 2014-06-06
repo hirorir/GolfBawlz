@@ -2,11 +2,15 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Gui.h"
+#include <string>
 
 using namespace glm;
 
 int window_width = 512;
 int window_height = 512;
+
+float angle = PI;
+float power = 0.2;
 
 Game *game;
 GUI *gui;
@@ -38,12 +42,6 @@ void keyboard() //perform action based on keystates
 			case 'z':
 				game->get_current_level()->get_camera()->change_view(rotate(-0.5f, vec3(0.0, 1.0, 0.0)));
 				break;
-			case 'c':
-				game->get_current_level()->get_camera()->change_view(translate(vec3(0.0, 0.2, 0.0)));
-				break;
-			case 'v':
-				game->get_current_level()->get_camera()->change_view(translate(vec3(0.0, -0.2, 0.0)));
-				break;
 			case 27:
 				exit(0);
 				break;
@@ -52,6 +50,7 @@ void keyboard() //perform action based on keystates
 			}
 		}
 	}
+	glutPostRedisplay();
 }
 
 void special(int key, int x, int y) {
@@ -64,7 +63,8 @@ void special(int key, int x, int y) {
 			break;
 		case GLUT_KEY_UP:
 			if (!game->get_current_level()->get_ball()->is_active()) {
-				game->get_current_level()->get_ball()->add_force();
+				vec3 f = vec3(sin(angle) * power * 10.0f, 0.0f, cos(angle) * power * 10.0f);
+				game->get_current_level()->get_ball()->add_force(f);
 			}
 			break;
 		default:
@@ -84,10 +84,13 @@ void display()
 
 	game->draw();
 
-	gui->draw();
+	string course = game->get_current_level()->get_course_name();
+	string level = game->get_current_level()->get_level_name();
+	string par = game->get_current_level()->get_par();
+
+	gui->draw(course, level, par, to_string(angle), to_string(power));
 
 	glutSwapBuffers();
-	glFlush();
 }
 
 void reshape(int w, int h) 
@@ -132,6 +135,35 @@ void keyboard_up(unsigned char c, int x, int y) {
 
 void keyboard_down(unsigned char c, int x, int y) {
 	keyState[c] = true;
+	switch (c) {
+		case 'v': // Decrease Power
+			if ((power - 0.05) > 0.001) {
+				power -= 0.05;
+			}
+			cout << "Power: " << power << endl;
+			break;
+		case 'b': // Increase Power
+			if (power < 1.0) {
+				power += 0.05;
+			}
+			cout << "Power: " << power << endl;
+			break;
+		case 'm': // Increse Angle
+			angle += PI / 180;
+			if (angle > 2 * PI) {
+				angle -= 2 * PI;
+			}
+			cout << "Angle: " << angle << endl;
+			break;
+		case 'n': // Decrease Angle
+			angle -= PI / 180;
+			if (angle < 0) {
+				angle += 2 * PI;
+			}
+			cout << "Angle: " << angle << endl;
+			break;
+	}
+	glutPostRedisplay();
 }
 
 int main(int argc, char **argv) {
@@ -156,6 +188,9 @@ int main(int argc, char **argv) {
 
 	game = new Game(argc, argv);
 	gui = new GUI("Textures/arrow.png");
+
+	cout << "Power: " << power << endl;
+	cout << "Angle: " << angle << endl;
 
 	glutMainLoop();
 	

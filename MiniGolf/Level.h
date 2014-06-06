@@ -27,7 +27,7 @@ static const string PAR = "par";
 class Level
 {
 public:
-	Level(vector<Tile*> tiles, Ball *b, Cup *c, Tee *tee, string course_name, string level_name, int par);
+	Level(vector<Tile*> tiles, Ball *b, Cup *c, Tee *tee, string course_name, string level_name, string par);
 
 	~Level();
 
@@ -39,11 +39,13 @@ public:
 
 	Ball *get_ball() const;
 
+	Cup *get_cup() const;
+
 	string get_course_name() const;
 
 	string get_level_name() const;
 
-	int get_par() const;
+	string get_par() const;
 
 	vector<Tile*> get_tiles() const;
 
@@ -62,7 +64,7 @@ private:
 	Tee *tee;
 	string course_name;
 	string level_name;
-	int par;
+	string par;
 };
 
 #endif
