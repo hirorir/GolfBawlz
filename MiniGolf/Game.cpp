@@ -21,12 +21,15 @@ void Game::update()
 	get_current_level()->update();
 
 	Ball *ball = get_current_level()->get_ball();
-	Cup * cup = get_current_level()->get_cup();
+	Ball *isect = get_current_level()->get_cup()->get_sphere();
 
 	vec3 ball_pos = ball->get_position();
-	vec3 cup_pos = cup->get_position();
+	vec3 sphere_pos = isect->get_position();
 
-	if (ball_pos == cup_pos) {
+	float ball_rad = ball->get_radius();
+	float sphere_rad = isect->get_radius();
+
+	if (PhysicsObject::isect_sphere_sphere(ball_pos, ball_rad, sphere_pos, sphere_rad)) {
 		next_level();
 	}
 }

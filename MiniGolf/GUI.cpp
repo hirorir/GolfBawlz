@@ -65,7 +65,7 @@ void GUI::draw(string course, string level, string par, string angle, string pow
 	writeStrokeString(GLUT_STROKE_MONO_ROMAN, a.c_str());
 	glPopMatrix();
 
-	glTranslatef(20.0f, 20.0f, 0.0f);
+	/*glTranslatef(20.0f, 20.0f, 0.0f);
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -82,7 +82,7 @@ void GUI::draw(string course, string level, string par, string angle, string pow
 	glPopMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
+	glMatrixMode(GL_MODELVIEW);*/
 }
 
 void GUI::loadTexture(string path){

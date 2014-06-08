@@ -206,14 +206,18 @@ void Ball::generate_verts(float * verts, float * norms, float * tex, unsigned in
 	}
 }
 
-float Ball::get_radius()
+float Ball::get_radius() const
 {
 	return radius;
+}
+
+void Ball::set_radius(float r)
+{
+	radius = r;
 }
 
 void Ball::set_current_tile(Tile *tile)
 {
 	tile_id = tile->get_tile_id();
 	t = tile;
-	//cout << "current id = " << tile_id << endl;
 }

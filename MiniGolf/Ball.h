@@ -20,7 +20,9 @@ public:
 
 	virtual void draw(Camera *camera, Light *light);
 
-	float get_radius();
+	float get_radius() const;
+
+	void set_radius(float r);
 
 	virtual void run_simulation(); // Run physics simulation;
 

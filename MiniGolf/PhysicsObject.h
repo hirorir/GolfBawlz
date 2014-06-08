@@ -33,6 +33,8 @@ public:
 
 	static float isect_sphere_plane(vec3 s_pos, float s_rad, vec3 s_vel, vec3 plane_normal, vector<vec3> plane_vertices); // Sphere-Plane intersection test.
 
+	static bool isect_sphere_sphere(vec3 p1, float r1, vec3 p2, float r2);
+
 	static vec3 friction(vec3 vel, float mag); // Calculates friction.
 
 protected:

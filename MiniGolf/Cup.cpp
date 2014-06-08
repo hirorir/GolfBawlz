@@ -8,7 +8,20 @@ Cup::Cup(int tile_id, vec3 position) : Object3D(tile_id, position)
 
 	material = new Material(vec3(0.1f, 0.1f, 0.1f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f), 100.0f);
 
+	isect_sphere = new Ball(tile_id, position);
+	isect_sphere->set_radius(0.1f);
+
 	this->init_gl();
+}
+
+Cup::~Cup()
+{
+	delete isect_sphere;
+}
+
+Ball *Cup::get_sphere() const
+{
+	return isect_sphere;
 }
 
 void Cup::init_gl()

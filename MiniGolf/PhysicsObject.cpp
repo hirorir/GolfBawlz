@@ -82,3 +82,10 @@ vec3 PhysicsObject::friction(vec3 vel, float mag)
 	}
 	return -normalize(vel) * mag;
 }
+
+bool PhysicsObject::isect_sphere_sphere(vec3 p1, float r1, vec3 p2, float r2)
+{
+	vec3 diff = p1 - p2;
+
+	return (glm::sqrt(dot(diff, diff)) <= (r1 + r2));
+}
