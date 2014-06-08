@@ -28,7 +28,7 @@ void PhysicsObject::add_force(vec3 f)
 
 void PhysicsObject::add_force()
 {
-	vec3 f = vec3(3.0f, 0.0f, -3.5f);
+	vec3 f = vec3(18.f, 0.0f, -21.f);
  	forces.push(f);
 }
 

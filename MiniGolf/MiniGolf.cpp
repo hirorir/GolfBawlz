@@ -10,7 +10,7 @@ int window_width = 512;
 int window_height = 512;
 
 float angle = PI;
-float power = 0.2;
+float power = 1;
 
 Game *game;
 GUI *gui;
@@ -45,6 +45,30 @@ void keyboard() //perform action based on keystates
 			case 27:
 				exit(0);
 				break;
+			case 'i':
+				if (true) {
+					vec3 f = vec3(sin(angle) * power, 0.0f, cos(angle) * power);
+					game->get_current_level()->get_ball()->add_force(f);
+				}
+				break;
+			case 'j':
+				if (true) {
+					vec3 f = vec3(sin(1.5 * angle) * power, 0.0f, cos(1.5 * angle) * power);
+					game->get_current_level()->get_ball()->add_force(f);
+				}
+				break;
+			case 'k':
+				if (true) {
+					vec3 f = vec3(0.0f, 0.0f, power);
+					game->get_current_level()->get_ball()->add_force(f);
+				}
+				break;
+			case 'l':
+				if (true) {
+					vec3 f = vec3(sin(0.5 * angle) * power, 0.0f, cos(0.5 * angle) * power);
+					game->get_current_level()->get_ball()->add_force(f);
+				}
+				break;
 			default:
 				break;
 			}
@@ -60,12 +84,6 @@ void special(int key, int x, int y) {
 			break;
 		case GLUT_KEY_RIGHT:
 			game->next_level();
-			break;
-		case GLUT_KEY_UP:
-			if (!game->get_current_level()->get_ball()->is_active()) {
-				vec3 f = vec3(sin(angle) * power * 10.0f, 0.0f, cos(angle) * power * 10.0f);
-				game->get_current_level()->get_ball()->add_force(f);
-			}
 			break;
 		default:
 			break;
